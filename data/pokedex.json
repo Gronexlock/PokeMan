@@ -1,0 +1,270 @@
+{
+  "1": {
+    "id": 1,
+    "name": "Bulbasaur",
+    "types": ["grass", "poison"],
+    "stats": { "hp": 45, "attack": 49, "defense": 49, "special_attack": 65, "special_defense": 65, "speed": 45 },
+    "learnset": [
+      { "move": "tackle", "level": 1 },
+      { "move": "growl", "level": 1 },
+      { "move": "vine_whip", "level": 3 },
+      { "move": "energy_ball", "level": 20 }
+    ]
+  },
+  "3": {
+    "id": 3,
+    "name": "Venusaur",
+    "types": ["grass", "poison"],
+    "stats": { "hp": 80, "attack": 82, "defense": 83, "special_attack": 100, "special_defense": 100, "speed": 80 },
+    "learnset": [
+      { "move": "vine_whip", "level": 1 },
+      { "move": "energy_ball", "level": 1 },
+      { "move": "solar_beam", "level": 32 }
+    ]
+  },
+  "4": {
+    "id": 4,
+    "name": "Charmander",
+    "types": ["fire"],
+    "stats": { "hp": 39, "attack": 52, "defense": 43, "special_attack": 60, "special_defense": 50, "speed": 65 },
+    "learnset": [
+      { "move": "scratch", "level": 1 },
+      { "move": "growl", "level": 1 },
+      { "move": "ember", "level": 4 },
+      { "move": "flamethrower", "level": 24 }
+    ]
+  },
+  "6": {
+    "id": 6,
+    "name": "Charizard",
+    "types": ["fire", "flying"],
+    "stats": { "hp": 78, "attack": 84, "defense": 78, "special_attack": 109, "special_defense": 85, "speed": 100 },
+    "learnset": [
+      { "move": "flamethrower", "level": 1 },
+      { "move": "fire_blast", "level": 36 },
+      { "move": "dragon_claw", "level": 1 }
+    ]
+  },
+  "7": {
+    "id": 7,
+    "name": "Squirtle",
+    "types": ["water"],
+    "stats": { "hp": 44, "attack": 48, "defense": 65, "special_attack": 50, "special_defense": 64, "speed": 43 },
+    "learnset": [
+      { "move": "tackle", "level": 1 },
+      { "move": "leer", "level": 1 },
+      { "move": "water_gun", "level": 3 },
+      { "move": "surf", "level": 22 }
+    ]
+  },
+  "9": {
+    "id": 9,
+    "name": "Blastoise",
+    "types": ["water"],
+    "stats": { "hp": 79, "attack": 83, "defense": 100, "special_attack": 85, "special_defense": 105, "speed": 78 },
+    "learnset": [
+      { "move": "water_gun", "level": 1 },
+      { "move": "surf", "level": 1 },
+      { "move": "hydro_pump", "level": 36 },
+      { "move": "ice_beam", "level": 28 }
+    ]
+  },
+  "58": {
+    "id": 58,
+    "name": "Growlithe",
+    "types": ["fire"],
+    "stats": { "hp": 55, "attack": 70, "defense": 45, "special_attack": 70, "special_defense": 50, "speed": 60 },
+    "learnset": [
+      { "move": "scratch", "level": 1 },
+      { "move": "ember", "level": 4 },
+      { "move": "flamethrower", "level": 20 },
+      { "move": "crunch", "level": 28 }
+    ]
+  },
+  "59": {
+    "id": 59,
+    "name": "Arcanine",
+    "types": ["fire"],
+    "stats": { "hp": 90, "attack": 110, "defense": 80, "special_attack": 100, "special_defense": 80, "speed": 95 },
+    "learnset": [
+      { "move": "flamethrower", "level": 1 },
+      { "move": "extreme_speed", "level": 1 },
+      { "move": "crunch", "level": 1 },
+      { "move": "close_combat", "level": 34 },
+      { "move": "fire_blast", "level": 40 }
+    ]
+  },
+  "92": {
+    "id": 92,
+    "name": "Gastly",
+    "types": ["ghost", "poison"],
+    "stats": { "hp": 30, "attack": 35, "defense": 30, "special_attack": 100, "special_defense": 35, "speed": 80 },
+    "learnset": [
+      { "move": "shadow_ball", "level": 1 },
+      { "move": "toxic", "level": 1 }
+    ]
+  },
+  "94": {
+    "id": 94,
+    "name": "Gengar",
+    "types": ["ghost", "poison"],
+    "stats": { "hp": 60, "attack": 65, "defense": 60, "special_attack": 130, "special_defense": 75, "speed": 110 },
+    "learnset": [
+      { "move": "shadow_ball", "level": 1 },
+      { "move": "psychic", "level": 1 },
+      { "move": "thunderbolt", "level": 1 }
+    ]
+  },
+  "130": {
+    "id": 130,
+    "name": "Gyarados",
+    "types": ["water", "flying"],
+    "stats": { "hp": 95, "attack": 125, "defense": 79, "special_attack": 60, "special_defense": 100, "speed": 81 },
+    "learnset": [
+      { "move": "water_gun", "level": 1 },
+      { "move": "crunch", "level": 1 },
+      { "move": "earthquake", "level": 1 },
+      { "move": "dragon_dance", "level": 1 }
+    ]
+  },
+  "133": {
+    "id": 133,
+    "name": "Eevee",
+    "types": ["normal"],
+    "stats": { "hp": 55, "attack": 55, "defense": 50, "special_attack": 45, "special_defense": 65, "speed": 55 },
+    "learnset": [
+      { "move": "tackle", "level": 1 },
+      { "move": "growl", "level": 1 },
+      { "move": "extreme_speed", "level": 15 }
+    ]
+  },
+  "252": {
+    "id": 252,
+    "name": "Treecko",
+    "types": ["grass"],
+    "stats": { "hp": 40, "attack": 45, "defense": 35, "special_attack": 65, "special_defense": 55, "speed": 70 },
+    "learnset": [
+      { "move": "scratch", "level": 1 },
+      { "move": "vine_whip", "level": 3 },
+      { "move": "energy_ball", "level": 21 }
+    ]
+  },
+  "255": {
+    "id": 255,
+    "name": "Torchic",
+    "types": ["fire"],
+    "stats": { "hp": 45, "attack": 60, "defense": 40, "special_attack": 70, "special_defense": 50, "speed": 45 },
+    "learnset": [
+      { "move": "scratch", "level": 1 },
+      { "move": "ember", "level": 4 },
+      { "move": "flamethrower", "level": 25 }
+    ]
+  },
+  "258": {
+    "id": 258,
+    "name": "Mudkip",
+    "types": ["water"],
+    "stats": { "hp": 50, "attack": 70, "defense": 50, "special_attack": 50, "special_defense": 50, "speed": 40 },
+    "learnset": [
+      { "move": "tackle", "level": 1 },
+      { "move": "water_gun", "level": 3 },
+      { "move": "surf", "level": 22 },
+      { "move": "earthquake", "level": 30 }
+    ]
+  },
+  "280": {
+    "id": 280,
+    "name": "Ralts",
+    "types": ["psychic", "fairy"],
+    "stats": { "hp": 28, "attack": 25, "defense": 25, "special_attack": 45, "special_defense": 35, "speed": 40 },
+    "learnset": [
+      { "move": "growl", "level": 1 },
+      { "move": "psychic", "level": 15 },
+      { "move": "calm_mind", "level": 20 }
+    ]
+  },
+  "282": {
+    "id": 282,
+    "name": "Gardevoir",
+    "types": ["psychic", "fairy"],
+    "stats": { "hp": 68, "attack": 65, "defense": 65, "special_attack": 125, "special_defense": 115, "speed": 80 },
+    "learnset": [
+      { "move": "psychic", "level": 1 },
+      { "move": "moonblast", "level": 1 },
+      { "move": "shadow_ball", "level": 1 },
+      { "move": "calm_mind", "level": 1 }
+    ]
+  },
+  "373": {
+    "id": 373,
+    "name": "Salamence",
+    "types": ["dragon", "flying"],
+    "stats": { "hp": 95, "attack": 135, "defense": 80, "special_attack": 110, "special_defense": 80, "speed": 100 },
+    "learnset": [
+      { "move": "dragon_claw", "level": 1 },
+      { "move": "earthquake", "level": 1 },
+      { "move": "dragon_dance", "level": 1 },
+      { "move": "flamethrower", "level": 1 }
+    ]
+  },
+  "376": {
+    "id": 376,
+    "name": "Metagross",
+    "types": ["steel", "psychic"],
+    "stats": { "hp": 80, "attack": 135, "defense": 130, "special_attack": 95, "special_defense": 90, "speed": 70 },
+    "learnset": [
+      { "move": "iron_head", "level": 1 },
+      { "move": "psychic", "level": 1 },
+      { "move": "bullet_punch", "level": 1 },
+      { "move": "earthquake", "level": 1 }
+    ]
+  },
+  "443": {
+    "id": 443,
+    "name": "Gible",
+    "types": ["dragon", "ground"],
+    "stats": { "hp": 58, "attack": 70, "defense": 45, "special_attack": 40, "special_defense": 45, "speed": 42 },
+    "learnset": [
+      { "move": "tackle", "level": 1 },
+      { "move": "dragon_claw", "level": 15 },
+      { "move": "earthquake", "level": 28 }
+    ]
+  },
+  "445": {
+    "id": 445,
+    "name": "Garchomp",
+    "types": ["dragon", "ground"],
+    "stats": { "hp": 108, "attack": 130, "defense": 95, "special_attack": 80, "special_defense": 85, "speed": 102 },
+    "learnset": [
+      { "move": "dragon_claw", "level": 1 },
+      { "move": "earthquake", "level": 1 },
+      { "move": "swords_dance", "level": 1 },
+      { "move": "crunch", "level": 1 },
+      { "move": "iron_head", "level": 1 }
+    ]
+  },
+  "447": {
+    "id": 447,
+    "name": "Riolu",
+    "types": ["fighting"],
+    "stats": { "hp": 40, "attack": 70, "defense": 40, "special_attack": 35, "special_defense": 40, "speed": 60 },
+    "learnset": [
+      { "move": "tackle", "level": 1 },
+      { "move": "close_combat", "level": 25 },
+      { "move": "swords_dance", "level": 20 }
+    ]
+  },
+  "448": {
+    "id": 448,
+    "name": "Lucario",
+    "types": ["fighting", "steel"],
+    "stats": { "hp": 70, "attack": 110, "defense": 70, "special_attack": 115, "special_defense": 70, "speed": 90 },
+    "learnset": [
+      { "move": "aura_sphere", "level": 1 },
+      { "move": "close_combat", "level": 1 },
+      { "move": "flash_cannon", "level": 1 },
+      { "move": "extreme_speed", "level": 1 },
+      { "move": "swords_dance", "level": 1 }
+    ]
+  }
+}

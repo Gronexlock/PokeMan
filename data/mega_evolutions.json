@@ -1,0 +1,198 @@
+{
+  "venusaur": {
+    "mega_name": "Mega-Venusaur",
+    "item": "Venusaurita",
+    "types": ["grass", "poison"],
+    "ability": "Thick Fat",
+    "stat_boost": { "defense": 40, "special_attack": 22, "special_defense": 20, "speed": 0 }
+  },
+  "charizard_x": {
+    "mega_name": "Mega-Charizard X",
+    "item": "Charizardita X",
+    "types": ["fire", "dragon"],
+    "ability": "Tough Claws",
+    "stat_boost": { "attack": 46, "defense": 33, "special_attack": 21 }
+  },
+  "charizard_y": {
+    "mega_name": "Mega-Charizard Y",
+    "item": "Charizardita Y",
+    "types": ["fire", "flying"],
+    "ability": "Drought",
+    "stat_boost": { "attack": 20, "special_attack": 50, "special_defense": 30 }
+  },
+  "blastoise": {
+    "mega_name": "Mega-Blastoise",
+    "item": "Blastoisita",
+    "types": ["water"],
+    "ability": "Mega Launcher",
+    "stat_boost": { "attack": 20, "defense": 20, "special_attack": 50, "special_defense": 10 }
+  },
+  "beedrill": {
+    "mega_name": "Mega-Beedrill",
+    "item": "Beedrillita",
+    "types": ["bug", "poison"],
+    "ability": "Adaptability",
+    "stat_boost": { "attack": 60, "speed": 70 }
+  },
+  "pidgeot": {
+    "mega_name": "Mega-Pidgeot",
+    "item": "Pidgeotita",
+    "types": ["normal", "flying"],
+    "ability": "No Guard",
+    "stat_boost": { "special_attack": 65, "speed": 20 }
+  },
+  "alakazam": {
+    "mega_name": "Mega-Alakazam",
+    "item": "Alakazamita",
+    "types": ["psychic"],
+    "ability": "Trace",
+    "stat_boost": { "defense": 20, "special_attack": 40, "speed": 30 }
+  },
+  "slowbro": {
+    "mega_name": "Mega-Slowbro",
+    "item": "Slowbronita",
+    "types": ["water", "psychic"],
+    "ability": "Shell Armor",
+    "stat_boost": { "defense": 70, "special_attack": 30 }
+  },
+  "gengar": {
+    "mega_name": "Mega-Gengar",
+    "item": "Gengarita",
+    "types": ["ghost", "poison"],
+    "ability": "Shadow Tag",
+    "stat_boost": { "special_attack": 40, "special_defense": 20, "speed": 20 }
+  },
+  "gyarados": {
+    "mega_name": "Mega-Gyarados",
+    "item": "Gyaradosita",
+    "types": ["water", "dark"],
+    "ability": "Mold Breaker",
+    "stat_boost": { "attack": 30, "defense": 30, "special_defense": 30 }
+  },
+  "ampharos": {
+    "mega_name": "Mega-Ampharos",
+    "item": "Ampharosita",
+    "types": ["electric", "dragon"],
+    "ability": "Mold Breaker",
+    "stat_boost": { "defense": 20, "special_attack": 50, "special_defense": 20 }
+  },
+  "steelix": {
+    "mega_name": "Mega-Steelix",
+    "item": "Steelixita",
+    "types": ["steel", "ground"],
+    "ability": "Sand Force",
+    "stat_boost": { "attack": 40, "defense": 30, "special_defense": 30 }
+  },
+  "scizor": {
+    "mega_name": "Mega-Scizor",
+    "item": "Scizorita",
+    "types": ["bug", "steel"],
+    "ability": "Technician",
+    "stat_boost": { "attack": 20, "defense": 40, "special_defense": 20 }
+  },
+  "heracross": {
+    "mega_name": "Mega-Heracross",
+    "item": "Heracrossita",
+    "types": ["bug", "fighting"],
+    "ability": "Skill Link",
+    "stat_boost": { "attack": 60, "defense": 40 }
+  },
+  "houndoom": {
+    "mega_name": "Mega-Houndoom",
+    "item": "Houndoomita",
+    "types": ["dark", "fire"],
+    "ability": "Solar Power",
+    "stat_boost": { "defense": 40, "special_attack": 30, "speed": 20 }
+  },
+  "tyranitar": {
+    "mega_name": "Mega-Tyranitar",
+    "item": "Tyranitarita",
+    "types": ["rock", "dark"],
+    "ability": "Sand Stream",
+    "stat_boost": { "attack": 30, "defense": 40, "special_defense": 20 }
+  },
+  "sceptile": {
+    "mega_name": "Mega-Sceptile",
+    "item": "Sceptilita",
+    "types": ["grass", "dragon"],
+    "ability": "Lightning Rod",
+    "stat_boost": { "attack": 25, "special_attack": 40, "speed": 25 }
+  },
+  "blaziken": {
+    "mega_name": "Mega-Blaziken",
+    "item": "Blazikenita",
+    "types": ["fire", "fighting"],
+    "ability": "Speed Boost",
+    "stat_boost": { "attack": 40, "defense": 10, "special_attack": 20, "speed": 20 }
+  },
+  "swampert": {
+    "mega_name": "Mega-Swampert",
+    "item": "Swampertita",
+    "types": ["water", "ground"],
+    "ability": "Swift Swim",
+    "stat_boost": { "attack": 40, "defense": 20, "special_defense": 20, "speed": 10 }
+  },
+  "gardevoir": {
+    "mega_name": "Mega-Gardevoir",
+    "item": "Gardevoirita",
+    "types": ["psychic", "fairy"],
+    "ability": "Pixilate",
+    "stat_boost": { "attack": 20, "special_attack": 40, "special_defense": 20, "speed": 20 }
+  },
+  "gallade": {
+    "mega_name": "Mega-Gallade",
+    "item": "Galladita",
+    "types": ["psychic", "fighting"],
+    "ability": "Inner Focus",
+    "stat_boost": { "attack": 40, "defense": 30, "speed": 30 }
+  },
+  "sableye": {
+    "mega_name": "Mega-Sableye",
+    "item": "Sableynita",
+    "types": ["dark", "ghost"],
+    "ability": "Magic Bounce",
+    "stat_boost": { "defense": 50, "special_defense": 50 }
+  },
+  "salamence": {
+    "mega_name": "Mega-Salamence",
+    "item": "Salamencita",
+    "types": ["dragon", "flying"],
+    "ability": "Aerilate",
+    "stat_boost": { "attack": 10, "defense": 50, "special_attack": 10, "special_defense": 10, "speed": 20 }
+  },
+  "metagross": {
+    "mega_name": "Mega-Metagross",
+    "item": "Metagrossita",
+    "types": ["steel", "psychic"],
+    "ability": "Tough Claws",
+    "stat_boost": { "attack": 10, "defense": 20, "special_defense": 20, "speed": 40 }
+  },
+  "garchomp": {
+    "mega_name": "Mega-Garchomp",
+    "item": "Garchompita",
+    "types": ["dragon", "ground"],
+    "ability": "Sand Force",
+    "stat_boost": { "attack": 40, "defense": 20, "special_attack": 40, "special_defense": 10 }
+  },
+  "lucario": {
+    "mega_name": "Mega-Lucario",
+    "item": "Lucarionita",
+    "types": ["fighting", "steel"],
+    "ability": "Adaptability",
+    "stat_boost": { "attack": 35, "defense": 18, "special_attack": 25, "speed": 22 }
+  },
+  "abomasnow": {
+    "mega_name": "Mega-Abomasnow",
+    "item": "Abomasnowita",
+    "types": ["grass", "ice"],
+    "ability": "Snow Warning",
+    "stat_boost": { "attack": 40, "defense": 30, "special_attack": 40, "special_defense": 20 }
+  },
+  "lopunny": {
+    "mega_name": "Mega-Lopunny",
+    "item": "Lopunnita",
+    "types": ["normal", "fighting"],
+    "ability": "Scrappy",
+    "stat_boost": { "attack": 60, "defense": 10, "speed": 30 }
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "pokeball": {
+    "name": "Poké Ball",
+    "category": "pokeballs",
+    "price": 200,
+    "catch_rate": 1.0,
+    "desc": "Dispositivo esférico para capturar Pokémon silvestres."
+  },
+  "greatball": {
+    "name": "Súper Ball",
+    "category": "pokeballs",
+    "price": 600,
+    "catch_rate": 1.5,
+    "desc": "Poké Ball de buen rendimiento con mayor ratio de captura."
+  },
+  "ultraball": {
+    "name": "Ultra Ball",
+    "category": "pokeballs",
+    "price": 1200,
+    "catch_rate": 2.0,
+    "desc": "Poké Ball ultra eficaz para capturas difíciles."
+  },
+  "safariball": {
+    "name": "Safari Ball",
+    "category": "pokeballs",
+    "price": 0,
+    "catch_rate": 1.5,
+    "desc": "Ball especial para la Reserva Ecológica de Andara."
+  },
+  "potion": {
+    "name": "Poción",
+    "category": "medicine",
+    "price": 300,
+    "heal_hp": 20,
+    "desc": "Restaura 20 PS de un Pokémon."
+  },
+  "superpotion": {
+    "name": "Superpoción",
+    "category": "medicine",
+    "price": 700,
+    "heal_hp": 50,
+    "desc": "Restaura 50 PS de un Pokémon."
+  },
+  "hyperpotion": {
+    "name": "Hiperpoción",
+    "category": "medicine",
+    "price": 1200,
+    "heal_hp": 200,
+    "desc": "Restaura 200 PS de un Pokémon."
+  },
+  "maxpotion": {
+    "name": "Poción Máxima",
+    "category": "medicine",
+    "price": 2500,
+    "heal_hp": 9999,
+    "desc": "Restaura todos los PS de un Pokémon."
+  },
+  "revive": {
+    "name": "Revivir",
+    "category": "medicine",
+    "price": 1500,
+    "revive_hp_percent": 0.5,
+    "desc": "Revive a un Pokémon debilitado con la mitad de sus PS."
+  },
+  "antidote": {
+    "name": "Antídoto",
+    "category": "medicine",
+    "price": 100,
+    "cure_status": "poison",
+    "desc": "Cura el envenenamiento."
+  },
+  "paralyzeheal": {
+    "name": "Antiparalizador",
+    "category": "medicine",
+    "price": 200,
+    "cure_status": "paralysis",
+    "desc": "Cura la parálisis."
+  },
+  "fullheal": {
+    "name": "Cura Total",
+    "category": "medicine",
+    "price": 600,
+    "cure_status": "all",
+    "desc": "Cura cualquier problema de estado alterado."
+  },
+  "megaring": {
+    "name": "Mega-Aro de Andara",
+    "category": "key_items",
+    "price": 0,
+    "desc": "Pulsera ancestral que resuena con las Mega Piedras."
+  },
+  "zygarde_cube": {
+    "name": "Arca de Zygarde",
+    "category": "key_items",
+    "price": 0,
+    "desc": "Artefacto para recolectar células y núcleos de Zygarde."
+  }
+}
