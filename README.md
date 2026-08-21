@@ -57,13 +57,13 @@ python tools/fetch_pokeapi.py
 
 ## 🗺️ Roadmap de Desarrollo
 
-- [x] **Fase 0:** Diseño de arquitectura y documentación técnica.
-- [ ] **Fase 1:** Extracción y serialización de datos de la PokéAPI.
-- [ ] **Fase 2:** Prototipo del motor de combate 1v1 en consola/interfaz básica.
-- [ ] **Fase 3:** Sistema de Overworld, movimiento y mapa del pueblo inicial.
-- [ ] **Fase 4:** Interfaz visual de combate con sprites animados e iluminación.
-- [ ] **Fase 5:** Sistema de eventos, diálogos de historia y guardado `.sav`.
-- [ ] **Fase 6:** Compilación final y empaquetado a `.exe` para Windows.
+- [x] **Fase 0:** Diseño de arquitectura, historia, gimnasios y documentación técnica.
+- [x] **Fase 1:** Base de datos offline (`data/`), Pokédex regional, tiendas ($), evoluciones sin intercambio, IVs 31 y mentas.
+- [ ] **Fase 2:** Motor de combate por turnos 1v1 con Mega Evolución e IA táctica.
+- [ ] **Fase 3:** Sistema de guardado y carga local `.sav`, gestión de equipo y cajas de PC.
+- [ ] **Fase 4:** Overworld 2.5D, movimiento en 8 direcciones, biomas y Reserva Ecológica.
+- [ ] **Fase 5:** Interfaz gráfica de combate con sprites animados, mochilas y menús.
+- [ ] **Fase 6:** Eventos de historia (Eternatus / Zygarde), Isla Resonancia postgame y exportación a `.exe`.
 
 ---
 
