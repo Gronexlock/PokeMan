@@ -200,3 +200,119 @@ Los Pokémon de mayor poder geológico y evolutivo en la región:
 9. **Línea Larvesta** $\rightarrow$ Volcarona — *Especial Bicho/Fuego de las Ruinas*
 10. **Línea Horsea** $\rightarrow$ Seadra $\rightarrow$ Kingdra — *Agua/Dragón de las corrientes australes*
 11. **Línea Noibat** $\rightarrow$ Noivern — *Volador/Dragón de las cuevas cordilleranas*
+
+---
+
+## 🔄 11. Métodos Evolutivos Alternativos (Sin Intercambio) y Economía de Tiendas
+
+Al ser un juego offline independiente, **se eliminan por completo los requisitos de intercambio**:
+
+### 🔌 11.1. El Objeto "Cordón Unión" (*Link Cable*)
+* **Función:** Objeto consumible que se aplica directamente sobre el Pokémon desde la mochila como si fuera una piedra evolutiva.
+* **Especies compatibles:**
+  * **Kadabra** $\rightarrow$ **Alakazam** (o Nivel 38)
+  * **Machoke** $\rightarrow$ **Machamp** (o Nivel 38)
+  * **Graveler** $\rightarrow$ **Golem** (o Nivel 38)
+  * **Haunter** $\rightarrow$ **Gengar** (o Nivel 38)
+  * **Boldore** $\rightarrow$ **Gigalith** (o Nivel 38)
+  * **Gurdurr** $\rightarrow$ **Conkeldurr** (o Nivel 38)
+  * **Phantump** $\rightarrow$ **Trevenant**
+  * **Pumpkaboo** $\rightarrow$ **Gourgeist**
+
+### 🧰 11.2. Uso Directo de Objetos Evolutivos Tradicionales
+Los objetos que antes requerían ser equipados durante un intercambio ahora se **usan directamente** sobre el Pokémon:
+* **Onix** $+$ *Revestimiento Metálico* $\rightarrow$ **Steelix**
+* **Scyther** $+$ *Revestimiento Metálico* $\rightarrow$ **Scizor**
+* **Poliwhirl** / **Slowpoke** $+$ *Roca del Rey* $\rightarrow$ **Politoed** / **Slowking**
+* **Seadra** $+$ *Escama Dragón* $\rightarrow$ **Kingdra**
+* **Feebas** $+$ *Escama Bella* $\rightarrow$ **Milotic**
+* **Dusclops** $+$ *Tela Terrible* $\rightarrow$ **Dusknoir**
+* **Rhydon** $+$ *Protector* $\rightarrow$ **Rhyperior**
+* **Electabuzz** $+$ *Electrizador* $\rightarrow$ **Electivire**
+* **Magmar** $+$ *Magmatizador* $\rightarrow$ **Magmortar**
+* **Porygon** $+$ *Mejora* $\rightarrow$ **Porygon2** $+$ *Disco Extraño* $\rightarrow$ **Porygon-Z**
+* **Sneasel** $+$ *Garra Afilada* $\rightarrow$ **Weavile**
+* **Gligar** $+$ *Colmillo Afilado* $\rightarrow$ **Gliscor**
+
+### 💰 11.3. Disponibilidad en Tiendas 100% por Dinero Convencional ($)
+* **Sin Puntos de Batalla (BP) ni Monedas Raras:** Todo el material evolutivo y competitivo se adquiere en los PokéMarts y Grandes Almacenes de Metrópolis Solsticio pagando **únicamente con Pokécuartos ($)**.
+* **Piedras Evolutivas Básicas:** $3,000 - $3,500 Pokécuartos.
+* **Materiales Especiales y Cordón Unión:** $5,000 - $6,000 Pokécuartos.
+* **Catálogo Completo de Mentas de Naturaleza:** $2,500 Pokécuartos en Herboristerías y Grandes Almacenes para cambiar cualquier naturaleza libremente.
+* **Catálogo Completo de Mega Piedras:** $30,000 - $50,000 Pokécuartos en la Boutique Especializada de Metrópolis Solsticio tras desbloquear el Mega-Aro de Andara.
+
+### 🌟 11.4. Estadísticas Competitivas: IVs Perfectos y Mentas de Naturaleza
+* **IVs Máximos (31 en todo):** Todos los Pokémon en Andara se generan con **31 IVs en todas sus estadísticas**, erradicando la crianza tediosa y asegurando un potencial competitivo óptimo desde el momento de la captura.
+* **Mentas Aromáticas:** Permiten alterar los modificadores de estadísticas ($\times 1.1 / \times 0.9$) a voluntad comprándolas con dinero normal.
+
+---
+
+## 🌌 12. Expansión Postgame: Isla Resonancia (El Cataclismo de Eternatus)
+
+Tras la resolución del clímax con **Eternatus** y la intervención reguladora de **Zygarde**, el choque colosal de energías cósmicas y telúricas desgarra el océano meridional de Andara, provocando la emergencia de una nueva masa insular: **Isla Resonancia** (*El Archipiélago del Cataclismo*).
+
+> ⛔ **Regla de Captura de Legendarios:** Los Pokémon Legendarios (**Eternatus, Zygarde, etc.**) **NO son capturables**. Son fuerzas divinas y narrativas de la trama. No ocupan número de captura en la Pokédex ni pueden ser atrapados con Poké Balls.
+> 
+> 💡 **Activación de la Pokédex Expandida:** El Profesor Ceibo actualiza la Pokédex del Campeón al modo **"Pokédex Expandida de Andara"**, desbloqueando un catálogo de especies **100% nuevas y exclusivas de esta isla**, que no habitaban en el continente principal de Andara (Niveles salvajes 60 a 75).
+
+```
++-----------------------------------------------------------------------------------------------+
+|                             BIOMAS EXCLUSIVOS DE ISLA RESONANCIA (Nv. 60-75)                  |
++-----------------------------------------------------------------------------------------------+
+| 1. Costa Prismática & Arrecife Abisal: Lapras, Relicanth, Dhelmise, Bruxish, Skrelp, Finizen.|
+| 2. Cañón de Fósiles Primigenios: Tyrantrum, Aurorus, Rampardos, Bastiodon, Archeops, Carracosta.|
+| 3. Jungla de la Brecha Temporal: Kangaskhan, Altaria, Banette, Manectric, Audino, Tsareena.    |
+| 4. Cráter Cósmico & Picos de la Falla: Haxorus, Goodra, Baxcalibur, Kingambit, Tinkaton.      |
+| 5. Santuario del Equilibrio: Cámara sagrada de Zygarde (Combate Boss de Maestría Nv. 85).     |
++-----------------------------------------------------------------------------------------------+
+```
+
+### 🦖 Catálogo de Especies Exclusivas de la Expansión (Sin duplicados con Andara Regional)
+
+#### 🦕 1. Especies Fósiles Primigenias (Cañón de Fósiles)
+* **Línea Tyrunt** $\rightarrow$ Tyrantrum *(Roca/Dragón)*
+* **Línea Amaura** $\rightarrow$ Aurorus *(Roca/Hielo)*
+* **Línea Cranidos** $\rightarrow$ Rampardos *(Roca)*
+* **Línea Shieldon** $\rightarrow$ Bastiodon *(Roca/Acero)*
+* **Línea Archen** $\rightarrow$ Archeops *(Roca/Volador)*
+* **Línea Tirtouga** $\rightarrow$ Carracosta *(Agua/Roca)*
+* **Línea Lileep** $\rightarrow$ Cradily *(Roca/Planta)*
+* **Línea Anorith** $\rightarrow$ Armaldo *(Roca/Bicho)*
+* **Aerodactyl** *(Roca/Volador — Mega-Aerodactyl)*
+
+#### 🌿 2. Especies de la Brecha Temporal & Nuevas Mega Evoluciones (Jungla Prisma)
+* **Kangaskhan** *(Normal — Mega-Kangaskhan)*
+* **Audino** *(Normal — Mega-Audino)*
+* **Línea Swablu** $\rightarrow$ Altaria *(Dragón/Volador — Mega-Altaria: Dragón/Hada)*
+* **Línea Shuppet** $\rightarrow$ Banette *(Fantasma — Mega-Banette)*
+* **Línea Electrike** $\rightarrow$ Manectric *(Eléctrico — Mega-Manectric)*
+* **Línea Bounsweet** $\rightarrow$ Steenee $\rightarrow$ Tsareena *(Planta)*
+* **Línea Fomantis** $\rightarrow$ Lurantis *(Planta)*
+* **Línea Applin** $\rightarrow$ Flapple / Appletun / Dipplin / Hydrapple *(Planta/Dragón)*
+* **Línea Phantump** $\rightarrow$ Trevenant *(Fantasma/Planta)*
+* **Línea Morelull** $\rightarrow$ Shiinotic *(Planta/Hada)*
+
+#### 🌊 3. Aguas Profundas y Arrecifes Distorsionados (Costa Prismática)
+* **Lapras** *(Agua/Hielo)*
+* **Relicanth** *(Agua/Roca)*
+* **Dhelmise** *(Fantasma/Planta)*
+* **Bruxish** *(Agua/Psíquico)*
+* **Cramorant** *(Volador/Agua)*
+* **Línea Skrelp** $\rightarrow$ Dragalge *(Veneno/Dragón)*
+* **Línea Clauncher** $\rightarrow$ Clawitzer *(Agua)*
+* **Línea Finizen** $\rightarrow$ Palafin *(Agua)*
+* **Línea Wimpod** $\rightarrow$ Golisopod *(Bicho/Agua)*
+
+#### 🌋 4. Guerreros del Cráter y Picos Cósmicos (Cráter de la Falla)
+* **Línea Axew** $\rightarrow$ Fraxure $\rightarrow$ Haxorus *(Dragón)*
+* **Línea Goomy** $\rightarrow$ Sliggoo $\rightarrow$ Goodra *(Dragón)*
+* **Línea Frigibax** $\rightarrow$ Arctibax $\rightarrow$ Baxcalibur *(Dragón/Hielo)*
+* **Línea Pawniard** $\rightarrow$ Bisharp $\rightarrow$ Kingambit *(Siniestro/Acero)*
+* **Línea Tinkatink** $\rightarrow$ Tinkatuff $\rightarrow$ Tinkaton *(Hada/Acero)*
+* **Skarmory** *(Acero/Volador)*
+* **Línea Corphish** $\rightarrow$ Crawdaunt *(Agua/Siniestro)*
+* **Línea Zorua (Hisui)** $\rightarrow$ Zoroark (Hisui) *(Normal/Fantasma)*
+* **Línea Growlithe (Hisui)** $\rightarrow$ Arcanine (Hisui) *(Fuego/Roca)*
+* **Línea Sneasel (Hisui)** $\rightarrow$ Sneasler *(Lucha/Veneno)*
+* **Línea Petilil (Hisui)** $\rightarrow$ Lilligant (Hisui) *(Planta/Lucha)*
+

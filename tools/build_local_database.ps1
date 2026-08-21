@@ -156,9 +156,56 @@ $items = @{
     hyperpotion = @{ name = "Hiperpoción"; category = "medicine"; price = 1200; heal_hp = 200; desc = "Restaura 200 PS de un Pokémon." }
     maxpotion = @{ name = "Poción Máxima"; category = "medicine"; price = 2500; heal_hp = 9999; desc = "Restaura todos los PS de un Pokémon." }
     revive = @{ name = "Revivir"; category = "medicine"; price = 1500; revive_hp_percent = 0.5; desc = "Revive a un Pokémon debilitado con la mitad de sus PS." }
+    maxrevive = @{ name = "Revivir Máximo"; category = "medicine"; price = 3000; revive_hp_percent = 1.0; desc = "Revive a un Pokémon debilitado restaurando el 100% de sus PS." }
     antidote = @{ name = "Antídoto"; category = "medicine"; price = 100; cure_status = "poison"; desc = "Cura el envenenamiento." }
     paralyzeheal = @{ name = "Antiparalizador"; category = "medicine"; price = 200; cure_status = "paralysis"; desc = "Cura la parálisis." }
+    awakening = @{ name = "Despertar"; category = "medicine"; price = 250; cure_status = "sleep"; desc = "Despierta a un Pokémon dormido." }
+    burnheal = @{ name = "Antiquemar"; category = "medicine"; price = 250; cure_status = "burn"; desc = "Cura las quemaduras." }
+    iceheal = @{ name = "Antihielo"; category = "medicine"; price = 250; cure_status = "freeze"; desc = "Descongela a un Pokémon congelado." }
     fullheal = @{ name = "Cura Total"; category = "medicine"; price = 600; cure_status = "all"; desc = "Cura cualquier problema de estado alterado." }
+    
+    # Piedras Evolutivas
+    fire_stone = @{ name = "Piedra Fuego"; category = "evolution_stones"; price = 3000; desc = "Piedra peculiar que hace evolucionar a ciertas especies de tipo Fuego." }
+    water_stone = @{ name = "Piedra Agua"; category = "evolution_stones"; price = 3000; desc = "Piedra azulada que hace evolucionar a ciertas especies de tipo Agua." }
+    thunder_stone = @{ name = "Piedra Trueno"; category = "evolution_stones"; price = 3000; desc = "Piedra con forma de rayo que hace evolucionar a ciertas especies eléctricas." }
+    leaf_stone = @{ name = "Piedra Hoja"; category = "evolution_stones"; price = 3000; desc = "Piedra que hace evolucionar a ciertas especies de tipo Planta." }
+    moon_stone = @{ name = "Piedra Lunar"; category = "evolution_stones"; price = 3000; desc = "Piedra negra como la noche que induce evolución." }
+    sun_stone = @{ name = "Piedra Solar"; category = "evolution_stones"; price = 3000; desc = "Piedra brillante como el sol que induce evolución." }
+    shiny_stone = @{ name = "Piedra Alba"; category = "evolution_stones"; price = 3500; desc = "Piedra que irradia una luz deslumbrante." }
+    dusk_stone = @{ name = "Piedra Noche"; category = "evolution_stones"; price = 3500; desc = "Piedra oscura como las tinieblas." }
+    dawn_stone = @{ name = "Piedra Alba"; category = "evolution_stones"; price = 3500; desc = "Piedra de brillo azul verdoso." }
+    ice_stone = @{ name = "Piedra Hielo"; category = "evolution_stones"; price = 3500; desc = "Piedra fría como la escarcha." }
+
+    # Materiales Evolutivos y Cordón Unión
+    link_cable = @{ name = "Cordón Unión"; category = "evolution_items"; price = 5000; desc = "Cable que permite evolucionar a Pokémon que antes requerían intercambio." }
+    metal_coat = @{ name = "Revestimiento Metálico"; category = "evolution_items"; price = 6000; desc = "Capa metálica para evolucionar a Onix o Scyther por uso directo." }
+    kings_rock = @{ name = "Roca del Rey"; category = "evolution_items"; price = 6000; desc = "Corona ancestral para evolucionar a Slowpoke o Poliwhirl por uso directo." }
+    dragon_scale = @{ name = "Escama Dragón"; category = "evolution_items"; price = 6000; desc = "Escama para evolucionar a Seadra por uso directo." }
+    prism_scale = @{ name = "Escama Bella"; category = "evolution_items"; price = 6000; desc = "Escama brillante para evolucionar a Feebas por uso directo." }
+    reaper_cloth = @{ name = "Tela Terrible"; category = "evolution_items"; price = 6000; desc = "Paño espiritual para evolucionar a Dusclops por uso directo." }
+    protector = @{ name = "Protector"; category = "evolution_items"; price = 6000; desc = "Armadura pesada para evolucionar a Rhydon por uso directo." }
+    electirizer = @{ name = "Electrizador"; category = "evolution_items"; price = 6000; desc = "Caja eléctrica para evolucionar a Electabuzz por uso directo." }
+    magmarizer = @{ name = "Magmatizador"; category = "evolution_items"; price = 6000; desc = "Dispositivo volcánico para evolucionar a Magmar por uso directo." }
+    upgrade = @{ name = "Mejora"; category = "evolution_items"; price = 5000; desc = "Disco de datos para evolucionar a Porygon por uso directo." }
+    dubious_disc = @{ name = "Disco Extraño"; category = "evolution_items"; price = 5000; desc = "Disco corrupto para evolucionar a Porygon2 por uso directo." }
+    razor_claw = @{ name = "Garra Afilada"; category = "evolution_items"; price = 5000; desc = "Garra para evolucionar a Sneasel por uso directo." }
+    razor_fang = @{ name = "Colmillo Afilado"; category = "evolution_items"; price = 5000; desc = "Colmillo para evolucionar a Gligar por uso directo." }
+    oval_stone = @{ name = "Piedra Oval"; category = "evolution_items"; price = 3000; desc = "Piedra suave para evolucionar a Happiny." }
+
+    # Mega Piedras
+    venusaurite = @{ name = "Venusaurita"; category = "mega_stones"; price = 35000; desc = "Piedra Mega para Venusaur." }
+    charizardite_x = @{ name = "Charizardita X"; category = "mega_stones"; price = 35000; desc = "Piedra Mega para Mega-Charizard X." }
+    charizardite_y = @{ name = "Charizardita Y"; category = "mega_stones"; price = 35000; desc = "Piedra Mega para Mega-Charizard Y." }
+    blastoisinite = @{ name = "Blastoisita"; category = "mega_stones"; price = 35000; desc = "Piedra Mega para Blastoise." }
+    alakazite = @{ name = "Alakazamita"; category = "mega_stones"; price = 40000; desc = "Piedra Mega para Alakazam." }
+    gengarite = @{ name = "Gengarita"; category = "mega_stones"; price = 45000; desc = "Piedra Mega para Gengar." }
+    scizorite = @{ name = "Scizorita"; category = "mega_stones"; price = 45000; desc = "Piedra Mega para Scizor." }
+    tyranitarite = @{ name = "Tyranitarita"; category = "mega_stones"; price = 50000; desc = "Piedra Mega para Tyranitar." }
+    salamencite = @{ name = "Salamencita"; category = "mega_stones"; price = 50000; desc = "Piedra Mega para Salamence." }
+    metagrossite = @{ name = "Metagrossita"; category = "mega_stones"; price = 50000; desc = "Piedra Mega para Metagross." }
+    garchompite = @{ name = "Garchompita"; category = "mega_stones"; price = 50000; desc = "Piedra Mega para Garchomp." }
+    lucarionite = @{ name = "Lucarionita"; category = "mega_stones"; price = 45000; desc = "Piedra Mega para Lucario." }
+
     megaring = @{ name = "Mega-Aro de Andara"; category = "key_items"; price = 0; desc = "Pulsera ancestral que resuena con las Mega Piedras." }
     zygarde_cube = @{ name = "Arca de Zygarde"; category = "key_items"; price = 0; desc = "Artefacto para recolectar células y núcleos de Zygarde." }
 }

@@ -342,6 +342,12 @@ Donde:
   $$\text{Stat} = \left( \left\lfloor \frac{(2 \times \text{Base} + \text{IV} + \lfloor \frac{\text{EV}}{4} \rfloor) \times \text{Nivel}}{100} \right\rfloor + 5 \right) \times \text{Naturaleza}$$
   *(Naturaleza = 1.1 si es favorable, 0.9 si es desfavorable, 1.0 si es neutra)*.
 
+### 8.3. Filosofía Competitiva y Calidad de Vida (QoL): IVs Perfectos y Mentas
+Para eliminar el grind tedioso de crianza y centrarse en la estrategia pura de combate:
+1. **IVs Perfectos por Defecto (31 en los 6 stats):** Todos los Pokémon salvajes, iniciales, de regalo o jefes se generan con **31 IVs en todas sus estadísticas** ($\text{HP, Atk, Def, SpAtk, SpDef, Spe}$).
+2. **EVs Listos y Personalizables:** Los puntos de esfuerzo (EVs) están listos para ser distribuidos o ajustados rápidamente sin semanas de farmeo.
+3. **Mentas de Naturaleza (Hierbas Aromáticas):** La naturaleza es el único atributo que varía al capturar, pero **puede cambiarse en cualquier momento** usando las **Mentas de Naturaleza** ($2,500 Pokécuartos en Herboristerías y Grandes Almacenes). El uso de una menta recalcula inmediatamente los multiplicadores ($\times 1.1 / \times 0.9$) del Pokémon.
+
 ---
 
 ## 9. Roadmap de Desarrollo Paso a Paso

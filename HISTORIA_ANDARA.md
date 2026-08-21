@@ -75,8 +75,9 @@ Andara representa un continente de contrastes extremos:
 * **Personalidad:** Investigador de campo entusiasta y cercano. En Villa Tranquimar plantea la pregunta filosófica que define el tipo de tu inicial y te entrega la Pokédex regional.
 
 ### 5.2. El Rival: Nahuel
-* **Compañero Insignia:** **Growlithe $\rightarrow$ Arcanine** (su fiel protector desde la niñez en Villa Tranquimar).
-* **Equipo Dinámico:** Captura Pokémon de las rutas que recorre. Su equipo cambia en cada partida manteniendo equilibrio de tipos.
+* **Selección del Inicial (Ventaja Elemental Reactiva):** Nahuel analiza la elección del protagonista y **siempre escoge el inicial que posee la ventaja de tipo directa** frente al del jugador (Si eliges Fuego $\rightarrow$ Nahuel elige Agua; si eliges Agua $\rightarrow$ Nahuel elige Planta; si eliges Planta $\rightarrow$ Nahuel elige Fuego). Si la terna de iniciales es aleatoria, mantiene estrictamente este principio de cobertura.
+* **Compañero Insignia:** **Growlithe $\rightarrow$ Arcanine**. Durante su visita a **Metrópolis Solsticio** (en el Centro de Adopción y Crianza Pokémon de la capital, donde se le permite a los jóvenes entrenadores elegir libremente un compañero), Nahuel escoge deliberadamente a un pequeño **Growlithe**. A partir de ese momento, Growlithe se convierte en su compañero más leal y en el corazón emocional de su historia.
+* **Equipo Dinámico:** Captura Pokémon de las rutas que recorre. Su equipo cambia en cada partida manteniendo equilibrio de tipos y sinergia con su inicial y su Growlithe/Arcanine.
 * **Arco:** Amigo fraternal $\rightarrow$ Tragedia de Arcanine $\rightarrow$ Antagonista temporal con ideales de rescate radical $\rightarrow$ Sacrificio heroico y legado de su Arcanine al Campeón en el postgame.
 
 ### 5.3. La Campeona de Andara: Renata
@@ -192,27 +193,31 @@ graph TD
     G --> H[Gimnasios 5-8: Crisis Energética de Andara]
     H --> I[Liga Pokémon: Victoria ante Renata y Coronación como Campeón]
     I --> J[CRÉDITOS]
-    J --> K[POSTGAME: Despertar de la Nueva Zona]
-    K --> L[Despertar Total de Eternatus]
+    J --> K[POSTGAME: Crisis de la Falla Cósmica]
+    K --> L[Despertar Total de Eternatus en las Ruinas Subterráneas]
     L --> M[Aparición Autónoma de Zygarde & Sacrificio de Nahuel]
     M --> N[Nahuel entrega su Arcanine al Campeón]
-    N --> O[Estabilización de Andara: Pokédex Completa Desbloqueada]
-    O --> P[Investigación de Células Zygarde + Defensa del Título + NG+]
+    N --> O[Emergencia de Isla Resonancia en el Océano Austral]
+    O --> P[Profesor Ceibo: Desbloqueo de la Pokédex Expandida]
+    P --> Q[Exploración de la Falla, Fósiles, Células Zygarde 100% y Defensa del Título]
 ```
 
 ---
 
-## 9. Los Legendarios del Conflicto
+## 9. Los Legendarios del Conflicto (Fuerzas Narrativas No Capturables)
+
+> ⛔ **Regla de Diseño Fundamental:** En Andara, **los Pokémon Legendarios NO son capturables**. Son fuerzas de la naturaleza, entidades cósmicas y guardianes universales que existen por encima de la condición de herramientas o compañeros de bolsillo. Cualquier intento de lanzar una Poké Ball falla automáticamente con el mensaje: *"¡La inmensa energía de esta entidad divina rechaza las Poké Balls!"*.
 
 ### 9.1. Eternatus (El Catalizador del Caos)
-* Despertado por la facción radical del Proyecto Aurora bajo la creencia de una profecía de purificación y liberación.
-* Fuerza incontrolable que altera el clima, los hábitats y la geología regional, originando la "Nueva Zona" tras su contención inicial.
+* **Rol:** Fuerza incontrolable del cataclismo cósmico, despertada imprudentemente por "Aurora Cero" (Alister) bajo la ilusión de purificar el continente.
+* **Naturaleza del Combate:** Batalla de supervivencia multifase. El jugador no lucha para capturarlo, sino para debilitar su vórtice de radiación mientras Zygarde y Nahuel sellan la brecha.
+* **El Cataclismo Insular:** Al ser contenido, el estallido masivo de energía cósmica pura desgarra el océano meridional de Andara, originando **Isla Resonancia** (*El Archipiélago del Cataclismo*).
+* **Destino:** Su núcleo latente colapsa y regresa a las profundidades de la grieta dimensional, dejando como único rastro la alteración del ecosistema insular.
 
 ### 9.2. Zygarde (El Observador Silencioso del Equilibrio)
-* **Comportamiento Único:** No responde a invocaciones, máquinas ni capturas durante la trama.
-* Observa los acontecimientos a través de sus células y manifestaciones en las sombras.
-* Interviene por **decisión propia** cuando la existencia misma del ecosistema de Andara está al borde del colapso ante Eternatus.
-* En el postgame, tras cumplir su labor reguladora, el jugador puede emprender una investigación para rastrearlo y ganarse su respeto en combate para capturarlo.
+* **Rol:** El regulador viviente de la biosfera terrestre. No obedece a humanos, organizaciones ni dispositivos.
+* **Intervención Autónoma:** Observa los acontecimientos a través de sus células y solo interviene manifestando su Forma Completa (100%) cuando la existencia del continente está en peligro inminente ante Eternatus.
+* **Prueba Sagrada en el Postgame:** Tras la crisis, Zygarde se retira al **Santuario del Equilibrio** en Isla Resonancia. El Campeón reúne las células y núcleos dispersos en el Arca de Zygarde no para encerrarlo, sino para restaurar su plenitud y enfrentarlo en un **Combate Sagrado de Maestría (Boss Battle Nv. 85)**. Al salir victorioso, Zygarde le otorga el *Emblema del Equilibrio*, reconoce al protagonista como el Verdadero Guardián de Andara y se dispersa en las corrientes telúricas del planeta para continuar su vigilia eterna.
 
 ---
 
