@@ -78,9 +78,9 @@ class CharacterSpriteLoader:
                 raw = pygame.image.load(path)
                 self._sheet = raw.convert_alpha() if raw.get_flags() & pygame.SRCALPHA else raw.convert()
                 self._loaded = True
-                # Calcular tamaño de cada frame (8 cols x 10 rows)
+                # Calcular tamaño de cada frame (8 cols x 12 rows)
                 self._frame_w = self._sheet.get_width() // 8
-                self._frame_h = self._sheet.get_height() // 10
+                self._frame_h = self._sheet.get_height() // 12
             except Exception as e:
                 print(f"[CharacterSpriteLoader] No se pudo cargar {path}: {e}")
 
@@ -102,29 +102,21 @@ class CharacterSpriteLoader:
         if not self._loaded or self._sheet is None:
             return None
 
-        # Base row depending on character
+        # Base row depending on character (each character has 4 rows of 4 directions)
         start_row = {
             "player":    0,
             "rival":     0,
             "professor": 4,
-            "npc_girl":  6,
+            "npc_girl":  8,
         }.get(character, 0)
 
-        # Direction row offset
+        # Direction row offset (0=down, 1=up, 2=left, 3=right)
         dir_offset = {
             "down":  0,
             "up":    1,
             "left":  2,
             "right": 3
         }.get(direction, 0)
-
-        # Clamp offsets for characters that don't have all rows
-        if character in ("professor", "npc_girl"):
-            if dir_offset > 1:
-                if character == "npc_girl":
-                    dir_offset = 2  # Row 8 is side views
-                else:
-                    dir_offset = 0  # Fallback to down for Professor side views
 
         # Character column offset
         col_offset = 0
@@ -165,8 +157,8 @@ class CharacterSpriteLoader:
         if direction == "left" and character in ("professor", "npc_girl") and dir_offset < 2:
             surf = pygame.transform.flip(surf, True, False)
 
-        # Escalar al tamaño de destino
-        surf = pygame.transform.smoothscale(surf, self.dest_size)
+        # Escalar al tamaño de destino con scale normal (más nítido para pixel art)
+        surf = pygame.transform.scale(surf, self.dest_size)
 
         self._cache[key] = surf
         return surf

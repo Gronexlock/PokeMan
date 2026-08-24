@@ -256,7 +256,7 @@ class OverworldHDRenderer:
         tileset_path  = os.path.join(project_root, "assets", "sprites", "tilesets", "overworld.jpg")
         trainers_path = os.path.join(project_root, "assets", "sprites", "tilesets", "trainers.jpg")
 
-        self.tileset  = TilesetLoader(tileset_path,  src_tile_size=32, dest_tile_size=TILE_SIZE)
+        self.tileset  = TilesetLoader(tileset_path,  src_tile_size=64, dest_tile_size=TILE_SIZE)
         self.char_sprites = CharacterSpriteLoader(trainers_path, dest_size=(TILE_SIZE, TILE_SIZE))
 
         if self.tileset.loaded:
@@ -270,17 +270,17 @@ class OverworldHDRenderer:
             "grass":       (2, 0),    # Fila 0, col 2 — pasto texturizado suave
             "short_grass": (3, 0),    # Fila 0, col 3 — pasto con florecillas/hojas
             "tall_grass":  (9, 10),   # Fila 10, col 9 — hierba alta
-            "water":       (8, 4),    # Fila 4, col 8 — agua
+            "water":       (4, 4),    # Fila 4, col 4 — agua
             "path":        (0, 2),    # Fila 2, col 0 — sendero de tierra
             "sand":        (0, 4),    # Fila 4, col 0 — arena
             "tree":        (12, 0),   # Fila 0, col 12 — arbol GBA
             "wall":        (0, 12),   # pared de ladrillo general
             "roof":        (0, 14),   # techo rojo general
             "roof_l":      (0, 14),   # Fila 14, col 0 — caida izquierda del techo
-            "roof_r":      (3, 14),   # Fila 14, col 3 — caida derecha del techo
-            "wall_l":      (0, 12),   # Fila 12, col 0 — pared con ventana/borde izq
-            "wall_r":      (1, 12),   # Fila 12, col 1 — pared con ventana/borde der
-            "door":        (2, 15),   # Fila 15, col 2 — puerta de madera
+            "roof_r":      (2, 14),   # Fila 14, col 2 — caida derecha del techo (rojo)
+            "wall_l":      (0, 12),   # Fila 12, col 0 — pared de ladrillo rojo izq
+            "wall_r":      (1, 12),   # Fila 12, col 1 — pared de ladrillo rojo der
+            "door":        (2, 12),   # Fila 12, col 2 — puerta integrada con ladrillo rojo
             "sign":        (13, 15),  # Fila 15, col 13 — cartel de madera
             "fence":       (11, 15),  # Fila 15, col 11 — valla de madera
             "flower":      (2, 8),    # Fila 8, col 2 — flores
