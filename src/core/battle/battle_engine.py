@@ -81,7 +81,7 @@ class BattleEngine:
     def _load_json(self, filename: str) -> Dict[str, Any]:
         filepath = os.path.join(self.data_dir, filename)
         if os.path.exists(filepath):
-            with open(filepath, "r", encoding="utf-8") as f:
+            with open(filepath, "r", encoding="utf-8-sig") as f:
                 return json.load(f)
         return {}
 

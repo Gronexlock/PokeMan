@@ -41,7 +41,7 @@ class SaveManager:
     def _load_json(self, filename: str) -> Dict[str, Any]:
         filepath = os.path.join(self.data_dir, filename)
         if os.path.exists(filepath):
-            with open(filepath, "r", encoding="utf-8") as f:
+            with open(filepath, "r", encoding="utf-8-sig") as f:
                 return json.load(f)
         return {}
 
@@ -156,7 +156,7 @@ class SaveManager:
             return False, None, f"El archivo de guardado '{filepath}' no existe."
 
         try:
-            with open(filepath, "r", encoding="utf-8") as f:
+            with open(filepath, "r", encoding="utf-8-sig") as f:
                 wrapper = json.load(f)
 
             if "checksum" not in wrapper or "data" not in wrapper:

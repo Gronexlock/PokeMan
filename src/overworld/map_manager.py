@@ -34,7 +34,7 @@ class MapManager:
     def _load_maps(self) -> Dict[str, Any]:
         filepath = os.path.join(self.data_dir, "maps_data.json")
         if os.path.exists(filepath):
-            with open(filepath, "r", encoding="utf-8") as f:
+            with open(filepath, "r", encoding="utf-8-sig") as f:
                 data = json.load(f)
                 return data.get("maps", {})
         return {}

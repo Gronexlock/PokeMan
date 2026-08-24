@@ -11,15 +11,15 @@ Write-Host "====================================================================
 Write-Host "  PIPELINE DE DISTRIBUCION Y EMPAQUETADO: POKEMON ECOS DE ANDARA (.EXE)  "
 Write-Host "========================================================================="
 
-# 1. Crear directorio de distribución limpio
-Write-Host "`n[1/5] Creando estructura de carpetas de distribucion..."
-if (Test-Path $DistDir) { Remove-Item -Path $DistDir -Recurse -Force | Out-Null }
-New-Item -ItemType Directory -Path $DistDir -Force | Out-Null
-New-Item -ItemType Directory -Path (Join-Path $DistDir "saves") -Force | Out-Null
+# 1. Crear directorios de distribución
+Write-Host "`n[1/5] Preparando estructura de carpetas de distribucion..."
+if (-not (Test-Path $DistDir)) { New-Item -ItemType Directory -Path $DistDir -Force | Out-Null }
+$savesDir = Join-Path $DistDir "saves"
+if (-not (Test-Path $savesDir)) { New-Item -ItemType Directory -Path $savesDir -Force | Out-Null }
 
 Write-Host "  OK - Directorio preparado en: $DistDir"
 
-# 2. Copiar código fuente y datos offline
+# 2. Copiar código fuente y datos offline (Sobrescribir archivos)
 Write-Host "`n[2/5] Copiando modulos del motor, shaders, audio y bases de datos..."
 Copy-Item -Path (Join-Path $BaseDir "src") -Destination $DistDir -Recurse -Force
 Copy-Item -Path (Join-Path $BaseDir "data") -Destination $DistDir -Recurse -Force
