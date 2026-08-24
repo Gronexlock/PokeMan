@@ -671,6 +671,62 @@
     "desc": "Hierba aromática que neutraliza los efectos de naturaleza: equilibra todas las estadísticas de manera uniforme."
   },
 
+  "duskball": {
+    "name": "Ocaso Ball",
+    "category": "pokeballs",
+    "price": 1000,
+    "catch_rate": 3.0,
+    "desc": "Poké Ball sumamente eficaz de noche o en cuevas oscuras."
+  },
+  "quickball": {
+    "name": "Veloz Ball",
+    "category": "pokeballs",
+    "price": 1000,
+    "catch_rate": 5.0,
+    "desc": "Poké Ball con un ratio de captura masivo al lanzarse en el primer turno."
+  },
+  "timerball": {
+    "name": "Turno Ball",
+    "category": "pokeballs",
+    "price": 1000,
+    "catch_rate": 4.0,
+    "desc": "Poké Ball que incrementa su eficacia a medida que el combate se prolonga."
+  },
+  "netball": {
+    "name": "Malla Ball",
+    "category": "pokeballs",
+    "price": 1000,
+    "catch_rate": 3.5,
+    "desc": "Poké Ball especializada en atrapar especies de tipo Agua y Bicho."
+  },
+
+  "tm_flamethrower": { "name": "MT35 Lanzallamas", "category": "machines", "price": 5000, "move_id": "flamethrower", "desc": "Enseña el potente movimiento especial de tipo Fuego Lanzallamas." },
+  "tm_thunderbolt": { "name": "MT24 Rayo", "category": "machines", "price": 5000, "move_id": "thunderbolt", "desc": "Enseña el ataque especial de tipo Eléctrico Rayo con probabilidad de paralizar." },
+  "tm_ice_beam": { "name": "MT13 Rayo Hielo", "category": "machines", "price": 5000, "move_id": "ice_beam", "desc": "Enseña el ataque especial de tipo Hielo Rayo Hielo." },
+  "tm_earthquake": { "name": "MT26 Terremoto", "category": "machines", "price": 6000, "move_id": "earthquake", "desc": "Enseña el devastador ataque físico de tipo Tierra Terremoto." },
+  "tm_psychic": { "name": "MT29 Psíquico", "category": "machines", "price": 5000, "move_id": "psychic", "desc": "Enseña el poderoso ataque especial de tipo Psíquico." },
+  "tm_shadow_ball": { "name": "MT30 Bola Sombra", "category": "machines", "price": 4500, "move_id": "shadow_ball", "desc": "Enseña el movimiento de tipo Fantasma Bola Sombra." },
+  "tm_sludge_bomb": { "name": "MT36 Bomba Lodo", "category": "machines", "price": 4500, "move_id": "sludge_bomb", "desc": "Enseña el potente ataque especial de tipo Veneno Bomba Lodo." },
+  "tm_energy_ball": { "name": "MT53 Energibola", "category": "machines", "price": 4500, "move_id": "energy_ball", "desc": "Enseña el ataque de tipo Planta Energibola." },
+  "tm_close_combat": { "name": "MT52 A Bocajarro", "category": "machines", "price": 6000, "move_id": "close_combat", "desc": "Enseña el arrollador ataque físico de tipo Lucha A Bocajarro." },
+  "tm_swords_dance": { "name": "MT75 Danza Espada", "category": "machines", "price": 4000, "move_id": "swords_dance", "desc": "Enseña Danza Espada para aumentar en 2 niveles el Ataque del usuario." },
+  "tm_dragon_dance": { "name": "MT76 Danza Dragón", "category": "machines", "price": 5000, "move_id": "dragon_dance", "desc": "Enseña Danza Dragón para aumentar el Ataque y la Velocidad (Huevo/MT directa)." },
+  "tm_calm_mind": { "name": "MT04 Paz Mental", "category": "machines", "price": 4000, "move_id": "calm_mind", "desc": "Enseña Paz Mental para aumentar el Ataque Especial y la Defensa Especial." },
+  "tm_roost": { "name": "MT19 Respiro", "category": "machines", "price": 3500, "move_id": "roost", "desc": "Enseña Respiro para recuperar el 50% de los PS máximos (Huevo/MT directa)." },
+  "tm_u_turn": { "name": "MT89 Ida y Vuelta", "category": "machines", "price": 4000, "move_id": "u_turn", "desc": "Enseña Ida y Vuelta para golpear y cambiar de Pokémon tácticamente." },
+  "tm_volt_switch": { "name": "MT72 Voltiocambio", "category": "machines", "price": 4000, "move_id": "volt_switch", "desc": "Enseña Voltiocambio para golpear con electricidad y rotar." },
+  "tm_taunt": { "name": "MT12 Mofa", "category": "machines", "price": 3000, "move_id": "taunt", "desc": "Enseña Mofa para forzar al oponente a usar solo movimientos ofensivos." },
+  "tm_stealth_rock": { "name": "MT77 Trampa Rocas", "category": "machines", "price": 5000, "move_id": "stealth_rock", "desc": "Enseña Trampa Rocas para dañar a los Pokémon rivales al entrar al campo." },
+  "tm_toxic": { "name": "MT06 Tóxico", "category": "machines", "price": 3500, "move_id": "toxic", "desc": "Enseña Tóxico para envenenar gravemente con daño exponencial." },
+  "tm_will_o_wisp": { "name": "MT61 Fuego Fatuo", "category": "machines", "price": 3500, "move_id": "will_o_wisp", "desc": "Enseña Fuego Fatuo para quemar al rival y reducir su ataque físico." },
+  "tm_dazzling_gleam": { "name": "MT99 Brillo Mágico", "category": "machines", "price": 4500, "move_id": "dazzling_gleam", "desc": "Enseña el potente ataque especial de tipo Hada Brillo Mágico." },
+  "tm_play_rough": { "name": "MT90 Carantoña", "category": "machines", "price": 5000, "move_id": "play_rough", "desc": "Enseña Carantoña para daño físico de tipo Hada (Huevo/MT directa)." },
+  "tm_drain_punch": { "name": "MT60 Puño Drenaje", "category": "machines", "price": 4500, "move_id": "drain_punch", "desc": "Enseña Puño Drenaje para golpear y restaurar salud (Huevo/MT directa)." },
+  "tm_knock_off": { "name": "MT65 Desarme", "category": "machines", "price": 4500, "move_id": "knock_off", "desc": "Enseña Desarme para arrebatar el objeto del rival (Tutor/MT directa)." },
+
+  "hm_surf": { "name": "MO03 Surf", "category": "machines", "price": 0, "move_id": "surf", "desc": "Máquina Oculta que permite navegar sobre masas de agua en el Overworld." },
+  "hm_waterfall": { "name": "MO07 Cascada", "category": "machines", "price": 0, "move_id": "waterfall", "desc": "Máquina Oculta que permite ascender por cascadas caudalosas." },
+
   "megaring": {
     "name": "Mega-Aro de Andara",
     "category": "key_items",

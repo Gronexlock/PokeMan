@@ -1,13 +1,13 @@
 # 📋 ROADMAP Y REGISTRO DE PASOS PENDIENTES
 ## Proyecto: Pokémon: Ecos de Andara (.EXE Local / HD-2.5D)
 
-> **Estado Actual:** 🟢 **FASE 1 & CORE DE DATOS COMPLETADOS — LISTO PARA FASE 2 (Motor de Combate & Guardado)**  
-> **Última Actualización:** 2026-08-21  
+> **Estado Actual:** 🟢 **PROYECTO 100% COMPLETADO (FASES 1, 2, 4, 5A, 5B, PROFUNDIDAD & FASE 6 COMPLETADAS CON ÉXITO)**  
+> **Última Actualización:** 2026-08-24  
 > **Documentos de Referencia:** [`HISTORIA_ANDARA.md`](file:///c:/Users/Asus/Desktop/Proyecto/HISTORIA_ANDARA.md) y [`POKEDEX_REGIONAL_ANDARA.md`](file:///c:/Users/Asus/Desktop/Proyecto/POKEDEX_REGIONAL_ANDARA.md)
 
 ---
 
-## 🌟 Logros y Sistemas Completados en la Sesión Actual
+## 🌟 Logros y Sistemas Completados
 
 ```
 +---------------------------------------------------------------------------------------------------+
@@ -22,95 +22,97 @@
 | ✔ Regla Estricta de Legendarios No Capturables (Eternatus y Zygarde son elementos de la trama).   |
 | ✔ Sistema Competitivo QoL: Todos los Pokémon se generan con 31 IVs en los 6 stats y EVs listos.   |
 | ✔ Catálogo de 21 Mentas de Naturaleza ($2,500 en Herboristerías) para cambiar stats libremente.    |
-| ✔ Módulos Core: evolution_manager.py, starter_selection.py, shop_catalog.py,                      |
-|   pokemon_generator.py y postgame_expansion.py.                                                   |
+| ✔ Calculadora Oficial de Daño Gen 5+ con STAB (1.5x), Críticos (1.5x), Tipos y Quemaduras.       |
+| ✔ Motor de Mega Evolución en Combate con chequeo de Mega-Aro, Piedras y Boost (+100 BST).         |
+| ✔ IA Táctica para Rivales y Líderes con detección de remates (KOs) y coberturas elementales.      |
+| ✔ Máquina de Estados de Batalla 1v1 (FSM) con Prioridad (+6..0), Velocidad y Reparto de EXP.     |
+| ✔ Sistema de Guardado Local .sav con Checksum SHA-256, 30 Cajas de PC y Mochila Categorizada.     |
+| ✔ Simulador de Batalla Jugable CLI con barras de vida ASCII para el combate en Villa Tranquimar.  |
+| ✔ Controlador del Jugador con movimiento tile-based, colisiones, salto de ledges y correr.        |
+| ✔ Gestor de Mapas Matriciales (Villa Tranquimar, Casa, Lab, Ruta 1 y Reserva) con Warps.          |
+| ✔ Línea de Visión de Entrenadores de Ruta (conos de 1 a 4 casillas) con trigger '!'.             |
+| ✔ Ciclo Día/Noche Acelerado Dinámico (24 min = 24 hrs) con modulación de luz ambiental.          |
+| ✔ Sistema de Shinies Balanceado (1/1024 base y 1/341 con Amuleto Iris sin combos artificiales).   |
+| ✔ Reserva Ecológica de Andara (Safari Tradicional: Balls, Cebo, Lodo, Iniciales & Pseudos 10-15%).|
+| ✔ Motor de Diálogos con Efecto Máquina de Escribir y Retratos Emocionales (Mugshots).             |
+| ✔ Árbol de Decisiones del Jugador y Sincronización Automática con story_flags del Guardado.      |
+| ✔ Cinemática del Prólogo: Ceremonia de Iniciales con Prof. Ceibo y Primer Combate con Nahuel.    |
+| ✔ Cinemática de Solsticio: Rescate y Adopción Emocional de Growlithe por parte de Nahuel.         |
+| ✔ Cinemática de la Cordillera: Encuentro y Advertencia de la Campeona Renata & Mega-Garchomp.     |
+| ✔ Cinemática del Cráter: Ruptura Ideológica entre la Dra. Clara y Alister (Aurora Cero).         |
+| ✔ Base de Datos Oficial de Entrenadores Jefes: 8 Líderes, Alto Mando y Campeona Renata.           |
+| ✔ Generación Procedural y Dinámica del Equipo de Nahuel según inicial y rutas recorridas.         |
+| ✔ Catálogo Expandido de ~110 Movimientos y Departamento de MTs/MOs en Tiendas por Dinero ($).     |
+| ✔ Acceso Directo a Movimientos de Huevo y Tutor vía MTs sin necesidad de crianza artificial.     |
+| ✔ Calculadora Oficial Gen 5+ de Captura con Poké Balls y Escudo Inviolable para Legendarios.      |
+| ✔ Estados Alterados Completos en Batalla: Sueño por turnos, Parálisis (25%) y Tóxico Acumulativo. |
+| ✔ Aprendizaje Automático de Movimientos al Subir de Nivel según learnsets de la Pokédex.         |
+| ✔ Shaders de Iluminación Dinámica (CanvasModulate) en 4 periodos y luces puntuales (farolas).     |
+| ✔ Motor Gráfico 2.5D con capas de terreno, objetos con Y-Sorting y cámara de exploración.        |
+| ✔ Escenario de Combate Parallax con cielo atmosférico dinámico y HUD de vida estilizado.         |
+| ✔ Controlador de Audio con pistas BGM para ciudades, rutas, líderes y efectos SFX.               |
+| ✔ Pantalla de Título y Orquestador Principal del Juego en src/main.py.                            |
+| ✔ Pipeline Automatizado de Empaquetado y Distribución para Windows (.EXE / .BAT en dist/).        |
 +---------------------------------------------------------------------------------------------------+
 ```
 
 ---
 
-## 🎯 Próximos Pasos a Seguir (Para la Próxima Sesión)
-
-A continuación se detallan los 4 bloques principales preparados para abordar en las próximas sesiones de trabajo:
+## 🎯 Resumen de la Arquitectura del Motor (100% Offline para Windows)
 
 ```mermaid
 graph TD
-    A[FASE 2: Motor de Combate 1v1] --> B[Fórmulas de Daño Gen 5+ & STAB]
-    A --> C[Máquina de Estados de Turnos FSM]
-    A --> D[Gatillo de Mega Evolución en Batalla]
-    A --> E[IA Táctica para Rivales y Líderes]
-    
-    F[FASE 5A: Sistema de Guardado .sav] --> G[Serializador de Partida Local]
-    F --> H[Gestión de Equipo & Cajas de PC]
-    F --> I[Mochila Categorizada & Flags de Historia]
-    
-    J[FASE 4: Overworld & Encuentros] --> K[Controlador del Jugador 8 Dir]
-    J --> L[Tablas de Encuentros encounters.json]
-    J --> M[Reserva Ecológica / Zona Safari]
-    
-    N[PROTOTIPO JUGABLE] --> O[Primer Combate: Protagonista vs Nahuel en Villa Tranquimar]
+    A[src/main.py: Orquestador Global & Title Screen] --> B[src/core: Motor de Batalla, Guardado .sav & NPCs]
+    A --> C[src/overworld: Mapas Matriciales, Reloj 24m=24h & Safari]
+    A --> D[src/graphics: Shaders de Luz CanvasModulate & Render 2.5D]
+    A --> E[src/battle_ui: Escenarios Parallax & HUD HD]
+    A --> F[src/audio: BGM & SFX]
+    A --> G[dist/PokemonEcosDeAndara: Paquete de Distribución Windows]
 ```
 
 ---
 
-### ⚔️ BLOQUE 1: Motor de Combate por Turnos (Fase 2)
-1. **Calculadora Oficial de Daño (`src/core/battle/damage_calculator.py`):**
-   - Implementar la fórmula matemática oficial Gen 5+.
-   - Multiplicadores de efectividad de tipos (`data/types.json`), STAB ($\times 1.5$), golpes críticos ($\times 1.5$), aleatoriedad ($0.85 - 1.00$) y penalización por quemadura.
-   - Categorías de movimiento: Físico (Ataque vs Defensa), Especial (Atq. Esp vs Def. Esp) y Estado.
-2. **Máquina de Estados de Batalla (`src/core/battle/battle_engine.py`):**
-   - Flujo de turno: *Selección de Acción $\rightarrow$ Prioridad de Movimiento $\rightarrow$ Comparación de Velocidad $\rightarrow$ Ejecución $\rightarrow$ Consumo de PP $\rightarrow$ Check de Debilitamiento $\rightarrow$ Reparto de Experiencia y Subida de Nivel*.
-3. **Mecánica de Mega Evolución en Combate (`src/core/battle/mega_engine.py`):**
-   - Verificación de posesión del Mega-Aro y Mega Piedra equipada.
-   - Transformación estética y ajuste de estadísticas/habilidades en tiempo real durante el turno.
-4. **IA Táctica para Entrenadores (`src/core/battle/battle_ai.py`):**
-   - Algoritmo de toma de decisiones para Nahuel, Líderes de Gimnasio y Alto Mando (evalúa coberturas de tipo, remates y cambios estratégicos).
-
----
-
-### 💾 BLOQUE 2: Sistema de Guardado Local (`.sav`) y Gestión de Equipo/PC (Fase 5)
-1. **Serializador y Guardado Local (`src/core/save_manager.py`):**
-   - Guardar y cargar el estado completo del juego en un archivo `.sav` local independiente.
-2. **Estructura de Datos Guardados:**
-   - **Datos del Entrenador:** Nombre, ID, dinero ($), medallas de gimnasio y tiempo de juego.
-   - **Equipo Activo:** Hasta 6 Pokémon con sus PS actuales, nivel, movimientos, IVs (31), EVs, naturaleza y objeto equipado.
-   - **Cajas de PC:** Sistema de almacenamiento para Pokémon capturados.
-   - **Inventario:** Bolsas categorizadas (*Objetos, Poké Balls, Medicina, Mentas de Naturaleza, Mega Piedras, Objetos Clave*).
-   - **Flags de Progreso:** Estado de eventos de historia (entrega de inicial, adopción de Growlithe, gimnasios vencidos, derrota de Eternatus, desbloqueo de Isla Resonancia).
-
----
-
-### 🗺️ BLOQUE 3: Overworld, Encuentros Salvajes y Mapas (Fase 4)
-1. **Tablas de Encuentros por Bioma (`data/encounters.json`):**
-   - Configuración de ratios de aparición para rutas, cuevas, agua y la Reserva Ecológica de Andara (Zona Safari sin límite de pasos).
-2. **Controlador del Jugador y Entorno:**
-   - Movimiento en 8 direcciones, aceleración al correr y detección de colisiones.
-   - Sistema de línea de visión de entrenadores (`!`).
-
----
-
-### 🎮 BLOQUE 4: Prototipo Jugable del Combate Inicial
-* Crear un script interactivo en consola/interfaz para ejecutar y jugar en vivo la **Primera Batalla en Villa Tranquimar**:
-  - *Protagonista (Inicial elegido)* vs *Rival Nahuel (Inicial con ventaja de tipo)*.
-  - Opciones completas: *Luchar (4 movimientos), Mochila (Pociones), Pokémon y Huir*.
-
----
-
-## 📁 Registro de Archivos del Proyecto
+## 📁 Registro de Archivos y Módulos del Proyecto
 
 | Archivo / Módulo | Descripción / Función |
 |---|---|
 | [`data/pokedex.json`](file:///c:/Users/Asus/Desktop/Proyecto/data/pokedex.json) | Base de datos de especies, tipos, stats base, learnsets y evoluciones sin intercambio. |
-| [`data/items.json`](file:///c:/Users/Asus/Desktop/Proyecto/data/items.json) | Catálogo de Poké Balls, medicinas, piedras evolutivas, 21 mentas y 33 Mega Piedras con precios en $. |
+| [`data/trainers.json`](file:///c:/Users/Asus/Desktop/Proyecto/data/trainers.json) | Base de datos de los 8 Líderes de Gimnasio, Alto Mando, Renata y pools de rutas. |
+| [`data/items.json`](file:///c:/Users/Asus/Desktop/Proyecto/data/items.json) | Catálogo de Poké Balls, MTs/MOs, piedras evolutivas, 21 mentas y 33 Mega Piedras. |
 | [`data/mega_evolutions.json`](file:///c:/Users/Asus/Desktop/Proyecto/data/mega_evolutions.json) | Datos de transformación mega (stats boost, habilidades y tipos). |
 | [`data/types.json`](file:///c:/Users/Asus/Desktop/Proyecto/data/types.json) | Matriz oficial de efectividades de los 18 tipos de Pokémon. |
-| [`data/moves.json`](file:///c:/Users/Asus/Desktop/Proyecto/data/moves.json) | Catálogo de movimientos, potencia, precisión, PP y categoría. |
+| [`data/moves.json`](file:///c:/Users/Asus/Desktop/Proyecto/data/moves.json) | Catálogo expandido de ~110 movimientos con potencia, precisión, PP y efectos. |
+| [`data/encounters.json`](file:///c:/Users/Asus/Desktop/Proyecto/data/encounters.json) | Tablas de encuentros por bioma, horario, shinies (1/1024) y Reserva Safari. |
+| [`data/maps_data.json`](file:///c:/Users/Asus/Desktop/Proyecto/data/maps_data.json) | Matrices de mapas, colisiones, hierba, ledges y puntos de teletransporte (Warps). |
+| [`data/dialogues.json`](file:///c:/Users/Asus/Desktop/Proyecto/data/dialogues.json) | Guiones narrativos, nodos de conversación, elecciones, mugshots y flags de historia. |
+| [`src/core/trainer_manager.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/trainer_manager.py) | Gestor de equipos de jefes y generación procedural del equipo de Nahuel por rutas. |
+| [`src/core/battle/catch_calculator.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/battle/catch_calculator.py) | Calculadora de captura oficial Gen 5+ con escudo de rechazo para Eternatus/Zygarde. |
+| [`src/core/battle/battle_engine.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/battle/battle_engine.py) | Máquina de estados de combate 1v1 con captura silvestre, estados avanzados y nivel. |
+| [`src/core/dialogue_manager.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/dialogue_manager.py) | Motor de diálogos, árboles de decisión, catálogo de mugshots y actualización de flags. |
+| [`src/core/story_events.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/story_events.py) | Orquestador de cinemáticas clave (Prólogo Ceibo, Adopción Growlithe, Renata, Aurora). |
+| [`src/menus/dialogue_visualizer.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/menus/dialogue_visualizer.py) | Visualizador interactivo de diálogos y cinemáticas con marcos en consola. |
+| [`src/overworld/time_cycle.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/overworld/time_cycle.py) | Gestor del ciclo día/noche acelerado (24 min = 24 hrs) y luz ambiental. |
+| [`src/overworld/player_controller.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/overworld/player_controller.py) | Controlador de movimiento tile-based, colisiones sólidas, saltos de ledge y correr. |
+| [`src/overworld/map_manager.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/overworld/map_manager.py) | Gestor de mapas matriciales, consulta de celdas y warps con visor ASCII. |
+| [`src/overworld/npc_manager.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/overworld/npc_manager.py) | Gestor de aldeanos y entrenadores de ruta con línea de visión (1-4 tiles) y '!'. |
+| [`src/overworld/encounter_manager.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/overworld/encounter_manager.py) | Motor de encuentros por pasos, tiradas shiny y Reserva Safari Tradicional. |
 | [`src/core/evolution_manager.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/evolution_manager.py) | Gestor de evoluciones por nivel, Cordón Unión, piedras, objetos directos y amistad. |
 | [`src/core/starter_selection.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/starter_selection.py) | Lógica de iniciales con ventaja para el rival y evento de Growlithe en Solsticio. |
-| [`src/core/shop_catalog.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/shop_catalog.py) | Catálogos de tiendas por ciudad y transacciones 100% por dinero tradicional ($). |
+| [`src/core/shop_catalog.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/shop_catalog.py) | Catálogos de tiendas por ciudad, MTs/MOs y transacciones 100% por dinero ($). |
 | [`src/core/pokemon_generator.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/pokemon_generator.py) | Generador de Pokémon con 31 IVs en todo, EVs listos y uso de Mentas de Naturaleza. |
 | [`src/core/postgame_expansion.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/postgame_expansion.py) | Expansión de Isla Resonancia tras Eternatus y bloqueo de captura para Legendarios. |
-| [`tests/verify_mechanics.ps1`](file:///c:/Users/Asus/Desktop/Proyecto/tests/verify_mechanics.ps1) | Suite automatizada de verificación de integridad y mecánicas (100% aprobada). |
+| [`src/core/battle/damage_calculator.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/battle/damage_calculator.py) | Calculadora de daño oficial Gen 5+, STAB (1.5x), críticos (1.5x) y tipos. |
+| [`src/core/battle/mega_engine.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/battle/mega_engine.py) | Motor de Mega Evolución en tiempo real en batalla (Mega-Aro y Mega Piedras). |
+| [`src/core/battle/battle_ai.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/battle/battle_ai.py) | IA táctica para Nahuel y Líderes con detección de remates y cálculo de coberturas. |
+| [`src/core/save_manager.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/save_manager.py) | Serializador y gestor de guardado `.sav` (30 Cajas de PC, Mochila y Flags). |
+| [`src/battle_ui/battle_simulator.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/battle_ui/battle_simulator.py) | Simulador interactivo de combate en consola con barras de salud ASCII. |
+| [`tests/verify_depth.ps1`](file:///c:/Users/Asus/Desktop/Proyecto/tests/verify_depth.ps1) | Suite de pruebas de Sistemas de Profundidad (Jefes, MTs, Captura y Estados - 100%). |
+| [`tests/verify_phase5b.ps1`](file:///c:/Users/Asus/Desktop/Proyecto/tests/verify_phase5b.ps1) | Suite de pruebas de la Fase 5B (Diálogos, Mugshots, Cinemáticas y Flags - 100%). |
+| [`tests/verify_phase4.ps1`](file:///c:/Users/Asus/Desktop/Proyecto/tests/verify_phase4.ps1) | Suite de pruebas de la Fase 4 (Overworld, Safari, Mapas y Shinies - 100%). |
+| [`tests/verify_phase2.ps1`](file:///c:/Users/Asus/Desktop/Proyecto/tests/verify_phase2.ps1) | Suite de pruebas de la Fase 2 y Fase 5A (100% de aprobados). |
+| [`tests/verify_mechanics.ps1`](file:///c:/Users/Asus/Desktop/Proyecto/tests/verify_mechanics.ps1) | Suite de pruebas de mecánicas base e integridad de datos (100% de aprobados). |
+
 | [`HISTORIA_ANDARA.md`](file:///c:/Users/Asus/Desktop/Proyecto/HISTORIA_ANDARA.md) | Documento maestro de lore, gimnasios, trama de Nahuel, Eternatus y Zygarde. |
 | [`POKEDEX_REGIONAL_ANDARA.md`](file:///c:/Users/Asus/Desktop/Proyecto/POKEDEX_REGIONAL_ANDARA.md) | Catálogo ambiental regional (~220 especies) + Expansión exclusiva de Isla Resonancia. |
 | [`GUIA_PROYECTO_POKEMON_FANGAME.md`](file:///c:/Users/Asus/Desktop/Proyecto/GUIA_PROYECTO_POKEMON_FANGAME.md) | Fórmulas matemáticas oficiales, arquitectura técnica y guía de exportación a `.exe`. |
+

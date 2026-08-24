@@ -1,0 +1,156 @@
+{
+  "shiny_settings": {
+    "base_rate": 1024,
+    "shiny_charm_multiplier": 3.0,
+    "safari_bonus_multiplier": 1.0
+  },
+  "time_settings": {
+    "cycle_minutes": 24,
+    "periods": {
+      "morning": { "start_hour": 6, "end_hour": 9, "ambient_tint": "warm_gold" },
+      "day": { "start_hour": 10, "end_hour": 16, "ambient_tint": "bright_day" },
+      "evening": { "start_hour": 17, "end_hour": 19, "ambient_tint": "sunset_orange" },
+      "night": { "start_hour": 20, "end_hour": 5, "ambient_tint": "deep_blue" }
+    }
+  },
+  "zones": {
+    "villa_tranquimar_coast": {
+      "zone_name": "Bahía de Villa Tranquimar",
+      "encounter_rate": 12,
+      "methods": {
+        "surf": [
+          { "species_id": 278, "name": "Wingull", "min_level": 3, "max_level": 7, "weight": 40, "time": "all" },
+          { "species_id": 72, "name": "Tentacool", "min_level": 3, "max_level": 6, "weight": 30, "time": "all" },
+          { "species_id": 54, "name": "Psyduck", "min_level": 4, "max_level": 8, "weight": 20, "time": "day" },
+          { "species_id": 7, "name": "Squirtle", "min_level": 5, "max_level": 5, "weight": 5, "time": "all" }
+        ],
+        "fishing_old_rod": [
+          { "species_id": 129, "name": "Magikarp", "min_level": 3, "max_level": 6, "weight": 70, "time": "all" },
+          { "species_id": 60, "name": "Poliwag", "min_level": 4, "max_level": 7, "weight": 30, "time": "all" }
+        ]
+      }
+    },
+    "route_1_coastal": {
+      "zone_name": "Ruta 1 (Sendero Costero)",
+      "encounter_rate": 15,
+      "methods": {
+        "grass": [
+          { "species_id": 16, "name": "Pidgey", "min_level": 2, "max_level": 4, "weight": 30, "time": "day" },
+          { "species_id": 821, "name": "Rookidee", "min_level": 2, "max_level": 4, "weight": 25, "time": "all" },
+          { "species_id": 831, "name": "Wooloo", "min_level": 3, "max_level": 5, "weight": 20, "time": "day" },
+          { "species_id": 179, "name": "Mareep", "min_level": 3, "max_level": 5, "weight": 15, "time": "all" },
+          { "species_id": 403, "name": "Shinx", "min_level": 3, "max_level": 5, "weight": 8, "time": "all" },
+          { "species_id": 163, "name": "Hoothoot", "min_level": 2, "max_level": 5, "weight": 30, "time": "night" },
+          { "species_id": 92, "name": "Gastly", "min_level": 3, "max_level": 5, "weight": 15, "time": "night" },
+          { "species_id": 1, "name": "Bulbasaur", "min_level": 5, "max_level": 5, "weight": 2, "time": "all" }
+        ]
+      }
+    },
+    "yungas_cloud_forest": {
+      "zone_name": "Yungas y Bosque Nublado",
+      "encounter_rate": 18,
+      "methods": {
+        "grass": [
+          { "species_id": 43, "name": "Oddish", "min_level": 8, "max_level": 12, "weight": 25, "time": "night" },
+          { "species_id": 69, "name": "Bellsprout", "min_level": 8, "max_level": 12, "weight": 25, "time": "day" },
+          { "species_id": 10, "name": "Caterpie", "min_level": 6, "max_level": 10, "weight": 20, "time": "all" },
+          { "species_id": 123, "name": "Scyther", "min_level": 10, "max_level": 14, "weight": 10, "time": "day" },
+          { "species_id": 214, "name": "Heracross", "min_level": 10, "max_level": 14, "weight": 10, "time": "all" },
+          { "species_id": 252, "name": "Treecko", "min_level": 8, "max_level": 10, "weight": 5, "time": "all" },
+          { "species_id": 722, "name": "Rowlet", "min_level": 8, "max_level": 10, "weight": 5, "time": "all" }
+        ]
+      }
+    },
+    "solsticio_canyon": {
+      "zone_name": "Cañón de Metrópolis Solsticio",
+      "encounter_rate": 16,
+      "methods": {
+        "cave": [
+          { "species_id": 74, "name": "Geodude", "min_level": 12, "max_level": 16, "weight": 30, "time": "all" },
+          { "species_id": 66, "name": "Machop", "min_level": 12, "max_level": 16, "weight": 25, "time": "all" },
+          { "species_id": 111, "name": "Rhyhorn", "min_level": 14, "max_level": 18, "weight": 20, "time": "all" },
+          { "species_id": 95, "name": "Onix", "min_level": 14, "max_level": 18, "weight": 12, "time": "all" },
+          { "species_id": 4, "name": "Charmander", "min_level": 12, "max_level": 14, "weight": 5, "time": "all" },
+          { "species_id": 390, "name": "Chimchar", "min_level": 12, "max_level": 14, "weight": 5, "time": "all" },
+          { "species_id": 443, "name": "Gible", "min_level": 14, "max_level": 16, "weight": 3, "time": "all" }
+        ]
+      }
+    },
+    "safari_botanical_greenhouse": {
+      "zone_name": "Reserva Ecológica: Invernadero Botánico",
+      "is_safari": true,
+      "encounter_rate": 25,
+      "methods": {
+        "safari_grass": [
+          { "species_id": 1, "name": "Bulbasaur", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 252, "name": "Treecko", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 387, "name": "Turtwig", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 495, "name": "Snivy", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 650, "name": "Chespin", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 722, "name": "Rowlet", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 906, "name": "Sprigatito", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 43, "name": "Oddish", "min_level": 15, "max_level": 20, "weight": 5 },
+          { "species_id": 69, "name": "Bellsprout", "min_level": 15, "max_level": 20, "weight": 5 },
+          { "species_id": 123, "name": "Scyther", "min_level": 16, "max_level": 22, "weight": 3 }
+        ]
+      }
+    },
+    "safari_geothermal_slopes": {
+      "zone_name": "Reserva Ecológica: Faldas Geotérmicas",
+      "is_safari": true,
+      "encounter_rate": 25,
+      "methods": {
+        "safari_grass": [
+          { "species_id": 4, "name": "Charmander", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 155, "name": "Cyndaquil", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 255, "name": "Torchic", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 390, "name": "Chimchar", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 653, "name": "Fennekin", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 725, "name": "Litten", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 909, "name": "Fuecoco", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 58, "name": "Growlithe", "min_level": 15, "max_level": 20, "weight": 6 },
+          { "species_id": 77, "name": "Ponyta", "min_level": 15, "max_level": 20, "weight": 5 },
+          { "species_id": 240, "name": "Magby", "min_level": 14, "max_level": 18, "weight": 5 }
+        ]
+      }
+    },
+    "safari_coastal_lagoon": {
+      "zone_name": "Reserva Ecológica: Laguna Costera",
+      "is_safari": true,
+      "encounter_rate": 25,
+      "methods": {
+        "safari_grass": [
+          { "species_id": 7, "name": "Squirtle", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 158, "name": "Totodile", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 258, "name": "Mudkip", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 393, "name": "Piplup", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 656, "name": "Froakie", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 728, "name": "Popplio", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 912, "name": "Quaxly", "min_level": 15, "max_level": 20, "weight": 12, "is_starter": true },
+          { "species_id": 54, "name": "Psyduck", "min_level": 15, "max_level": 20, "weight": 5 },
+          { "species_id": 79, "name": "Slowpoke", "min_level": 15, "max_level": 20, "weight": 5 },
+          { "species_id": 183, "name": "Marill", "min_level": 15, "max_level": 20, "weight": 6 }
+        ]
+      }
+    },
+    "safari_ancestral_sanctuary": {
+      "zone_name": "Reserva Ecológica: Santuario Ancestral",
+      "is_safari": true,
+      "encounter_rate": 22,
+      "methods": {
+        "safari_grass": [
+          { "species_id": 147, "name": "Dratini", "min_level": 18, "max_level": 24, "weight": 12, "is_pseudo": true },
+          { "species_id": 246, "name": "Larvitar", "min_level": 18, "max_level": 24, "weight": 12, "is_pseudo": true },
+          { "species_id": 371, "name": "Bagon", "min_level": 18, "max_level": 24, "weight": 12, "is_pseudo": true },
+          { "species_id": 374, "name": "Beldum", "min_level": 18, "max_level": 24, "weight": 12, "is_pseudo": true },
+          { "species_id": 443, "name": "Gible", "min_level": 18, "max_level": 24, "weight": 12, "is_pseudo": true },
+          { "species_id": 633, "name": "Deino", "min_level": 18, "max_level": 24, "weight": 10, "is_pseudo": true },
+          { "species_id": 704, "name": "Goomy", "min_level": 18, "max_level": 24, "weight": 10, "is_pseudo": true },
+          { "species_id": 447, "name": "Riolu", "min_level": 18, "max_level": 24, "weight": 10 },
+          { "species_id": 280, "name": "Ralts", "min_level": 16, "max_level": 22, "weight": 5 },
+          { "species_id": 133, "name": "Eevee", "min_level": 16, "max_level": 22, "weight": 5 }
+        ]
+      }
+    }
+  }
+}

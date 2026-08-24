@@ -99,6 +99,18 @@ class ShopCatalogManager:
                     "sharpedonite", "cameruptite", "glalitite", "salamencite", "metagrossite",
                     "garchompite", "lucarionite", "abomasite", "lopunnite"
                 ]
+            },
+            "metropolis_solsticio_tms": {
+                "name": "Grandes Almacenes de Metrópolis Solsticio — Piso 5 (Bazar de MTs y Movimientos de Combate)",
+                "tier": 5,
+                "inventory": [
+                    "tm_flamethrower", "tm_thunderbolt", "tm_ice_beam", "tm_earthquake",
+                    "tm_psychic", "tm_shadow_ball", "tm_sludge_bomb", "tm_energy_ball",
+                    "tm_close_combat", "tm_swords_dance", "tm_dragon_dance", "tm_calm_mind",
+                    "tm_roost", "tm_u_turn", "tm_volt_switch", "tm_taunt", "tm_stealth_rock",
+                    "tm_toxic", "tm_will_o_wisp", "tm_dazzling_gleam", "tm_play_rough",
+                    "tm_drain_punch", "tm_knock_off"
+                ]
             }
         }
 

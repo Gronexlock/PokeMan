@@ -350,51 +350,47 @@ Para eliminar el grind tedioso de crianza y centrarse en la estrategia pura de c
 
 ---
 
-## 9. Roadmap de Desarrollo Paso a Paso
+## 9. Roadmap de Desarrollo Paso a Paso (100% Completado)
 
 ```
 +-----------------------------------------------------------------------------------+
-|                           CRONOGRAMA DE DESARROLLO                                |
+|                           CRONOGRAMA DE DESARROLLO (COMPLETO)                     |
 +-----------------------------------------------------------------------------------+
-|  [FASE 1] Extracción de Datos y Assets (PokéAPI Pipeline)                         |
-|           • Generar JSONs locales y descargar sprites.                            |
+|  ✔ [FASE 1] Extracción de Datos y Reglas Regionales                               |
+|           • Pokédex acotada, tiendas $, evoluciones sin intercambio, IVs 31.      |
 |                                                                                   |
-|  [FASE 2] Motor de Combate (Core Lógico)                                          |
-|           • Fórmulas de daño, selección de movimientos, cálculo de turnos y stats.|
+|  ✔ [FASE 2] Motor de Combate (Core Lógico) & Mega Evolución                       |
+|           • Fórmulas Gen 5+, STAB, críticos, tipos, Mega-Aro y +100 BST en batalla.|
 |                                                                                   |
-|  [FASE 3] Interfaz de Batalla & Animaciones                                       |
-|           • Escena de combate 2.5D, barras de vida animadas, shaders y efectos.   |
+|  ✔ [FASE 3 & 5A] Guardado Local .sav & Cajas de PC                                |
+|           • Serializador SHA-256, 30 Cajas de PC (900 slots) y mochila 6 bolsillos.|
 |                                                                                   |
-|  [FASE 4] Overworld, Tilemaps y Movimiento                                        |
-|           • Sistema de cuadrícula / movimiento 8 direcciones, colisiones, hierba. |
+|  ✔ [FASE 4] Overworld, Mapas y Reserva Ecológica (Safari)                         |
+|           • Reloj acelerado (24m=24h), movimiento tile-based, ledges y Shinies 1/1024|
 |                                                                                   |
-|  [FASE 5] Historia, Diálogos y Menús                                              |
-|           • Sistema de misiones, NPCs, eventos, mochila, equipo y guardado .sav.   |
+|  ✔ [FASE 5B] Historia, Diálogos, Mugshots y Eventos                               |
+|           • 20 retratos emocionales, árboles de decisiones, prólogo y clímax.     |
 |                                                                                   |
-|  [FASE 6] Pulido y Compilación a .EXE                                             |
-|           • Iluminación dinámica, audio ambiental, optimización y exportación.    |
+|  ✔ [FASE 6] Visuales 2.5D, Shaders, Parallax, Audio & Exportación .EXE             |
+|           • Shaders CanvasModulate, fondos parallax, BGM/SFX y paquete .EXE/.BAT. |
 +-----------------------------------------------------------------------------------+
 ```
 
 ---
 
-## 10. Guía de Compilación y Exportación a `.exe`
+## 10. Guía de Ejecución y Distribución del Paquete `.exe` / `.bat` en Windows
 
-### Si usas **Godot Engine 4**:
-1. Descarga el paquete de plantillas de exportación (*Export Templates*) desde el menú **Editor > Manage Export Templates**.
-2. Ve a **Project > Export...**
-3. Añade el perfil **Windows Desktop**.
-4. Configura:
-   * **Application > Name:** *TuNombreDeJuego*
-   * **Application > Icon:** Asigna un archivo `.ico` personalizado.
-   * **Binary Format:** 64-bit.
-   * **Embed PCK:** Activado (para que todos los datos y assets se empaqueten dentro de un único archivo `.exe` limpio).
-5. Haz clic en **Export Project** $\rightarrow$ ¡Listo! Obtienes tu archivo `JuegoPokemon.exe` listo para jugar en cualquier PC con Windows.
+El proyecto cuenta con un pipeline de empaquetado autónomo 100% offline ubicado en `tools/build_windows_exe.ps1`.
 
-### Si usas **Tauri + Web**:
-1. Ejecuta en terminal: `npm run tauri build`
-2. El instalador y el ejecutable portátil se generarán automáticamente en `src-tauri/target/release/`.
+### 10.1. Estructura del Paquete Generado (`dist/PokemonEcosDeAndara/`):
+* `PokemonEcosDeAndara.bat`: Lanzador directo de 1 clic para Windows.
+* `README_WINDOWS.txt`: Manual de inicio rápido para el usuario final.
+* `src/`: Todos los módulos del motor de juego (combate, mapas, gráficos, audio, narrativa).
+* `data/`: Bases de datos locales en JSON (pokédex, movimientos, objetos, mapas, diálogos, entrenadores).
+* `saves/`: Directorio donde se guardan automáticamente las partidas en formato `.sav` con checksum SHA-256.
 
----
+### 10.2. Cómo Probar la Primera Versión:
+1. **Lanzador Directo:** Haz doble clic en `dist\PokemonEcosDeAndara\PokemonEcosDeAndara.bat`.
+2. **Ejecución desde Terminal:** Ejecuta `python src\main.py` desde la raíz del proyecto.
+3. **Verificación Automatizada:** Ejecuta `powershell.exe -ExecutionPolicy Bypass -File .\tests\verify_phase6.ps1`.
 
-> 💡 **Siguiente paso recomendado:** Podemos crear el script extractor para obtener tu Pokédex y configurar el proyecto base en la carpeta de trabajo.
