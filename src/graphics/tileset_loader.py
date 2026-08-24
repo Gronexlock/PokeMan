@@ -1,88 +1,65 @@
 """
-tileset_loader.py  —  Carga el tileset PNG y extrae tiles individuales
-Soporta el tileset generado por IA con tiles de 32x32 px escalados a TILE_SIZE
+tileset_loader.py  —  Cargador de sprites y objetos GBA de alta calidad
+Carga sprite sheets 4x4 transparentes para personajes y objetos completos para el mapa.
 """
 import os
 import pygame
 
 
-class TilesetLoader:
+class GBACharacterLoader:
     """
-    Carga un tileset PNG y permite extraer tiles por indice (col, row).
-    El tileset generado tiene tiles de aprox 32px cada uno en imagen de 1024x1024.
-    """
-
-    def __init__(self, path: str, src_tile_size: int = 32, dest_tile_size: int = 48):
-        self.src_tile_size  = src_tile_size
-        self.dest_tile_size = dest_tile_size
-        self._cache: dict[tuple, pygame.Surface] = {}
-        self._sheet: pygame.Surface | None = None
-        self._loaded = False
-
-        if os.path.exists(path):
-            try:
-                raw = pygame.image.load(path)
-                # Asegurarse de que tiene canal alpha
-                self._sheet = raw.convert_alpha() if raw.get_flags() & pygame.SRCALPHA else raw.convert()
-                self._loaded = True
-            except Exception as e:
-                print(f"[TilesetLoader] No se pudo cargar {path}: {e}")
-
-    @property
-    def loaded(self) -> bool:
-        return self._loaded
-
-    def get_tile(self, col: int, row: int) -> pygame.Surface | None:
-        """Extrae el tile en la posicion (col, row) del tileset"""
-        key = (col, row)
-        if key in self._cache:
-            return self._cache[key]
-
-        if not self._loaded or self._sheet is None:
-            return None
-
-        S = self.src_tile_size
-        src_rect = pygame.Rect(col * S, row * S, S, S)
-
-        # Verificar que el rect esta dentro del sheet
-        sheet_w = self._sheet.get_width()
-        sheet_h = self._sheet.get_height()
-        if src_rect.right > sheet_w or src_rect.bottom > sheet_h:
-            return None
-
-        tile_surf = pygame.Surface((S, S), pygame.SRCALPHA)
-        tile_surf.blit(self._sheet, (0, 0), src_rect)
-
-        # Escalar al tamaño de destino
-        if self.dest_tile_size != S:
-            tile_surf = pygame.transform.scale(tile_surf, (self.dest_tile_size, self.dest_tile_size))
-
-        self._cache[key] = tile_surf
-        return tile_surf
-
-
-class CharacterSpriteLoader:
-    """
-    Carga el sprite sheet de personajes y extrae frames de animacion.
-    El sheet tiene filas de personajes con columnas de frames de animacion.
+    Carga sprite sheets 4x4 (512x512, frames de 128x128) con fondos transparentes nativos.
+    Mapeo de filas:
+      - Fila 0: Down (caminando hacia abajo)
+      - Fila 1: Left (caminando hacia la izquierda)
+      - Fila 2: Right (caminando hacia la derecha)
+      - Fila 3: Up (caminando hacia arriba)
     """
 
-    def __init__(self, path: str, dest_size: tuple = (48, 48)):
+    CHAR_FILES = {
+        "player":    "player.png",
+        "professor": "professor.png",
+        "rival":     "young_guy.png",
+        "habitante": "blond.png",
+        "npc_girl":  "hat_girl.png",
+        "young_girl":"young_girl.png",
+        "straw":     "straw.png",
+    }
+
+    DIR_ROWS = {
+        "down":  0,
+        "left":  1,
+        "right": 2,
+        "up":    3,
+    }
+
+    def __init__(self, gba_base_dir: str, dest_size: tuple = (52, 52)):
+        self.base_dir = gba_base_dir
         self.dest_size = dest_size
+        self._sheets: dict[str, pygame.Surface] = {}
         self._cache: dict[tuple, pygame.Surface] = {}
-        self._sheet: pygame.Surface | None = None
         self._loaded = False
+        self._load_all()
 
-        if os.path.exists(path):
-            try:
-                raw = pygame.image.load(path)
-                self._sheet = raw.convert_alpha() if raw.get_flags() & pygame.SRCALPHA else raw.convert()
-                self._loaded = True
-                # Calcular tamaño de cada frame (8 cols x 12 rows)
-                self._frame_w = self._sheet.get_width() // 8
-                self._frame_h = self._sheet.get_height() // 12
-            except Exception as e:
-                print(f"[CharacterSpriteLoader] No se pudo cargar {path}: {e}")
+    def _load_all(self):
+        chars_dir = os.path.join(self.base_dir, "characters")
+        if not os.path.exists(chars_dir):
+            print(f"[GBACharacterLoader] Directorio no encontrado: {chars_dir}")
+            return
+
+        for key, filename in self.CHAR_FILES.items():
+            path = os.path.join(chars_dir, filename)
+            if os.path.exists(path):
+                try:
+                    raw = pygame.image.load(path)
+                    surf = raw.convert_alpha() if raw.get_flags() & pygame.SRCALPHA else raw.convert()
+                    self._sheets[key] = surf
+                except Exception as e:
+                    print(f"[GBACharacterLoader] Error cargando {filename}: {e}")
+
+        self._loaded = len(self._sheets) > 0
+        if self._loaded:
+            print(f"[GBACharacterLoader] {len(self._sheets)} personajes GBA cargados con exito.")
 
     @property
     def loaded(self) -> bool:
@@ -90,76 +67,91 @@ class CharacterSpriteLoader:
 
     def get_frame(self, character: str, direction: str, frame: int = 0) -> pygame.Surface | None:
         """
-        Obtiene el frame de animacion de un personaje.
-        character: "player", "rival", "professor", "npc_girl"
-        direction: "down", "up", "left", "right"
-        frame: 0=idle, 1=paso1, 2=paso2, 3=paso3
+        Devuelve el frame de animación (0, 1, 2, 3) para un personaje y dirección.
         """
-        key = (character, direction, frame)
+        key = (character, direction, frame % 4)
         if key in self._cache:
             return self._cache[key]
 
-        if not self._loaded or self._sheet is None:
-            return None
+        sheet = self._sheets.get(character)
+        if sheet is None:
+            # Fallback a player si el personaje no existe
+            sheet = self._sheets.get("player")
+            if sheet is None:
+                return None
 
-        # Base row depending on character (each character has 4 rows of 4 directions)
-        start_row = {
-            "player":    0,
-            "rival":     0,
-            "professor": 4,
-            "npc_girl":  8,
-        }.get(character, 0)
+        fw = sheet.get_width() // 4
+        fh = sheet.get_height() // 4
+        row = self.DIR_ROWS.get(direction, 0)
+        col = frame % 4
 
-        # Direction row offset (0=down, 1=up, 2=left, 3=right)
-        dir_offset = {
-            "down":  0,
-            "up":    1,
-            "left":  2,
-            "right": 3
-        }.get(direction, 0)
-
-        # Character column offset
-        col_offset = 0
-        if character == "rival":
-            col_offset = 4  # Col 4-7
-
-        # Frame selection
-        col = col_offset + (frame % 4)
-        row = start_row + dir_offset
-
-        fw, fh = self._frame_w, self._frame_h
         src_rect = pygame.Rect(col * fw, row * fh, fw, fh)
-
-        if src_rect.right > self._sheet.get_width() or src_rect.bottom > self._sheet.get_height():
-            return None
-
         surf = pygame.Surface((fw, fh), pygame.SRCALPHA)
-        surf.blit(self._sheet, (0, 0), src_rect)
+        surf.blit(sheet, (0, 0), src_rect)
 
-        # Hacer transparente el fondo de cuadricula (checkerboard)
-        # Reemplazamos los pixeles blanco/gris del fondo con transparencia total.
-        for x in range(fw):
-            for y in range(fh):
-                color = surf.get_at((x, y))
-                r, g, b = color.r, color.g, color.b
-                # Rango para blanco (cerca de 255)
-                is_white = (r > 230 and g > 230 and b > 230)
-                # Rango para gris (cerca de 211)
-                is_gray = (195 < r < 228 and 195 < g < 228 and 195 < b < 228)
-                if is_white or is_gray:
-                    surf.set_at((x, y), (0, 0, 0, 0))
+        # Escalar limpiamente con scale para mantener nitidez de pixel art
+        scaled = pygame.transform.scale(surf, self.dest_size)
+        self._cache[key] = scaled
+        return scaled
 
-        # Voltear horizontalmente para izquierda (si el sheet solo tiene vistas laterales para derecha,
-        # o viceversa. Pero el sheet tiene izquierda en la fila 2 y derecha en la fila 3.
-        # Solo volteamos si la direccion es left y no hay fila side especifica,
-        # pero en este caso el sprite sheet ya tiene fila de izquierda y de derecha.
-        # Sin embargo, si es left y es una chica de rosa o profesor que cae en fallback, podemos voltear.
-        if direction == "left" and character in ("professor", "npc_girl") and dir_offset < 2:
-            surf = pygame.transform.flip(surf, True, False)
 
-        # Escalar al tamaño de destino con scale normal (más nítido para pixel art)
-        surf = pygame.transform.scale(surf, self.dest_size)
+class GBAObjectLoader:
+    """
+    Carga estructuras y objetos completos (casas, arboles, vallas, agua animada).
+    """
 
-        self._cache[key] = surf
-        return surf
+    def __init__(self, gba_base_dir: str):
+        self.base_dir = gba_base_dir
+        self.objects: dict[str, pygame.Surface] = {}
+        self.water_frames: list[pygame.Surface] = []
+        self._loaded = False
+        self._load_all()
 
+    def _load_all(self):
+        obj_dir = os.path.join(self.base_dir, "objects")
+        if os.path.exists(obj_dir):
+            for fname in os.listdir(obj_dir):
+                if fname.endswith(".png"):
+                    key = os.path.splitext(fname)[0]
+                    path = os.path.join(obj_dir, fname)
+                    try:
+                        surf = pygame.image.load(path).convert_alpha()
+                        self.objects[key] = surf
+                    except Exception as e:
+                        print(f"[GBAObjectLoader] Error cargando objeto {fname}: {e}")
+
+        # Cargar frames de agua animada
+        water_dir = os.path.join(self.base_dir, "tilesets", "water")
+        if os.path.exists(water_dir):
+            for i in range(4):
+                wpath = os.path.join(water_dir, f"{i}.png")
+                if os.path.exists(wpath):
+                    try:
+                        wsurf = pygame.image.load(wpath).convert_alpha()
+                        self.water_frames.append(wsurf)
+                    except Exception as e:
+                        print(f"[GBAObjectLoader] Error agua {i}.png: {e}")
+
+        # Sombra
+        shadow_path = os.path.join(self.base_dir, "other", "shadow.png")
+        if os.path.exists(shadow_path):
+            try:
+                self.objects["shadow"] = pygame.image.load(shadow_path).convert_alpha()
+            except Exception:
+                pass
+
+        self._loaded = len(self.objects) > 0
+        if self._loaded:
+            print(f"[GBAObjectLoader] {len(self.objects)} objetos y {len(self.water_frames)} frames de agua cargados.")
+
+    @property
+    def loaded(self) -> bool:
+        return self._loaded
+
+    def get_object(self, name: str) -> pygame.Surface | None:
+        return self.objects.get(name)
+
+    def get_water(self, frame_idx: int) -> pygame.Surface | None:
+        if self.water_frames:
+            return self.water_frames[frame_idx % len(self.water_frames)]
+        return None
