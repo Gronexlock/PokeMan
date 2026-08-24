@@ -6,10 +6,18 @@ Implementa algoritmos de toma de decisiones para Pokémon salvajes, entrenadores
 ordinarios y líderes/rivales de élite (Nahuel, Alto Mando y Campeón).
 """
 
+import sys
+import os
 import random
 from typing import Dict, Any, List, Optional, Tuple
-from .damage_calculator import DamageCalculator
-from .mega_engine import MegaEvolutionEngine
+
+_current_dir = os.path.dirname(os.path.abspath(__file__))
+_src_dir = os.path.dirname(os.path.dirname(_current_dir))
+if _src_dir not in sys.path:
+    sys.path.insert(0, _src_dir)
+
+from core.battle.damage_calculator import DamageCalculator
+from core.battle.mega_engine import MegaEvolutionEngine
 
 
 class BattleAI:

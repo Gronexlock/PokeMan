@@ -6,16 +6,20 @@ Gestiona las tiradas de encuentros por bioma, filtrado por horario día/noche,
 generación de Pokémon Shiny balanceados (1/1024 base y 1/341 con Amuleto Iris)
 y la sesión de la Reserva Ecológica (Safari Tradicional).
 """
+import sys
+import os
+import json
+import random
+from typing import Dict, Any, List, Optional, Tuple
 
-try:
-    from core.pokemon_generator import PokemonGenerator
-except ImportError:
-    from ..core.pokemon_generator import PokemonGenerator
+# Asegurar que src esté en sys.path
+_current_dir = os.path.dirname(os.path.abspath(__file__))
+_src_dir = os.path.dirname(_current_dir)
+if _src_dir not in sys.path:
+    sys.path.insert(0, _src_dir)
 
-try:
-    from overworld.time_cycle import TimeCycleManager
-except ImportError:
-    from .time_cycle import TimeCycleManager
+from core.pokemon_generator import PokemonGenerator
+from overworld.time_cycle import TimeCycleManager
 
 
 class SafariSession:

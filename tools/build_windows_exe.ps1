@@ -26,30 +26,40 @@ Copy-Item -Path (Join-Path $BaseDir "data") -Destination $DistDir -Recurse -Forc
 
 Write-Host "  OK - Carpetas 'src/' y 'data/' empaquetadas exitosamente."
 
-# 3. Generar el Lanzador de Windows (.BAT de 1 Clic)
+# 3. Generar el Lanzador de Windows (.BAT de 1 Clic con Doble Motor de Ejecución)
 Write-Host "`n[3/5] Creando lanzador ejecutable directo para Windows..."
 $batLines = @(
     '@echo off',
     'title Pokemon: Ecos de Andara - Edicion HD-2.5D',
     'color 0B',
     'cls',
+    'cd /d "%~dp0"',
     'echo ================================================================================',
     'echo   INICIANDO POKEMON: ECOS DE ANDARA (MOTOR LOCAL OFFLINE / WINDOWS)',
     'echo ================================================================================',
-    'echo.',
-    'echo Cargando motor de combate, shaders de iluminacion y base de datos regional...',
     'echo.',
     'where python >nul 2>nul',
     'if %ERRORLEVEL% EQU 0 (',
     '    python src\main.py',
     ') else (',
-    '    powershell.exe -ExecutionPolicy Bypass -NoProfile -Command "Set-Location ''%~dp0''; if (Get-Command python -ErrorAction SilentlyContinue) { python src\main.py } else { Write-Host ''Iniciando demostrador nativo...''; powershell.exe -ExecutionPolicy Bypass -File ''src\menus\dialogue_visualizer.py'' }"',
+    '    powershell.exe -ExecutionPolicy Bypass -NoProfile -File "src\menus\demo_launcher.ps1"',
+    ')',
+    'if %ERRORLEVEL% NEQ 0 (',
+    '    echo.',
+    '    echo --------------------------------------------------------------------------------',
+    '    echo Iniciando demostrador interactivo con PowerShell...',
+    '    echo --------------------------------------------------------------------------------',
+    '    powershell.exe -ExecutionPolicy Bypass -NoProfile -File "src\menus\demo_launcher.ps1"',
     ')',
     'pause'
 )
 $batPath = Join-Path $DistDir "PokemonEcosDeAndara.bat"
 $batLines | Set-Content -Path $batPath -Encoding UTF8
-Write-Host "  OK - Lanzador generado: $batPath"
+Write-Host "  OK - Lanzador .BAT generado: $batPath"
+
+# Copiar lanzador directo de PowerShell
+Copy-Item -Path (Join-Path $BaseDir "src\menus\demo_launcher.ps1") -Destination (Join-Path $DistDir "PokemonEcosDeAndara_PS.ps1") -Force
+Write-Host "  OK - Lanzador .PS1 generado: dist\PokemonEcosDeAndara\PokemonEcosDeAndara_PS.ps1"
 
 # 4. Crear Guía de Inicio Rápido de Windows
 Write-Host "`n[4/5] Creando manual de instrucciones de Windows (README)..."
@@ -62,8 +72,9 @@ $readmeLines = @(
     '',
     'COMO JUGAR:',
     '1. Haz doble clic en PokemonEcosDeAndara.bat para iniciar el juego de inmediato.',
-    '2. No requiere conexion a internet ni instalacion de dependencias complejas.',
-    '3. Tus partidas se guardaran de forma segura y automatica en la carpeta saves/',
+    '2. Si prefieres PowerShell, haz clic derecho en PokemonEcosDeAndara_PS.ps1 > Ejecutar con PowerShell.',
+    '3. No requiere conexion a internet ni descargas adicionales.',
+    '4. Tus partidas se guardaran de forma segura y automatica en la carpeta saves/',
     '   con formato .sav y verificacion de integridad mediante checksum SHA-256.',
     '',
     'CARACTERISTICAS PRINCIPALES:',
@@ -82,7 +93,7 @@ Write-Host "  OK - Manual generado: $readmePath"
 
 # 5. Verificación de Integridad del Paquete
 Write-Host "`n[5/5] Verificando integridad del paquete de distribucion..."
-$checkFiles = @("PokemonEcosDeAndara.bat", "README_WINDOWS.txt", "src\main.py", "data\pokedex.json", "data\trainers.json")
+$checkFiles = @("PokemonEcosDeAndara.bat", "PokemonEcosDeAndara_PS.ps1", "README_WINDOWS.txt", "src\main.py", "data\pokedex.json", "data\trainers.json")
 foreach ($cf in $checkFiles) {
     $targetPath = Join-Path $DistDir $cf
     if (-not (Test-Path $targetPath)) { throw "Falta el archivo empaquetado: $cf" }

@@ -6,14 +6,20 @@ Orquesta las cinemáticas narrativas principales, sincroniza las elecciones
 del jugador con los datos de guardado y conecta los eventos con los combates.
 """
 
+import sys
 import os
 from typing import Dict, Any, List, Optional, Tuple
 
-from .dialogue_manager import DialogueManager
-from .starter_selection import StarterSelectionManager
-from .pokemon_generator import PokemonGenerator
-from .battle.battle_engine import BattleEngine
-from .battle.battle_ai import BattleAI
+_current_dir = os.path.dirname(os.path.abspath(__file__))
+_src_dir = os.path.dirname(_current_dir)
+if _src_dir not in sys.path:
+    sys.path.insert(0, _src_dir)
+
+from core.dialogue_manager import DialogueManager
+from core.starter_selection import StarterSelectionManager
+from core.pokemon_generator import PokemonGenerator
+from core.battle.battle_engine import BattleEngine
+from core.battle.battle_ai import BattleAI
 
 
 class StoryEventManager:

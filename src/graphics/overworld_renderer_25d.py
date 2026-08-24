@@ -6,9 +6,16 @@ Gestiona la cámara del jugador, la ordenación por profundidad (Y-sorting),
 el renderizado de biomas en capas y la aplicación de los shaders ambientales.
 """
 
+import sys
+import os
 from typing import Dict, Any, List, Optional, Tuple
 
-from .lighting_shader import LightingShader
+_current_dir = os.path.dirname(os.path.abspath(__file__))
+_src_dir = os.path.dirname(_current_dir)
+if _src_dir not in sys.path:
+    sys.path.insert(0, _src_dir)
+
+from graphics.lighting_shader import LightingShader
 
 
 class OverworldRenderer25D:

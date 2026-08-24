@@ -7,13 +7,19 @@ gestiona las 30 cajas del PC (900 espacios), la mochila dividida en 6 bolsillos
 y los flags de progresión de la historia.
 """
 
+import sys
 import json
 import os
 import time
 import hashlib
 from typing import Dict, Any, List, Optional, Tuple
 
-from .pokemon_generator import PokemonGenerator
+_current_dir = os.path.dirname(os.path.abspath(__file__))
+_src_dir = os.path.dirname(_current_dir)
+if _src_dir not in sys.path:
+    sys.path.insert(0, _src_dir)
+
+from core.pokemon_generator import PokemonGenerator
 
 
 class SaveManager:

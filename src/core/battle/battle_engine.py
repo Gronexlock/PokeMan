@@ -8,23 +8,22 @@ captura con Poké Balls en combates salvajes, estados alterados avanzados,
 debilitamiento, experiencia ganada y aprendizaje de movimientos al subir de nivel.
 """
 
+import sys
 import json
 import os
 import random
 from typing import Dict, Any, List, Optional, Tuple
 
-try:
-    from core.battle.damage_calculator import DamageCalculator
-    from core.battle.mega_engine import MegaEvolutionEngine
-    from core.battle.battle_ai import BattleAI
-    from core.battle.catch_calculator import CatchCalculator
-    from core.pokemon_generator import PokemonGenerator
-except ImportError:
-    from .damage_calculator import DamageCalculator
-    from .mega_engine import MegaEvolutionEngine
-    from .battle_ai import BattleAI
-    from .catch_calculator import CatchCalculator
-    from ..pokemon_generator import PokemonGenerator
+_current_dir = os.path.dirname(os.path.abspath(__file__))
+_src_dir = os.path.dirname(os.path.dirname(_current_dir))
+if _src_dir not in sys.path:
+    sys.path.insert(0, _src_dir)
+
+from core.battle.damage_calculator import DamageCalculator
+from core.battle.mega_engine import MegaEvolutionEngine
+from core.battle.battle_ai import BattleAI
+from core.battle.catch_calculator import CatchCalculator
+from core.pokemon_generator import PokemonGenerator
 
 
 class BattleEngine:

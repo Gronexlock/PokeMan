@@ -6,13 +6,19 @@ Gestiona los equipos de los 8 Líderes de Gimnasio, el Alto Mando, la Campeona R
 y la generación procedural/dinámica del equipo del Rival Nahuel según rutas recorridas.
 """
 
+import sys
 import json
 import os
 import random
 from typing import Dict, Any, List, Optional
 
-from .pokemon_generator import PokemonGenerator
-from .starter_selection import StarterSelectionManager
+_current_dir = os.path.dirname(os.path.abspath(__file__))
+_src_dir = os.path.dirname(_current_dir)
+if _src_dir not in sys.path:
+    sys.path.insert(0, _src_dir)
+
+from core.pokemon_generator import PokemonGenerator
+from core.starter_selection import StarterSelectionManager
 
 
 class TrainerManager:
