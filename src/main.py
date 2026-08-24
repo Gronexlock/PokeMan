@@ -147,28 +147,73 @@ class AndaraGame:
 
         return ["Estado no reconocido."]
 
-    def run_full_demo_presentation(self) -> None:
-        """Ejecuta una demostración interactiva visual completa para presentación."""
-        print("\n" + "\n".join(self.render_title_screen()))
-        print("\n▶ Iniciando Nueva Partida en Villa Tranquimar...")
-        
-        demo = self.start_new_game("Aria", "fire")
-        print(f"✔ ¡Bienvenido a Andara, {demo['player_name']}! Has elegido a {demo['starter']}.")
-        
-        print("\n▶ [1/3] Renderizado 2.5D del Overworld (Amanecer / Villa Tranquimar):")
-        self.time_cycle.current_minute = 180  # 06:00 AM Amanecer
-        print("\n".join(self.render_current_view()))
+    def run_interactive_menu(self) -> None:
+        """Bucle interactivo del menú principal para jugar en consola."""
+        while True:
+            print("\n" + "\n".join(self.render_title_screen()))
+            choice = input("\n🎮 Selecciona una opción (1-4) o 'q' para salir: ").strip()
 
-        print("\n▶ [2/3] Renderizado 2.5D del Overworld con Shaders Nocturnos (22:00 PM Noche):")
-        self.time_cycle.current_minute = 660  # 22:00 PM Noche
-        print("\n".join(self.render_current_view()))
+            if choice == "1":
+                pname = input("\n📝 Ingresa el nombre de tu personaje [Por defecto: Aria]: ").strip() or "Aria"
+                print("\n🌿 Elige tu inicial:")
+                print(" [1] Bulbasaur (Tipo Planta/Veneno)")
+                print(" [2] Charmander (Tipo Fuego)")
+                print(" [3] Squirtle (Tipo Agua)")
+                elem_choice = input("Selecciona (1-3) [Por defecto: 2]: ").strip()
+                element_map = {"1": "grass", "2": "fire", "3": "water"}
+                elem = element_map.get(elem_choice, "fire")
 
-        print("\n▶ [3/3] Renderizado del Escenario de Batalla Parallax contra Nahuel:")
-        self.current_state = self.STATE_BATTLE
-        self.active_battle = demo["first_battle_engine"]
-        print("\n".join(self.render_current_view()))
+                print(f"\n✨ ¡Iniciando aventura en Villa Tranquimar para {pname}...")
+                demo = self.start_new_game(pname, elem)
+                print(f"✔ ¡Has recibido a {demo['starter']}! ¡Nahuel eligió a {demo['rival_starter']}!")
+
+                # Renderizar overworld y combate
+                print("\n🗺️  VISTA DE VILLA TRANQUIMAR (2.5D con Shaders):")
+                print("\n".join(self.render_current_view()))
+
+                print("\n⚔️  ¡Nahuel te desafía al primer combate en el muelle!")
+                self.current_state = self.STATE_BATTLE
+                self.active_battle = demo["first_battle_engine"]
+                print("\n".join(self.render_current_view()))
+
+                input("\nPresiona ENTER para volver al Menú Principal...")
+
+            elif choice == "2":
+                print("\n💾 Buscando archivos de guardado en saves/...")
+                save = self.save_mgr.load_game("save_slot_1")
+                if save:
+                    print(f"✔ Partida cargada: {save['player_name']} | Medallas: {len(save.get('badges', []))}")
+                else:
+                    print("ℹ️ No hay partidas guardadas previas. Inicia una 'Nueva Partida'.")
+                input("\nPresiona ENTER para continuar...")
+
+            elif choice == "3":
+                print("\n⚙️  CONFIGURACIÓN DEL JUEGO:")
+                print(f" - Volumen BGM: {int(self.audio.bgm_volume * 100)}%")
+                print(f" - Volumen SFX: {int(self.audio.sfx_volume * 100)}%")
+                print(f" - Ciclo Día/Noche: Dinámico (24 min = 24 horas)")
+                print(f" - IVs Competitivos: 31 por defecto en todos los Pokémon")
+                input("\nPresiona ENTER para volver...")
+
+            elif choice == "4":
+                print("\n📜 CRÉDITOS Y LORE:")
+                print(" - Proyecto: Pokémon: Ecos de Andara (.EXE Local / HD-2.5D)")
+                print(" - Región: Andara (Cordillera andina, volcanes y selva amazónica)")
+                print(" - Mecánica Especial: Mega Evolución en tiempo real (+100 BST)")
+                print(" - Deidades: Eternatus y Zygarde Forma 100% (No capturables)")
+                input("\nPresiona ENTER para volver...")
+
+            elif choice.lower() in ["q", "salir", "exit", "5"]:
+                print("\n👋 ¡Gracias por jugar a Pokémon: Ecos de Andara!")
+                break
+            else:
+                print("❌ Opción no válida. Inténtalo de nuevo.")
 
 
 if __name__ == "__main__":
     game = AndaraGame()
-    game.run_full_demo_presentation()
+    # Si se pasa --demo, ejecuta la presentación automática; si no, el menú interactivo
+    if len(sys.argv) > 1 and sys.argv[1] == "--demo":
+        game.run_full_demo_presentation()
+    else:
+        game.run_interactive_menu()

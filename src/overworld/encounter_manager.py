@@ -7,13 +7,15 @@ generación de Pokémon Shiny balanceados (1/1024 base y 1/341 con Amuleto Iris)
 y la sesión de la Reserva Ecológica (Safari Tradicional).
 """
 
-import json
-import os
-import random
-from typing import Dict, Any, List, Optional, Tuple
+try:
+    from core.pokemon_generator import PokemonGenerator
+except ImportError:
+    from ..core.pokemon_generator import PokemonGenerator
 
-from ..core.pokemon_generator import PokemonGenerator
-from .time_cycle import TimeCycleManager
+try:
+    from overworld.time_cycle import TimeCycleManager
+except ImportError:
+    from .time_cycle import TimeCycleManager
 
 
 class SafariSession:

@@ -13,11 +13,18 @@ import os
 import random
 from typing import Dict, Any, List, Optional, Tuple
 
-from .damage_calculator import DamageCalculator
-from .mega_engine import MegaEvolutionEngine
-from .battle_ai import BattleAI
-from .catch_calculator import CatchCalculator
-from ..pokemon_generator import PokemonGenerator
+try:
+    from core.battle.damage_calculator import DamageCalculator
+    from core.battle.mega_engine import MegaEvolutionEngine
+    from core.battle.battle_ai import BattleAI
+    from core.battle.catch_calculator import CatchCalculator
+    from core.pokemon_generator import PokemonGenerator
+except ImportError:
+    from .damage_calculator import DamageCalculator
+    from .mega_engine import MegaEvolutionEngine
+    from .battle_ai import BattleAI
+    from .catch_calculator import CatchCalculator
+    from ..pokemon_generator import PokemonGenerator
 
 
 class BattleEngine:
