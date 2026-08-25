@@ -1,0 +1,256 @@
+{
+  "gym_leaders": {
+    "gym_1_rocio": {
+      "name": "Líder Rocío",
+      "city": "Pueblo Altiplano",
+      "badge": "Medalla Sedimento",
+      "type_specialty": ["ground", "rock"],
+      "reward_money": 2500,
+      "reward_tm": "tm_earthquake",
+      "team": [
+        { "species_id": 74, "name": "Geodude", "level": 13, "moves": ["rock_throw", "tackle", "bulldoze"] },
+        { "species_id": 443, "name": "Gible", "level": 14, "moves": ["tackle", "dragon_breath", "sand_attack"] },
+        { "species_id": 74, "name": "Geodude (Alola)", "level": 15, "moves": ["rock_throw", "thunder_shock", "bulldoze"] }
+      ]
+    },
+    "gym_2_thiago": {
+      "name": "Líder Thiago",
+      "city": "Villa Yungas",
+      "badge": "Medalla Brote",
+      "type_specialty": ["bug", "grass"],
+      "reward_money": 3500,
+      "reward_tm": "tm_energy_ball",
+      "team": [
+        { "species_id": 12, "name": "Butterfree", "level": 19, "moves": ["bug_buzz", "gust", "sleep_powder"] },
+        { "species_id": 43, "name": "Oddish", "level": 20, "moves": ["mega_drain", "sludge_bomb", "sleep_powder"] },
+        { "species_id": 123, "name": "Scyther", "level": 22, "moves": ["x_scissor", "quick_attack", "swords_dance"] }
+      ]
+    },
+    "gym_3_marina": {
+      "name": "Líder Marina",
+      "city": "Puerto Coralina",
+      "badge": "Medalla Arrecife",
+      "type_specialty": ["water"],
+      "reward_money": 4500,
+      "reward_tm": "tm_ice_beam",
+      "team": [
+        { "species_id": 73, "name": "Tentacruel", "level": 27, "moves": ["water_gun", "sludge_bomb", "bubble_beam"] },
+        { "species_id": 134, "name": "Vaporeon", "level": 28, "moves": ["scald", "ice_beam", "quick_attack"] },
+        { "species_id": 62, "name": "Poliwrath", "level": 30, "moves": ["waterfall", "close_combat", "ice_punch", "body_slam"] }
+      ]
+    },
+    "gym_4_inti": {
+      "name": "Líder Inti",
+      "city": "Ciudad Condorina",
+      "badge": "Medalla Eclipse",
+      "type_specialty": ["psychic", "ghost"],
+      "reward_money": 5500,
+      "reward_tm": "tm_psychic",
+      "team": [
+        { "species_id": 64, "name": "Kadabra", "level": 34, "moves": ["psychic", "shadow_ball", "dazzling_gleam"] },
+        { "species_id": 93, "name": "Haunter", "level": 35, "moves": ["shadow_ball", "sludge_bomb", "will_o_wisp"] },
+        { "species_id": 196, "name": "Espeon", "level": 36, "moves": ["psychic", "shadow_ball", "calm_mind"] },
+        { "species_id": 65, "name": "Alakazam", "level": 37, "moves": ["psychic", "shadow_ball", "calm_mind", "energy_ball"] }
+      ]
+    },
+    "gym_5_valeria": {
+      "name": "Líder Valeria",
+      "city": "Metrópolis Solsticio",
+      "badge": "Medalla Dynamo",
+      "type_specialty": ["electric", "steel"],
+      "reward_money": 7000,
+      "reward_tm": "tm_thunderbolt",
+      "team": [
+        { "species_id": 462, "name": "Magnezone", "level": 41, "moves": ["thunderbolt", "flash_cannon", "volt_switch"] },
+        { "species_id": 208, "name": "Steelix", "level": 42, "moves": ["iron_head", "earthquake", "stealth_rock"] },
+        { "species_id": 26, "name": "Raichu", "level": 43, "moves": ["thunderbolt", "volt_switch", "extreme_speed"] },
+        { "species_id": 181, "name": "Ampharos", "level": 44, "mega_evolution": "ampharos", "has_mega_stone": true, "moves": ["thunderbolt", "dragon_pulse", "focus_blast", "volt_switch"] }
+      ]
+    },
+    "gym_6_kael": {
+      "name": "Líder Kael",
+      "city": "Cuenca Esmeralda",
+      "badge": "Medalla Selva",
+      "type_specialty": ["poison", "fighting"],
+      "reward_money": 8000,
+      "reward_tm": "tm_sludge_bomb",
+      "team": [
+        { "species_id": 94, "name": "Gengar", "level": 46, "moves": ["shadow_ball", "sludge_bomb", "dazzling_gleam"] },
+        { "species_id": 68, "name": "Machamp", "level": 47, "moves": ["close_combat", "stone_edge", "knock_off"] },
+        { "species_id": 45, "name": "Vileplume", "level": 47, "moves": ["giga_drain", "sludge_bomb", "moonblast"] },
+        { "species_id": 448, "name": "Lucario", "level": 48, "moves": ["close_combat", "aura_sphere", "flash_cannon"] },
+        { "species_id": 3, "name": "Venusaur", "level": 49, "mega_evolution": "venusaur", "has_mega_stone": true, "moves": ["giga_drain", "sludge_bomb", "earthquake", "energy_ball"] }
+      ]
+    },
+    "gym_7_damian": {
+      "name": "Líder Damián",
+      "city": "Paso Vulcania",
+      "badge": "Medalla Magma",
+      "type_specialty": ["fire"],
+      "reward_money": 9000,
+      "reward_tm": "tm_flamethrower",
+      "team": [
+        { "species_id": 136, "name": "Flareon", "level": 50, "moves": ["flare_blitz", "superpower", "quick_attack"] },
+        { "species_id": 609, "name": "Chandelure", "level": 51, "moves": ["shadow_ball", "flamethrower", "energy_ball"] },
+        { "species_id": 59, "name": "Arcanine", "level": 52, "moves": ["flamethrower", "extreme_speed", "crunch", "close_combat"] },
+        { "species_id": 6, "name": "Charizard", "level": 53, "mega_evolution": "charizard_y", "has_mega_stone": true, "moves": ["flamethrower", "air_slash", "solar_beam", "fire_blast"] }
+      ]
+    },
+    "gym_8_silvana": {
+      "name": "Líder Silvana",
+      "city": "Cumbres Australes",
+      "badge": "Medalla Glaciar",
+      "type_specialty": ["ice", "dragon"],
+      "reward_money": 10000,
+      "reward_tm": "tm_ice_beam",
+      "team": [
+        { "species_id": 471, "name": "Glaceon", "level": 54, "moves": ["ice_beam", "blizzard", "shadow_ball"] },
+        { "species_id": 149, "name": "Dragonite", "level": 55, "moves": ["outrage", "dragon_dance", "extreme_speed", "earthquake"] },
+        { "species_id": 373, "name": "Salamence", "level": 56, "moves": ["dragon_claw", "earthquake", "iron_head", "flamethrower"] },
+        { "species_id": 445, "name": "Garchomp", "level": 57, "moves": ["earthquake", "dragon_claw", "swords_dance", "stone_edge"] }
+      ]
+    }
+  },
+
+  "elite_four": {
+    "elite4_nayra": {
+      "name": "Alto Mando Nayra",
+      "specialty": "ghost",
+      "team": [
+        { "species_id": 609, "name": "Chandelure", "level": 58, "moves": ["shadow_ball", "flamethrower", "energy_ball", "will_o_wisp"] },
+        { "species_id": 94, "name": "Gengar", "level": 59, "moves": ["shadow_ball", "sludge_bomb", "dazzling_gleam", "thunderbolt"] },
+        { "species_id": 887, "name": "Dragapult", "level": 59, "moves": ["dragon_claw", "shadow_ball", "u_turn", "flamethrower"] },
+        { "species_id": 197, "name": "Umbreon", "level": 60, "moves": ["foul_play", "toxic", "wish", "protect"] },
+        { "species_id": 302, "name": "Sableye", "level": 60, "mega_evolution": "sableye", "has_mega_stone": true, "moves": ["knock_off", "will_o_wisp", "recover", "foul_play"] }
+      ]
+    },
+    "elite4_marcos": {
+      "name": "Alto Mando Marcos",
+      "specialty": "steel",
+      "team": [
+        { "species_id": 823, "name": "Corviknight", "level": 59, "moves": ["brave_bird", "iron_head", "roost", "u_turn"] },
+        { "species_id": 462, "name": "Magnezone", "level": 60, "moves": ["thunderbolt", "flash_cannon", "volt_switch", "body_press"] },
+        { "species_id": 376, "name": "Metagross", "level": 60, "moves": ["meteor_mash", "zen_headbutt", "earthquake", "bullet_punch"] },
+        { "species_id": 448, "name": "Lucario", "level": 61, "moves": ["close_combat", "aura_sphere", "flash_cannon", "extreme_speed"] },
+        { "species_id": 212, "name": "Scizor", "level": 61, "mega_evolution": "scizor", "has_mega_stone": true, "moves": ["bullet_punch", "u_turn", "swords_dance", "knock_off"] }
+      ]
+    },
+    "elite4_lautaro": {
+      "name": "Alto Mando Lautaro",
+      "specialty": "water",
+      "team": [
+        { "species_id": 73, "name": "Tentacruel", "level": 60, "moves": ["scald", "sludge_bomb", "ice_beam", "toxic_spikes"] },
+        { "species_id": 130, "name": "Gyarados", "level": 61, "moves": ["waterfall", "crunch", "dragon_dance", "earthquake"] },
+        { "species_id": 350, "name": "Milotic", "level": 61, "moves": ["scald", "ice_beam", "recover", "toxic"] },
+        { "species_id": 9, "name": "Blastoise", "level": 62, "moves": ["hydro_pump", "ice_beam", "aura_sphere", "flash_cannon"] },
+        { "species_id": 260, "name": "Swampert", "level": 62, "mega_evolution": "swampert", "has_mega_stone": true, "moves": ["waterfall", "earthquake", "ice_punch", "superpower"] }
+      ]
+    },
+    "elite4_ezequiel": {
+      "name": "Alto Mando Ezequiel",
+      "specialty": "dragon",
+      "team": [
+        { "species_id": 149, "name": "Dragonite", "level": 61, "moves": ["outrage", "dragon_dance", "extreme_speed", "earthquake"] },
+        { "species_id": 887, "name": "Dragapult", "level": 62, "moves": ["dragon_claw", "shadow_ball", "u_turn", "flamethrower"] },
+        { "species_id": 445, "name": "Garchomp", "level": 62, "moves": ["earthquake", "dragon_claw", "swords_dance", "stone_edge"] },
+        { "species_id": 181, "name": "Ampharos", "level": 63, "moves": ["thunderbolt", "dragon_pulse", "focus_blast", "volt_switch"] },
+        { "species_id": 373, "name": "Salamence", "level": 63, "mega_evolution": "salamence", "has_mega_stone": true, "moves": ["double_edge", "dragon_dance", "earthquake", "roost"] }
+      ]
+    }
+  },
+
+  "champion": {
+    "champion_renata": {
+      "name": "Campeona Renata",
+      "title": "Campeona de la Liga Pokémon de Andara",
+      "team": [
+        { "species_id": 823, "name": "Corviknight", "level": 64, "moves": ["brave_bird", "iron_head", "roost", "u_turn"] },
+        { "species_id": 637, "name": "Volcarona", "level": 65, "moves": ["quiver_dance", "flamethrower", "bug_buzz", "giga_drain"] },
+        { "species_id": 448, "name": "Lucario", "level": 65, "moves": ["close_combat", "aura_sphere", "flash_cannon", "extreme_speed"] },
+        { "species_id": 350, "name": "Milotic", "level": 66, "moves": ["scald", "ice_beam", "recover", "toxic"] },
+        { "species_id": 282, "name": "Gardevoir", "level": 66, "moves": ["moonblast", "psychic", "shadow_ball", "calm_mind"] },
+        { "species_id": 445, "name": "Garchomp", "level": 68, "mega_evolution": "garchomp", "has_mega_stone": true, "moves": ["earthquake", "dragon_claw", "swords_dance", "stone_edge"] }
+      ]
+    }
+  },
+
+  "rival_battles": {
+    "rival_nahuel_intro": {
+      "name": "Rival Nahuel",
+      "dialogue_before": "¡Que comience el viaje de nuestras vidas!",
+      "dialogue_after": "¡Vaya! Tienes un talento natural increíble...",
+      "reward_money": 600,
+      "team": [
+        { "species_id": 7, "name": "Squirtle", "level": 5, "moves": ["tackle", "tail_whip"] }
+      ]
+    },
+    "rival_nahuel_route_1": {
+      "name": "Rival Nahuel",
+      "dialogue_before": "¡He estado entrenando duro en la Ruta 1! ¿Listos para la revancha?",
+      "dialogue_after": "¡Impresionante! Sigues un paso por delante.",
+      "reward_money": 1000,
+      "team": [
+        { "species_id": 16, "name": "Pidgey", "level": 8, "moves": ["tackle", "sand_attack", "gust"] },
+        { "species_id": 7, "name": "Squirtle", "level": 9, "moves": ["tackle", "water_gun", "bubble"] }
+      ]
+    }
+  },
+
+  "route_trainers": {
+    "trainer_camila_bug": {
+      "name": "Cazabichos Camila",
+      "dialogue_before": "¡Mis Pokémon de tipo Bicho son veloces como el viento!",
+      "dialogue_after": "¡Oh no, mis pequeños bichitos!",
+      "reward_money": 400,
+      "team": [
+        { "species_id": 10, "name": "Caterpie", "level": 5, "moves": ["tackle", "string_shot"] },
+        { "species_id": 12, "name": "Butterfree", "level": 6, "moves": ["tackle", "gust", "poison_powder"] }
+      ]
+    },
+    "trainer_lucas_young": {
+      "name": "Joven Lucas",
+      "dialogue_before": "¡Acabo de atrapar a mi primer compañero en la hierba alta!",
+      "dialogue_after": "¡Bien jugado! Necesito entrenar más.",
+      "reward_money": 500,
+      "team": [
+        { "species_id": 19, "name": "Rattata", "level": 5, "moves": ["tackle", "tail_whip", "quick_attack"] },
+        { "species_id": 16, "name": "Pidgey", "level": 6, "moves": ["tackle", "gust"] }
+      ]
+    },
+    "trainer_luz_fisher": {
+      "name": "Pescadora Luz",
+      "dialogue_before": "¡La brisa marina de Tranquimar siempre atrae buenos combates!",
+      "dialogue_after": "¡Mi caña no fue suficiente esta vez!",
+      "reward_money": 600,
+      "team": [
+        { "species_id": 60, "name": "Poliwag", "level": 6, "moves": ["water_gun", "hypnosis", "pound"] },
+        { "species_id": 129, "name": "Magikarp", "level": 6, "moves": ["splash", "tackle"] }
+      ]
+    },
+    "gym_disciple_tomas": {
+      "name": "Montañero Tomás",
+      "dialogue_before": "¡Para retar a la Líder Rocío primero debes romper mis rocas!",
+      "dialogue_after": "¡Tienes la fuerza de un terremoto!",
+      "reward_money": 800,
+      "team": [
+        { "species_id": 74, "name": "Geodude", "level": 11, "moves": ["rock_throw", "tackle", "defense_curl"] }
+      ]
+    },
+    "gym_disciple_elena": {
+      "name": "Geóloga Elena",
+      "dialogue_before": "¡Los estratos del Altiplano esconden una gran defensa!",
+      "dialogue_after": "¡Has perforado nuestras defensas!",
+      "reward_money": 900,
+      "team": [
+        { "species_id": 27, "name": "Sandshrew", "level": 12, "moves": ["scratch", "sand_attack", "rollout"] }
+      ]
+    }
+  },
+
+  "route_capture_pools": {
+    "early_routes": [16, 10, 43, 69, 25],
+    "mid_routes": [54, 60, 74, 179, 133],
+    "late_routes": [63, 66, 92, 123, 129, 280, 447],
+    "endgame_routes": [246, 371, 374, 443, 607, 636, 821, 885]
+  }
+}

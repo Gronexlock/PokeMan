@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Pokémon: Ecos de Andara (Edición HD-2.5D)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script type="module" crossorigin src="/assets/index-qU9GoHV3.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-COaWtWmU.css">
+  </head>
+  <body>
+    <div id="app">
+      <!-- Marco Principal del Juego -->
+      <main id="game-wrapper">
+        <header id="game-header">
+          <div class="logo-badge">
+            <span class="pokeball-icon">🔴</span>
+            <h1>POKÉMON: ECOS DE ANDARA</h1>
+          </div>
+          <div class="header-controls">
+            <button id="toggle-crt" class="btn-tool" title="Alternar Filtro Retro CRT">📺 CRT</button>
+            <button id="toggle-sound" class="btn-tool" title="Alternar Sonido (M)">🔊 Audio</button>
+          </div>
+        </header>
+
+        <div id="game-viewport">
+          <canvas id="game-canvas" width="960" height="540"></canvas>
+          <div id="crt-overlay" class="crt-filter"></div>
+        </div>
+
+        <!-- Controles Táctiles para Móvil/Tablet -->
+        <div id="touch-controls">
+          <div class="dpad">
+            <button class="dpad-btn up" data-dir="up">▲</button>
+            <button class="dpad-btn left" data-dir="left">◀</button>
+            <button class="dpad-btn right" data-dir="right">▶</button>
+            <button class="dpad-btn down" data-dir="down">▼</button>
+            <div class="dpad-center"></div>
+          </div>
+
+          <div class="action-buttons">
+            <button id="btn-b" class="btn-action b-btn">B<span class="btn-sub">Atrás/Correr</span></button>
+            <button id="btn-a" class="btn-action a-btn">A<span class="btn-sub">Acción</span></button>
+          </div>
+        </div>
+
+        <!-- Barra de Atajos de Teclado -->
+        <footer id="game-footer">
+          <div class="key-guide">
+            <span class="key-badge">WASD / Flechas</span> Moverse
+            <span class="key-badge">Shift</span> Correr
+            <span class="key-badge">Z / Espacio / Enter</span> Interactuar / Confirmar
+            <span class="key-badge">X / ESC</span> Menú / Cancelar
+            <span class="key-badge">M</span> Mutear
+          </div>
+        </footer>
+      </main>
+    </div>
+
+    <script>
+      // Toggle CRT filter
+      document.getElementById('toggle-crt')?.addEventListener('click', () => {
+        const crt = document.getElementById('crt-overlay');
+        crt?.classList.toggle('active');
+      });
+      // Toggle audio mute button
+      document.getElementById('toggle-sound')?.addEventListener('click', () => {
+        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyM' }));
+      });
+    </script>
+  </body>
+</html>

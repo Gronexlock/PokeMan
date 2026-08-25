@@ -1,0 +1,412 @@
+{
+  "maps": {
+    "villa_tranquimar": {
+      "id": "villa_tranquimar",
+      "display_name": "Villa Tranquimar",
+      "width": 20,
+      "height": 15,
+      "biome": "coastal_town",
+      "encounter_zone": null,
+      "collision_matrix": [
+        [1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1],
+        [1,0,1,1,1,0,1,0,0,0,0,0,0,1,0,1,1,1,0,1],
+        [1,0,1,5,1,0,0,0,0,0,0,0,0,0,0,1,5,1,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,1],
+        [1,0,0,0,1,1,5,1,0,0,0,0,1,1,1,1,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [3,3,3,3,3,3,3,3,3,0,0,3,3,3,3,3,3,3,3,3],
+        [3,3,3,3,3,3,3,3,3,0,0,3,3,3,3,3,3,3,3,3],
+        [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3]
+      ],
+      "warps": [
+        { "x": 3, "y": 3, "target_map": "player_house", "target_x": 3, "target_y": 6 },
+        { "x": 16, "y": 3, "target_map": "rival_house", "target_x": 3, "target_y": 6 },
+        { "x": 6, "y": 7, "target_map": "ceibo_lab", "target_x": 5, "target_y": 8 },
+        { "x": 9, "y": 0, "target_map": "route_1", "target_x": 9, "target_y": 23 },
+        { "x": 10, "y": 0, "target_map": "route_1", "target_x": 10, "target_y": 23 }
+      ],
+      "signposts": [
+        { "x": 1, "y": 4, "title": "Casa del Protagonista", "text": "Hogar dulce hogar. ¡Un lugar donde siempre puedes descansar!" },
+        { "x": 14, "y": 4, "title": "Casa de Nahuel", "text": "Residencia de tu rival y amigo de la infancia, Nahuel." },
+        { "x": 4, "y": 8, "title": "Laboratorio Pokémon", "text": "Laboratorio de Investigación del Profesor Ceibo. Creador de la Pokédex de Andara." },
+        { "x": 11, "y": 11, "title": "Muelle de Tranquimar", "text": "Hacia el mar abierto. Se rumorea que en días soleados los Wingull planean cerca." }
+      ],
+      "item_balls": [
+        { "id": "tranquimar_potion_1", "x": 18, "y": 1, "item_id": "potion", "item_name": "Poción", "quantity": 1 }
+      ]
+    },
+    "player_house": {
+      "id": "player_house",
+      "display_name": "Casa del Protagonista",
+      "width": 8,
+      "height": 8,
+      "biome": "indoor",
+      "encounter_zone": null,
+      "collision_matrix": [
+        [1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,1],
+        [1,0,1,0,0,1,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,1,1,5,1,1,1,1]
+      ],
+      "warps": [
+        { "x": 3, "y": 7, "target_map": "villa_tranquimar", "target_x": 3, "target_y": 4 }
+      ]
+    },
+    "rival_house": {
+      "id": "rival_house",
+      "display_name": "Casa de Nahuel",
+      "width": 8,
+      "height": 8,
+      "biome": "indoor",
+      "encounter_zone": null,
+      "collision_matrix": [
+        [1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,1],
+        [1,0,1,0,0,1,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,1,1,5,1,1,1,1]
+      ],
+      "warps": [
+        { "x": 3, "y": 7, "target_map": "villa_tranquimar", "target_x": 16, "target_y": 4 }
+      ]
+    },
+    "ceibo_lab": {
+      "id": "ceibo_lab",
+      "display_name": "Laboratorio del Profesor Ceibo",
+      "width": 10,
+      "height": 10,
+      "biome": "indoor",
+      "encounter_zone": null,
+      "collision_matrix": [
+        [1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,1,1,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,1],
+        [1,0,1,1,0,0,1,1,0,1],
+        [1,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,1],
+        [1,1,1,1,5,1,1,1,1,1]
+      ],
+      "warps": [
+        { "x": 4, "y": 9, "target_map": "villa_tranquimar", "target_x": 6, "target_y": 8 }
+      ]
+    },
+    "route_1": {
+      "id": "route_1",
+      "display_name": "Ruta 1 (Sendero Costero)",
+      "width": 20,
+      "height": 25,
+      "biome": "route_grass",
+      "encounter_zone": "route_1_coastal",
+      "collision_matrix": [
+        [1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,2,2,2,2,0,0,0,0,2,2,2,2,0,0,0,1],
+        [1,0,0,0,2,2,2,2,0,0,0,0,2,2,2,2,0,0,0,1],
+        [1,0,0,0,2,2,2,2,0,0,0,0,2,2,2,2,0,0,0,1],
+        [1,0,0,4,4,4,4,4,0,0,0,0,4,4,4,4,4,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,2,2,2,0,0,0,0,0,0,0,0,0,0,2,2,2,0,1],
+        [1,0,2,2,2,0,0,0,0,0,0,0,0,0,0,2,2,2,0,1],
+        [1,0,2,2,2,0,0,0,0,0,0,0,0,0,0,2,2,2,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,2,2,2,2,0,0,0,0,0,0,0,0,2,2,2,2,0,1],
+        [1,0,2,2,2,2,0,0,0,0,0,0,0,0,2,2,2,2,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,4,4,4,4,0,0,0,0,0,0,4,4,4,4,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,2,2,2,0,0,0,0,0,0,0,0,0,0,2,2,2,0,1],
+        [1,0,2,2,2,0,0,0,0,0,0,0,0,0,0,2,2,2,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1]
+      ],
+      "warps": [
+        { "x": 9, "y": 24, "target_map": "villa_tranquimar", "target_x": 9, "target_y": 1 },
+        { "x": 10, "y": 24, "target_map": "villa_tranquimar", "target_x": 10, "target_y": 1 },
+        { "x": 9, "y": 0, "target_map": "pueblo_altiplano", "target_x": 9, "target_y": 14 },
+        { "x": 10, "y": 0, "target_map": "pueblo_altiplano", "target_x": 10, "target_y": 14 }
+      ],
+      "signposts": [
+        { "x": 8, "y": 22, "title": "Ruta 1 (Sendero Costero)", "text": "▲ Hacia Pueblo Altiplano • ▼ Hacia Villa Tranquimar" },
+        { "x": 11, "y": 11, "title": "Consejo de Entrenador", "text": "La hierba alta es el hábitat natural de Pokémon salvajes. ¡Lleva siempre Poké Balls y Pociones!" }
+      ],
+      "item_balls": [
+        { "id": "route1_pokeball_1", "x": 1, "y": 8, "item_id": "pokeball", "item_name": "Poké Ball", "quantity": 3 },
+        { "id": "route1_potion_1", "x": 18, "y": 19, "item_id": "potion", "item_name": "Poción", "quantity": 2 }
+      ]
+    },
+    "pueblo_altiplano": {
+      "id": "pueblo_altiplano",
+      "display_name": "Pueblo Altiplano",
+      "width": 20,
+      "height": 16,
+      "biome": "desert_town",
+      "encounter_zone": null,
+      "collision_matrix": [
+        [1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,0,1],
+        [1,0,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,0,1],
+        [1,0,1,1,5,1,0,0,0,0,0,0,0,0,1,1,5,1,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1],
+        [1,0,1,5,1,0,0,0,0,0,0,0,0,0,0,1,1,5,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1]
+      ],
+      "warps": [
+        { "x": 4, "y": 4, "target_map": "pokemon_center_altiplano", "target_x": 4, "target_y": 7 },
+        { "x": 16, "y": 4, "target_map": "gym_altiplano", "target_x": 5, "target_y": 9 },
+        { "x": 17, "y": 9, "target_map": "pokemart_altiplano", "target_x": 3, "target_y": 6 },
+        { "x": 9, "y": 0, "target_map": "route_2", "target_x": 7, "target_y": 18 },
+        { "x": 10, "y": 0, "target_map": "route_2", "target_x": 7, "target_y": 18 },
+        { "x": 9, "y": 15, "target_map": "route_1", "target_x": 9, "target_y": 1 },
+        { "x": 10, "y": 15, "target_map": "route_1", "target_x": 10, "target_y": 1 }
+      ],
+      "signposts": [
+        { "x": 8, "y": 13, "title": "Pueblo Altiplano", "text": "Donde el viento abraza las cumbres andinas." },
+        { "x": 5, "y": 5, "title": "Centro Pokémon", "text": "Curación y descanso gratuito para tus compañeros Pokémon las 24 horas." },
+        { "x": 15, "y": 10, "title": "Tienda Pokémon (Poké Mart)", "text": "Surtido completo de Poké Balls, Medicinas y Objetos de Aventura." },
+        { "x": 14, "y": 5, "title": "Gimnasio de Altiplano", "text": "Líder de Gimnasio: Rocío • Maestra de la Roca y la Tierra." }
+      ],
+      "item_balls": [
+        { "id": "altiplano_greatball_1", "x": 1, "y": 1, "item_id": "greatball", "item_name": "Super Ball", "quantity": 1 }
+      ]
+    },
+    "pokemon_center_altiplano": {
+      "id": "pokemon_center_altiplano",
+      "display_name": "Centro Pokémon de Pueblo Altiplano",
+      "width": 10,
+      "height": 9,
+      "biome": "indoor",
+      "encounter_zone": null,
+      "collision_matrix": [
+        [1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,1,1,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,1],
+        [1,0,1,1,0,0,1,1,0,1],
+        [1,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,1],
+        [1,1,1,1,5,1,1,1,1,1]
+      ],
+      "warps": [
+        { "x": 4, "y": 8, "target_map": "pueblo_altiplano", "target_x": 4, "target_y": 5 }
+      ]
+    },
+    "pokemart_altiplano": {
+      "id": "pokemart_altiplano",
+      "display_name": "Tienda Pokémon de Pueblo Altiplano",
+      "width": 8,
+      "height": 8,
+      "biome": "indoor",
+      "encounter_zone": null,
+      "collision_matrix": [
+        [1,1,1,1,1,1,1,1],
+        [1,0,0,1,1,0,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,1,1,0,0,1,1,1],
+        [1,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,1,1,5,1,1,1,1]
+      ],
+      "warps": [
+        { "x": 3, "y": 7, "target_map": "pueblo_altiplano", "target_x": 17, "target_y": 10 }
+      ]
+    },
+    "gym_altiplano": {
+      "id": "gym_altiplano",
+      "display_name": "Gimnasio de Pueblo Altiplano (Líder Rocío)",
+      "width": 12,
+      "height": 11,
+      "biome": "indoor",
+      "encounter_zone": null,
+      "collision_matrix": [
+        [1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,1,1,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,1,0,0,0,0,1,1,0,1],
+        [1,0,1,1,0,0,0,0,1,1,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,0,0,0,0,0,0,1,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,1],
+        [1,1,1,1,1,5,5,1,1,1,1,1]
+      ],
+      "warps": [
+        { "x": 5, "y": 10, "target_map": "pueblo_altiplano", "target_x": 16, "target_y": 5 },
+        { "x": 6, "y": 10, "target_map": "pueblo_altiplano", "target_x": 16, "target_y": 5 }
+      ]
+    },
+    "route_2": {
+      "id": "route_2",
+      "display_name": "Ruta 2 (Sendero Rocoso de las Yungas)",
+      "width": 16,
+      "height": 20,
+      "biome": "cloud_forest",
+      "encounter_zone": "yungas_cloud_forest",
+      "collision_matrix": [
+        [1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1],
+        [1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1],
+        [1,0,2,2,0,0,0,0,0,0,2,2,0,0,1,1],
+        [1,0,2,2,0,0,1,1,0,0,2,2,0,0,1,1],
+        [1,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1],
+        [1,0,2,2,0,0,0,0,0,0,2,2,0,0,1,1],
+        [1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1],
+        [1,1,1,1,0,0,1,1,0,0,1,1,1,1,1,1],
+        [1,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1],
+        [1,0,2,2,0,0,0,0,0,0,2,2,0,0,1,1],
+        [1,0,2,2,0,0,0,0,0,0,2,2,0,0,1,1],
+        [1,1,1,1,0,0,1,1,0,0,1,1,1,1,1,1],
+        [1,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1],
+        [1,0,2,2,0,0,0,0,0,0,2,2,0,0,1,1],
+        [1,0,2,2,0,0,0,0,0,0,2,2,0,0,1,1],
+        [1,1,1,1,0,0,1,1,0,0,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+        [1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1],
+        [1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1]
+      ],
+      "warps": [
+        { "x": 6, "y": 19, "target_map": "pueblo_altiplano", "target_x": 10, "target_y": 1 },
+        { "x": 7, "y": 19, "target_map": "pueblo_altiplano", "target_x": 10, "target_y": 1 },
+        { "x": 8, "y": 19, "target_map": "pueblo_altiplano", "target_x": 10, "target_y": 1 },
+        { "x": 6, "y": 0, "target_map": "villa_yungas", "target_x": 9, "target_y": 13 },
+        { "x": 7, "y": 0, "target_map": "villa_yungas", "target_x": 10, "target_y": 13 },
+        { "x": 8, "y": 0, "target_map": "villa_yungas", "target_x": 11, "target_y": 13 }
+      ],
+      "signposts": [
+        { "x": 5, "y": 17, "title": "Ruta 2 (Sendero de las Yungas)", "text": "El aire se vuelve húmedo y el dosel arbóreo se espesa hacia el norte." }
+      ],
+      "item_balls": [
+        { "id": "route2_superpotion_1", "x": 13, "y": 3, "item_id": "superpotion", "item_name": "Superpoción", "quantity": 1 }
+      ]
+    },
+    "villa_yungas": {
+      "id": "villa_yungas",
+      "display_name": "Villa Yungas (Bosque Nublado)",
+      "width": 20,
+      "height": 15,
+      "biome": "cloud_forest",
+      "encounter_zone": null,
+      "collision_matrix": [
+        [1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,1,1,0,0,0,0,0,0,0,1,1,1,0,0,0,0,1],
+        [1,0,1,5,1,0,0,0,0,0,0,0,1,5,1,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,1,1,5,5,1,1,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1],
+        [1,0,1,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+      ],
+      "warps": [
+        { "x": 9, "y": 14, "target_map": "route_2", "target_x": 7, "target_y": 1 },
+        { "x": 10, "y": 14, "target_map": "route_2", "target_x": 7, "target_y": 1 },
+        { "x": 7, "y": 0, "target_map": "solsticio_metropolis", "target_x": 10, "target_y": 18 },
+        { "x": 8, "y": 0, "target_map": "solsticio_metropolis", "target_x": 10, "target_y": 18 },
+        { "x": 9, "y": 0, "target_map": "solsticio_metropolis", "target_x": 10, "target_y": 18 }
+      ],
+      "signposts": [
+        { "x": 6, "y": 12, "title": "Villa Yungas", "text": "Santuario del bosque nublado donde la naturaleza florece." }
+      ],
+      "item_balls": [
+        { "id": "yungas_mint_1", "x": 18, "y": 12, "item_id": "adamant_mint", "item_name": "Menta Firme", "quantity": 1 }
+      ]
+    },
+    "solsticio_metropolis": {
+      "id": "solsticio_metropolis",
+      "display_name": "Metrópolis Solsticio (Capital de Andara)",
+      "width": 22,
+      "height": 20,
+      "biome": "high_tech_city",
+      "encounter_zone": null,
+      "collision_matrix": [
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,1,1,0,1],
+        [1,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,1,1,0,1],
+        [1,0,1,1,5,1,0,0,0,0,1,1,5,1,0,0,0,0,1,1,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,0,0,0,1],
+        [1,0,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,0,0,0,1],
+        [1,0,1,1,1,5,1,1,0,0,0,0,1,1,1,5,1,1,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1],
+        [1,0,1,1,5,1,0,0,0,0,0,0,0,0,1,1,5,1,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+      ],
+      "warps": [
+        { "x": 10, "y": 19, "target_map": "villa_yungas", "target_x": 8, "target_y": 1 },
+        { "x": 4, "y": 4, "target_map": "solsticio_shelter", "target_x": 5, "target_y": 7 }
+      ],
+      "signposts": [
+        { "x": 9, "y": 17, "title": "Metrópolis Solsticio", "text": "Capital de Andara • Ciudad de cristal, vanguardia y tecnología." }
+      ]
+    },
+    "solsticio_shelter": {
+      "id": "solsticio_shelter",
+      "display_name": "Refugio de Adopción de Solsticio",
+      "width": 12,
+      "height": 9,
+      "biome": "indoor",
+      "encounter_zone": null,
+      "collision_matrix": [
+        [1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,1,1,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,1,1,0,1],
+        [1,0,1,1,0,0,1,1,1,1,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,1],
+        [1,1,1,1,1,5,1,1,1,1,1,1]
+      ],
+      "warps": [
+        { "x": 5, "y": 8, "target_map": "solsticio_metropolis", "target_x": 4, "target_y": 5 }
+      ]
+    }
+  }
+}

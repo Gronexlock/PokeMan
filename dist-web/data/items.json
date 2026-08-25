@@ -1,0 +1,742 @@
+{
+  "pokeball": {
+    "name": "Poké Ball",
+    "category": "pokeballs",
+    "price": 200,
+    "catch_rate": 1.0,
+    "desc": "Dispositivo esférico para capturar Pokémon silvestres."
+  },
+  "greatball": {
+    "name": "Súper Ball",
+    "category": "pokeballs",
+    "price": 600,
+    "catch_rate": 1.5,
+    "desc": "Poké Ball de buen rendimiento con mayor ratio de captura."
+  },
+  "ultraball": {
+    "name": "Ultra Ball",
+    "category": "pokeballs",
+    "price": 1200,
+    "catch_rate": 2.0,
+    "desc": "Poké Ball ultra eficaz para capturas difíciles."
+  },
+  "safariball": {
+    "name": "Safari Ball",
+    "category": "pokeballs",
+    "price": 0,
+    "catch_rate": 1.5,
+    "desc": "Ball especial para la Reserva Ecológica de Andara."
+  },
+  "potion": {
+    "name": "Poción",
+    "category": "medicine",
+    "price": 300,
+    "heal_hp": 20,
+    "desc": "Restaura 20 PS de un Pokémon."
+  },
+  "superpotion": {
+    "name": "Superpoción",
+    "category": "medicine",
+    "price": 700,
+    "heal_hp": 50,
+    "desc": "Restaura 50 PS de un Pokémon."
+  },
+  "hyperpotion": {
+    "name": "Hiperpoción",
+    "category": "medicine",
+    "price": 1200,
+    "heal_hp": 200,
+    "desc": "Restaura 200 PS de un Pokémon."
+  },
+  "maxpotion": {
+    "name": "Poción Máxima",
+    "category": "medicine",
+    "price": 2500,
+    "heal_hp": 9999,
+    "desc": "Restaura todos los PS de un Pokémon."
+  },
+  "revive": {
+    "name": "Revivir",
+    "category": "medicine",
+    "price": 1500,
+    "revive_hp_percent": 0.5,
+    "desc": "Revive a un Pokémon debilitado con la mitad de sus PS."
+  },
+  "maxrevive": {
+    "name": "Revivir Máximo",
+    "category": "medicine",
+    "price": 3000,
+    "revive_hp_percent": 1.0,
+    "desc": "Revive a un Pokémon debilitado restaurando el 100% de sus PS."
+  },
+  "antidote": {
+    "name": "Antídoto",
+    "category": "medicine",
+    "price": 100,
+    "cure_status": "poison",
+    "desc": "Cura el envenenamiento."
+  },
+  "paralyzeheal": {
+    "name": "Antiparalizador",
+    "category": "medicine",
+    "price": 200,
+    "cure_status": "paralysis",
+    "desc": "Cura la parálisis."
+  },
+  "awakening": {
+    "name": "Despertar",
+    "category": "medicine",
+    "price": 250,
+    "cure_status": "sleep",
+    "desc": "Despierta a un Pokémon dormido."
+  },
+  "burnheal": {
+    "name": "Antiquemar",
+    "category": "medicine",
+    "price": 250,
+    "cure_status": "burn",
+    "desc": "Cura las quemaduras."
+  },
+  "iceheal": {
+    "name": "Antihielo",
+    "category": "medicine",
+    "price": 250,
+    "cure_status": "freeze",
+    "desc": "Descongela a un Pokémon congelado."
+  },
+  "fullheal": {
+    "name": "Cura Total",
+    "category": "medicine",
+    "price": 600,
+    "cure_status": "all",
+    "desc": "Cura cualquier problema de estado alterado."
+  },
+
+  "fire_stone": {
+    "name": "Piedra Fuego",
+    "category": "evolution_stones",
+    "price": 3000,
+    "desc": "Piedra peculiar que hace evolucionar a ciertas especies de tipo Fuego (Growlithe, Eevee, etc.)."
+  },
+  "water_stone": {
+    "name": "Piedra Agua",
+    "category": "evolution_stones",
+    "price": 3000,
+    "desc": "Piedra azulada que hace evolucionar a ciertas especies de tipo Agua (Poliwhirl, Shellder, Eevee, etc.)."
+  },
+  "thunder_stone": {
+    "name": "Piedra Trueno",
+    "category": "evolution_stones",
+    "price": 3000,
+    "desc": "Piedra con forma de rayo que hace evolucionar a ciertas especies eléctricas (Pikachu, Eevee, Eelektrik, Magneton)."
+  },
+  "leaf_stone": {
+    "name": "Piedra Hoja",
+    "category": "evolution_stones",
+    "price": 3000,
+    "desc": "Piedra con la huella de una hoja que hace evolucionar a ciertas especies de tipo Planta (Gloom, Weepinbell, Nuzleaf, etc.)."
+  },
+  "moon_stone": {
+    "name": "Piedra Lunar",
+    "category": "evolution_stones",
+    "price": 3000,
+    "desc": "Piedra negra como la noche que induce la evolución en ciertas especies (Clefairy, Jigglypuff, Nidorino, Munna)."
+  },
+  "sun_stone": {
+    "name": "Piedra Solar",
+    "category": "evolution_stones",
+    "price": 3000,
+    "desc": "Piedra brillante como el sol que induce la evolución en ciertas especies (Gloom, Sunkern, Cottonee, Helioptile)."
+  },
+  "shiny_stone": {
+    "name": "Piedra Alba / Piedra Día",
+    "category": "evolution_stones",
+    "price": 3500,
+    "desc": "Piedra que irradia una luz deslumbrante (Togetic, Roselia, Minccino, Floette)."
+  },
+  "dusk_stone": {
+    "name": "Piedra Noche",
+    "category": "evolution_stones",
+    "price": 3500,
+    "desc": "Piedra oscura como las tinieblas (Murkrow, Misdreavus, Lampent, Doublade)."
+  },
+  "dawn_stone": {
+    "name": "Piedra Alba",
+    "category": "evolution_stones",
+    "price": 3500,
+    "desc": "Piedra de brillo azul verdoso (Kirlia macho -> Gallade, Snorunt hembra -> Froslass)."
+  },
+  "ice_stone": {
+    "name": "Piedra Hielo",
+    "category": "evolution_stones",
+    "price": 3500,
+    "desc": "Piedra fría como la escarcha (Vulpix de Alola, Sandshrew de Alola, Eevee -> Glaceon, Cetoddle)."
+  },
+
+  "link_cable": {
+    "name": "Cordón Unión",
+    "category": "evolution_items",
+    "price": 5000,
+    "desc": "Cable misterioso que emite energía de resonancia. Se usa directamente sobre un Pokémon para inducir evoluciones que antes requerían intercambio (Haunter, Kadabra, Machoke, Graveler, Boldore, etc.)."
+  },
+  "metal_coat": {
+    "name": "Revestimiento Metálico",
+    "category": "evolution_items",
+    "price": 6000,
+    "desc": "Capa metálica especial. Al usarse directamente sobre Onix o Scyther induce su evolución a Steelix o Scizor."
+  },
+  "kings_rock": {
+    "name": "Roca del Rey",
+    "category": "evolution_items",
+    "price": 6000,
+    "desc": "Corona de piedra ancestral. Al usarse directamente sobre Poliwhirl o Slowpoke induce su evolución a Politoed o Slowking."
+  },
+  "dragon_scale": {
+    "name": "Escama Dragón",
+    "category": "evolution_items",
+    "price": 6000,
+    "desc": "Escama gruesa y dura. Al usarse directamente sobre Seadra induce su evolución a Kingdra."
+  },
+  "prism_scale": {
+    "name": "Escama Bella",
+    "category": "evolution_items",
+    "price": 6000,
+    "desc": "Escama con brillo iridiscente. Al usarse directamente sobre Feebas induce su evolución a Milotic."
+  },
+  "reaper_cloth": {
+    "name": "Tela Terrible",
+    "category": "evolution_items",
+    "price": 6000,
+    "desc": "Paño impregnado de energía espiritual. Al usarse directamente sobre Dusclops induce su evolución a Dusknoir."
+  },
+  "protector": {
+    "name": "Protector",
+    "category": "evolution_items",
+    "price": 6000,
+    "desc": "Armadura pesada de protección. Al usarse directamente sobre Rhydon induce su evolución a Rhyperior."
+  },
+  "electirizer": {
+    "name": "Electrizador",
+    "category": "evolution_items",
+    "price": 6000,
+    "desc": "Caja con una inmensa carga eléctrica. Al usarse directamente sobre Electabuzz induce su evolución a Electivire."
+  },
+  "magmarizer": {
+    "name": "Magmatizador",
+    "category": "evolution_items",
+    "price": 6000,
+    "desc": "Dispositivo con magma volcánico comprimido. Al usarse directamente sobre Magmar induce su evolución a Magmortar."
+  },
+  "upgrade": {
+    "name": "Mejora",
+    "category": "evolution_items",
+    "price": 5000,
+    "desc": "Disco de datos transparente. Al usarse directamente sobre Porygon induce su evolución a Porygon2."
+  },
+  "dubious_disc": {
+    "name": "Disco Extraño",
+    "category": "evolution_items",
+    "price": 5000,
+    "desc": "Disco con información corrupta. Al usarse directamente sobre Porygon2 induce su evolución a Porygon-Z."
+  },
+  "razor_claw": {
+    "name": "Garra Afilada",
+    "category": "evolution_items",
+    "price": 5000,
+    "desc": "Garra muy afilada. Al usarse directamente sobre Sneasel induce su evolución a Weavile."
+  },
+  "razor_fang": {
+    "name": "Colmillo Afilado",
+    "category": "evolution_items",
+    "price": 5000,
+    "desc": "Colmillo temible. Al usarse directamente sobre Gligar induce su evolución a Gliscor."
+  },
+  "oval_stone": {
+    "name": "Piedra Oval",
+    "category": "evolution_items",
+    "price": 3000,
+    "desc": "Piedra suave con forma de huevo. Al usarse sobre Happiny induce su evolución a Chansey."
+  },
+
+  "venusaurite": {
+    "name": "Venusaurita",
+    "category": "mega_stones",
+    "price": 35000,
+    "mega_species": "venusaur",
+    "desc": "Piedra Mega que permite a Venusaur megaevolucionar en combate."
+  },
+  "charizardite_x": {
+    "name": "Charizardita X",
+    "category": "mega_stones",
+    "price": 35000,
+    "mega_species": "charizard",
+    "desc": "Piedra Mega que transforma a Charizard en Mega-Charizard X (Fuego/Dragón)."
+  },
+  "charizardite_y": {
+    "name": "Charizardita Y",
+    "category": "mega_stones",
+    "price": 35000,
+    "mega_species": "charizard",
+    "desc": "Piedra Mega que transforma a Charizard en Mega-Charizard Y (Sequía)."
+  },
+  "blastoisinite": {
+    "name": "Blastoisita",
+    "category": "mega_stones",
+    "price": 35000,
+    "mega_species": "blastoise",
+    "desc": "Piedra Mega que permite a Blastoise megaevolucionar en combate."
+  },
+  "beedrillite": {
+    "name": "Beedrillita",
+    "category": "mega_stones",
+    "price": 30000,
+    "mega_species": "beedrill",
+    "desc": "Piedra Mega que permite a Beedrill megaevolucionar en combate."
+  },
+  "pidgeotite": {
+    "name": "Pidgeotita",
+    "category": "mega_stones",
+    "price": 30000,
+    "mega_species": "pidgeot",
+    "desc": "Piedra Mega que permite a Pidgeot megaevolucionar en combate."
+  },
+  "alakazite": {
+    "name": "Alakazamita",
+    "category": "mega_stones",
+    "price": 40000,
+    "mega_species": "alakazam",
+    "desc": "Piedra Mega que permite a Alakazam megaevolucionar en combate."
+  },
+  "slowbronite": {
+    "name": "Slowbronita",
+    "category": "mega_stones",
+    "price": 35000,
+    "mega_species": "slowbro",
+    "desc": "Piedra Mega que permite a Slowbro megaevolucionar en combate."
+  },
+  "gengarite": {
+    "name": "Gengarita",
+    "category": "mega_stones",
+    "price": 45000,
+    "mega_species": "gengar",
+    "desc": "Piedra Mega que permite a Gengar megaevolucionar en combate."
+  },
+  "gyaradosite": {
+    "name": "Gyaradosita",
+    "category": "mega_stones",
+    "price": 40000,
+    "mega_species": "gyarados",
+    "desc": "Piedra Mega que permite a Gyarados megaevolucionar en combate."
+  },
+  "ampharosite": {
+    "name": "Ampharosita",
+    "category": "mega_stones",
+    "price": 35000,
+    "mega_species": "ampharos",
+    "desc": "Piedra Mega que permite a Ampharos transformarse en tipo Eléctrico/Dragón."
+  },
+  "steelixite": {
+    "name": "Steelixita",
+    "category": "mega_stones",
+    "price": 35000,
+    "mega_species": "steelix",
+    "desc": "Piedra Mega que permite a Steelix megaevolucionar en combate."
+  },
+  "scizorite": {
+    "name": "Scizorita",
+    "category": "mega_stones",
+    "price": 45000,
+    "mega_species": "scizor",
+    "desc": "Piedra Mega que permite a Scizor megaevolucionar en combate."
+  },
+  "heracronite": {
+    "name": "Heracrossita",
+    "category": "mega_stones",
+    "price": 40000,
+    "mega_species": "heracross",
+    "desc": "Piedra Mega que permite a Heracross megaevolucionar en combate."
+  },
+  "houndoominite": {
+    "name": "Houndoomita",
+    "category": "mega_stones",
+    "price": 35000,
+    "mega_species": "houndoom",
+    "desc": "Piedra Mega que permite a Houndoom megaevolucionar en combate."
+  },
+  "tyranitarite": {
+    "name": "Tyranitarita",
+    "category": "mega_stones",
+    "price": 50000,
+    "mega_species": "tyranitar",
+    "desc": "Piedra Mega que permite a Tyranitar megaevolucionar en combate."
+  },
+  "sceptilite": {
+    "name": "Sceptilita",
+    "category": "mega_stones",
+    "price": 35000,
+    "mega_species": "sceptile",
+    "desc": "Piedra Mega que permite a Sceptile transformarse en Planta/Dragón."
+  },
+  "blazikenite": {
+    "name": "Blazikenita",
+    "category": "mega_stones",
+    "price": 45000,
+    "mega_species": "blaziken",
+    "desc": "Piedra Mega que permite a Blaziken megaevolucionar en combate."
+  },
+  "swampertite": {
+    "name": "Swampertita",
+    "category": "mega_stones",
+    "price": 40000,
+    "mega_species": "swampert",
+    "desc": "Piedra Mega que permite a Swampert megaevolucionar en combate."
+  },
+  "gardevoirite": {
+    "name": "Gardevoirita",
+    "category": "mega_stones",
+    "price": 40000,
+    "mega_species": "gardevoir",
+    "desc": "Piedra Mega que permite a Gardevoir megaevolucionar en combate."
+  },
+  "galladite": {
+    "name": "Galladita",
+    "category": "mega_stones",
+    "price": 40000,
+    "mega_species": "gallade",
+    "desc": "Piedra Mega que permite a Gallade megaevolucionar en combate."
+  },
+  "sableynite": {
+    "name": "Sableynita",
+    "category": "mega_stones",
+    "price": 35000,
+    "mega_species": "sableye",
+    "desc": "Piedra Mega que permite a Sableye megaevolucionar en combate."
+  },
+  "mawileite": {
+    "name": "Mawilita",
+    "category": "mega_stones",
+    "price": 40000,
+    "mega_species": "mawile",
+    "desc": "Piedra Mega que permite a Mawile megaevolucionar en combate."
+  },
+  "absolite": {
+    "name": "Absolita",
+    "category": "mega_stones",
+    "price": 35000,
+    "mega_species": "absol",
+    "desc": "Piedra Mega que permite a Absol megaevolucionar en combate."
+  },
+  "sharpedonite": {
+    "name": "Sharpedonita",
+    "category": "mega_stones",
+    "price": 35000,
+    "mega_species": "sharpedo",
+    "desc": "Piedra Mega que permite a Sharpedo megaevolucionar en combate."
+  },
+  "cameruptite": {
+    "name": "Cameruptita",
+    "category": "mega_stones",
+    "price": 35000,
+    "mega_species": "camerupt",
+    "desc": "Piedra Mega que permite a Camerupt megaevolucionar en combate."
+  },
+  "glalitite": {
+    "name": "Glalitita",
+    "category": "mega_stones",
+    "price": 35000,
+    "mega_species": "glalie",
+    "desc": "Piedra Mega que permite a Glalie megaevolucionar en combate."
+  },
+  "salamencite": {
+    "name": "Salamencita",
+    "category": "mega_stones",
+    "price": 50000,
+    "mega_species": "salamence",
+    "desc": "Piedra Mega que permite a Salamence megaevolucionar en combate."
+  },
+  "metagrossite": {
+    "name": "Metagrossita",
+    "category": "mega_stones",
+    "price": 50000,
+    "mega_species": "metagross",
+    "desc": "Piedra Mega que permite a Metagross megaevolucionar en combate."
+  },
+  "garchompite": {
+    "name": "Garchompita",
+    "category": "mega_stones",
+    "price": 50000,
+    "mega_species": "garchomp",
+    "desc": "Piedra Mega que permite a Garchomp megaevolucionar en combate."
+  },
+  "lucarionite": {
+    "name": "Lucarionita",
+    "category": "mega_stones",
+    "price": 45000,
+    "mega_species": "lucario",
+    "desc": "Piedra Mega que permite a Lucario megaevolucionar en combate."
+  },
+  "abomasite": {
+    "name": "Abomasnowita",
+    "category": "mega_stones",
+    "price": 35000,
+    "mega_species": "abomasnow",
+    "desc": "Piedra Mega que permite a Abomasnow megaevolucionar en combate."
+  },
+  "lopunnite": {
+    "name": "Lopunnita",
+    "category": "mega_stones",
+    "price": 40000,
+    "mega_species": "lopunny",
+    "desc": "Piedra Mega que permite a Lopunny transformarse en Normal/Lucha."
+  },
+
+  "adamant_mint": {
+    "name": "Menta Firme",
+    "category": "nature_mints",
+    "price": 2500,
+    "nature_target": "adamant",
+    "increased_stat": "attack",
+    "decreased_stat": "special_attack",
+    "desc": "Hierba aromática que modifica el desarrollo de las estadísticas del Pokémon: aumenta el Ataque y disminuye el Ataque Especial."
+  },
+  "jolly_mint": {
+    "name": "Menta Alegre",
+    "category": "nature_mints",
+    "price": 2500,
+    "nature_target": "jolly",
+    "increased_stat": "speed",
+    "decreased_stat": "special_attack",
+    "desc": "Hierba aromática que modifica el desarrollo de las estadísticas: aumenta la Velocidad y disminuye el Ataque Especial."
+  },
+  "modest_mint": {
+    "name": "Menta Modesta",
+    "category": "nature_mints",
+    "price": 2500,
+    "nature_target": "modest",
+    "increased_stat": "special_attack",
+    "decreased_stat": "attack",
+    "desc": "Hierba aromática que modifica el desarrollo de las estadísticas: aumenta el Ataque Especial y disminuye el Ataque."
+  },
+  "timid_mint": {
+    "name": "Menta Miedosa",
+    "category": "nature_mints",
+    "price": 2500,
+    "nature_target": "timid",
+    "increased_stat": "speed",
+    "decreased_stat": "attack",
+    "desc": "Hierba aromática que modifica el desarrollo de las estadísticas: aumenta la Velocidad y disminuye el Ataque."
+  },
+  "bold_mint": {
+    "name": "Menta Osada",
+    "category": "nature_mints",
+    "price": 2500,
+    "nature_target": "bold",
+    "increased_stat": "defense",
+    "decreased_stat": "attack",
+    "desc": "Hierba aromática que modifica el desarrollo de las estadísticas: aumenta la Defensa y disminuye el Ataque."
+  },
+  "calm_mint": {
+    "name": "Menta Serena",
+    "category": "nature_mints",
+    "price": 2500,
+    "nature_target": "calm",
+    "increased_stat": "special_defense",
+    "decreased_stat": "attack",
+    "desc": "Hierba aromática que modifica el desarrollo de las estadísticas: aumenta la Defensa Especial y disminuye el Ataque."
+  },
+  "impish_mint": {
+    "name": "Menta Agitada",
+    "category": "nature_mints",
+    "price": 2500,
+    "nature_target": "impish",
+    "increased_stat": "defense",
+    "decreased_stat": "special_attack",
+    "desc": "Hierba aromática que modifica el desarrollo de las estadísticas: aumenta la Defensa y disminuye el Ataque Especial."
+  },
+  "careful_mint": {
+    "name": "Menta Cauta",
+    "category": "nature_mints",
+    "price": 2500,
+    "nature_target": "careful",
+    "increased_stat": "special_defense",
+    "decreased_stat": "special_attack",
+    "desc": "Hierba aromática que modifica el desarrollo de las estadísticas: aumenta la Defensa Especial y disminuye el Ataque Especial."
+  },
+  "brave_mint": {
+    "name": "Menta Audaz",
+    "category": "nature_mints",
+    "price": 2500,
+    "nature_target": "brave",
+    "increased_stat": "attack",
+    "decreased_stat": "speed",
+    "desc": "Hierba aromática que modifica el desarrollo de las estadísticas: aumenta el Ataque y disminuye la Velocidad."
+  },
+  "quiet_mint": {
+    "name": "Menta Mansa",
+    "category": "nature_mints",
+    "price": 2500,
+    "nature_target": "quiet",
+    "increased_stat": "special_attack",
+    "decreased_stat": "speed",
+    "desc": "Hierba aromática que modifica el desarrollo de las estadísticas: aumenta el Ataque Especial y disminuye la Velocidad."
+  },
+  "relaxed_mint": {
+    "name": "Menta Plácida",
+    "category": "nature_mints",
+    "price": 2500,
+    "nature_target": "relaxed",
+    "increased_stat": "defense",
+    "decreased_stat": "speed",
+    "desc": "Hierba aromática que modifica el desarrollo de las estadísticas: aumenta la Defensa y disminuye la Velocidad."
+  },
+  "sassy_mint": {
+    "name": "Menta Grosera",
+    "category": "nature_mints",
+    "price": 2500,
+    "nature_target": "sassy",
+    "increased_stat": "special_defense",
+    "decreased_stat": "speed",
+    "desc": "Hierba aromática que modifica el desarrollo de las estadísticas: aumenta la Defensa Especial y disminuye la Velocidad."
+  },
+  "hasty_mint": {
+    "name": "Menta Activa",
+    "category": "nature_mints",
+    "price": 2500,
+    "nature_target": "hasty",
+    "increased_stat": "speed",
+    "decreased_stat": "defense",
+    "desc": "Hierba aromática que modifica el desarrollo de las estadísticas: aumenta la Velocidad y disminuye la Defensa."
+  },
+  "naive_mint": {
+    "name": "Menta Ingenua",
+    "category": "nature_mints",
+    "price": 2500,
+    "nature_target": "naive",
+    "increased_stat": "speed",
+    "decreased_stat": "special_defense",
+    "desc": "Hierba aromática que modifica el desarrollo de las estadísticas: aumenta la Velocidad y disminuye la Defensa Especial."
+  },
+  "lonely_mint": {
+    "name": "Menta Huraña",
+    "category": "nature_mints",
+    "price": 2500,
+    "nature_target": "lonely",
+    "increased_stat": "attack",
+    "decreased_stat": "defense",
+    "desc": "Hierba aromática que modifica el desarrollo de las estadísticas: aumenta el Ataque y disminuye la Defensa."
+  },
+  "naughty_mint": {
+    "name": "Menta Pícara",
+    "category": "nature_mints",
+    "price": 2500,
+    "nature_target": "naughty",
+    "increased_stat": "attack",
+    "decreased_stat": "special_defense",
+    "desc": "Hierba aromática que modifica el desarrollo de las estadísticas: aumenta el Ataque y disminuye la Defensa Especial."
+  },
+  "mild_mint": {
+    "name": "Menta Afable",
+    "category": "nature_mints",
+    "price": 2500,
+    "nature_target": "mild",
+    "increased_stat": "special_attack",
+    "decreased_stat": "defense",
+    "desc": "Hierba aromática que modifica el desarrollo de las estadísticas: aumenta el Ataque Especial y disminuye la Defensa."
+  },
+  "rash_mint": {
+    "name": "Menta Alocada",
+    "category": "nature_mints",
+    "price": 2500,
+    "nature_target": "rash",
+    "increased_stat": "special_attack",
+    "decreased_stat": "special_defense",
+    "desc": "Hierba aromática que modifica el desarrollo de las estadísticas: aumenta el Ataque Especial y disminuye la Defensa Especial."
+  },
+  "lax_mint": {
+    "name": "Menta Floja",
+    "category": "nature_mints",
+    "price": 2500,
+    "nature_target": "lax",
+    "increased_stat": "defense",
+    "decreased_stat": "special_defense",
+    "desc": "Hierba aromática que modifica el desarrollo de las estadísticas: aumenta la Defensa y disminuye la Defensa Especial."
+  },
+  "serious_mint": {
+    "name": "Menta Seria",
+    "category": "nature_mints",
+    "price": 2500,
+    "nature_target": "serious",
+    "increased_stat": null,
+    "decreased_stat": null,
+    "desc": "Hierba aromática que neutraliza los efectos de naturaleza: equilibra todas las estadísticas de manera uniforme."
+  },
+
+  "duskball": {
+    "name": "Ocaso Ball",
+    "category": "pokeballs",
+    "price": 1000,
+    "catch_rate": 3.0,
+    "desc": "Poké Ball sumamente eficaz de noche o en cuevas oscuras."
+  },
+  "quickball": {
+    "name": "Veloz Ball",
+    "category": "pokeballs",
+    "price": 1000,
+    "catch_rate": 5.0,
+    "desc": "Poké Ball con un ratio de captura masivo al lanzarse en el primer turno."
+  },
+  "timerball": {
+    "name": "Turno Ball",
+    "category": "pokeballs",
+    "price": 1000,
+    "catch_rate": 4.0,
+    "desc": "Poké Ball que incrementa su eficacia a medida que el combate se prolonga."
+  },
+  "netball": {
+    "name": "Malla Ball",
+    "category": "pokeballs",
+    "price": 1000,
+    "catch_rate": 3.5,
+    "desc": "Poké Ball especializada en atrapar especies de tipo Agua y Bicho."
+  },
+
+  "tm_flamethrower": { "name": "MT35 Lanzallamas", "category": "machines", "price": 5000, "move_id": "flamethrower", "desc": "Enseña el potente movimiento especial de tipo Fuego Lanzallamas." },
+  "tm_thunderbolt": { "name": "MT24 Rayo", "category": "machines", "price": 5000, "move_id": "thunderbolt", "desc": "Enseña el ataque especial de tipo Eléctrico Rayo con probabilidad de paralizar." },
+  "tm_ice_beam": { "name": "MT13 Rayo Hielo", "category": "machines", "price": 5000, "move_id": "ice_beam", "desc": "Enseña el ataque especial de tipo Hielo Rayo Hielo." },
+  "tm_earthquake": { "name": "MT26 Terremoto", "category": "machines", "price": 6000, "move_id": "earthquake", "desc": "Enseña el devastador ataque físico de tipo Tierra Terremoto." },
+  "tm_psychic": { "name": "MT29 Psíquico", "category": "machines", "price": 5000, "move_id": "psychic", "desc": "Enseña el poderoso ataque especial de tipo Psíquico." },
+  "tm_shadow_ball": { "name": "MT30 Bola Sombra", "category": "machines", "price": 4500, "move_id": "shadow_ball", "desc": "Enseña el movimiento de tipo Fantasma Bola Sombra." },
+  "tm_sludge_bomb": { "name": "MT36 Bomba Lodo", "category": "machines", "price": 4500, "move_id": "sludge_bomb", "desc": "Enseña el potente ataque especial de tipo Veneno Bomba Lodo." },
+  "tm_energy_ball": { "name": "MT53 Energibola", "category": "machines", "price": 4500, "move_id": "energy_ball", "desc": "Enseña el ataque de tipo Planta Energibola." },
+  "tm_close_combat": { "name": "MT52 A Bocajarro", "category": "machines", "price": 6000, "move_id": "close_combat", "desc": "Enseña el arrollador ataque físico de tipo Lucha A Bocajarro." },
+  "tm_swords_dance": { "name": "MT75 Danza Espada", "category": "machines", "price": 4000, "move_id": "swords_dance", "desc": "Enseña Danza Espada para aumentar en 2 niveles el Ataque del usuario." },
+  "tm_dragon_dance": { "name": "MT76 Danza Dragón", "category": "machines", "price": 5000, "move_id": "dragon_dance", "desc": "Enseña Danza Dragón para aumentar el Ataque y la Velocidad (Huevo/MT directa)." },
+  "tm_calm_mind": { "name": "MT04 Paz Mental", "category": "machines", "price": 4000, "move_id": "calm_mind", "desc": "Enseña Paz Mental para aumentar el Ataque Especial y la Defensa Especial." },
+  "tm_roost": { "name": "MT19 Respiro", "category": "machines", "price": 3500, "move_id": "roost", "desc": "Enseña Respiro para recuperar el 50% de los PS máximos (Huevo/MT directa)." },
+  "tm_u_turn": { "name": "MT89 Ida y Vuelta", "category": "machines", "price": 4000, "move_id": "u_turn", "desc": "Enseña Ida y Vuelta para golpear y cambiar de Pokémon tácticamente." },
+  "tm_volt_switch": { "name": "MT72 Voltiocambio", "category": "machines", "price": 4000, "move_id": "volt_switch", "desc": "Enseña Voltiocambio para golpear con electricidad y rotar." },
+  "tm_taunt": { "name": "MT12 Mofa", "category": "machines", "price": 3000, "move_id": "taunt", "desc": "Enseña Mofa para forzar al oponente a usar solo movimientos ofensivos." },
+  "tm_stealth_rock": { "name": "MT77 Trampa Rocas", "category": "machines", "price": 5000, "move_id": "stealth_rock", "desc": "Enseña Trampa Rocas para dañar a los Pokémon rivales al entrar al campo." },
+  "tm_toxic": { "name": "MT06 Tóxico", "category": "machines", "price": 3500, "move_id": "toxic", "desc": "Enseña Tóxico para envenenar gravemente con daño exponencial." },
+  "tm_will_o_wisp": { "name": "MT61 Fuego Fatuo", "category": "machines", "price": 3500, "move_id": "will_o_wisp", "desc": "Enseña Fuego Fatuo para quemar al rival y reducir su ataque físico." },
+  "tm_dazzling_gleam": { "name": "MT99 Brillo Mágico", "category": "machines", "price": 4500, "move_id": "dazzling_gleam", "desc": "Enseña el potente ataque especial de tipo Hada Brillo Mágico." },
+  "tm_play_rough": { "name": "MT90 Carantoña", "category": "machines", "price": 5000, "move_id": "play_rough", "desc": "Enseña Carantoña para daño físico de tipo Hada (Huevo/MT directa)." },
+  "tm_drain_punch": { "name": "MT60 Puño Drenaje", "category": "machines", "price": 4500, "move_id": "drain_punch", "desc": "Enseña Puño Drenaje para golpear y restaurar salud (Huevo/MT directa)." },
+  "tm_knock_off": { "name": "MT65 Desarme", "category": "machines", "price": 4500, "move_id": "knock_off", "desc": "Enseña Desarme para arrebatar el objeto del rival (Tutor/MT directa)." },
+
+  "hm_surf": { "name": "MO03 Surf", "category": "machines", "price": 0, "move_id": "surf", "desc": "Máquina Oculta que permite navegar sobre masas de agua en el Overworld." },
+  "hm_waterfall": { "name": "MO07 Cascada", "category": "machines", "price": 0, "move_id": "waterfall", "desc": "Máquina Oculta que permite ascender por cascadas caudalosas." },
+
+  "megaring": {
+    "name": "Mega-Aro de Andara",
+    "category": "key_items",
+    "price": 0,
+    "desc": "Pulsera ancestral que resuena con las Mega Piedras."
+  },
+  "zygarde_cube": {
+    "name": "Arca de Zygarde",
+    "category": "key_items",
+    "price": 0,
+    "desc": "Artefacto para recolectar células y núcleos de Zygarde."
+  }
+}

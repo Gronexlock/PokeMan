@@ -1,118 +1,124 @@
-# 📋 ROADMAP Y REGISTRO DE PASOS PENDIENTES
-## Proyecto: Pokémon: Ecos de Andara (.EXE Local / HD-2.5D)
+# 🗺️ ROADMAP OFICIAL: POKÉMON ECOS DE ANDARA
+### Plan Maestro de Desarrollo por Fases — Inspirado en los Clásicos Oficiales de GBA/NDS
 
-> **Estado Actual:** 🟢 **PROYECTO 100% COMPLETADO (FASES 1, 2, 4, 5A, 5B, PROFUNDIDAD & FASE 6 COMPLETADAS CON ÉXITO)**  
-> **Última Actualización:** 2026-08-24  
-> **Documentos de Referencia:** [`HISTORIA_ANDARA.md`](file:///c:/Users/Asus/Desktop/Proyecto/HISTORIA_ANDARA.md) y [`POKEDEX_REGIONAL_ANDARA.md`](file:///c:/Users/Asus/Desktop/Proyecto/POKEDEX_REGIONAL_ANDARA.md)
+Este documento establece la hoja de ruta exhaustiva y secuencial para construir la experiencia completa de Pokémon en TypeScript + Canvas 2D, tomando como estándar los pilares de *Pokémon Rojo Fuego / Esmeralda / Platino / HeartGold*.
 
 ---
 
-## 🌟 Logros y Sistemas Completados
+## 📊 Estado Actual del Proyecto (Lo Construido hasta Hoy)
 
-```
-+---------------------------------------------------------------------------------------------------+
-|                               HITOS Y MECÁNICAS YA IMPLEMENTADAS                                 |
-+---------------------------------------------------------------------------------------------------+
-| ✔ Pokédex Regional Acotada (~220 especies hasta Pseudo-Legendarios y Mega Evoluciones).           |
-| ✔ Evoluciones sin Intercambio (Cordón Unión "link_cable" y uso directo de objetos evolutivos).    |
-| ✔ Selección Reactiva del Rival (Nahuel siempre elige el inicial con ventaja elemental).           |
-| ✔ Compañero Insignia del Rival (Nahuel adopta a Growlithe en Metrópolis Solsticio).               |
-| ✔ Economía 100% por Dinero Convencional ($): Piedras, Materiales y 33 Mega Piedras en Tiendas.    |
-| ✔ Expansión Postgame de Isla Resonancia (Nacida tras derrotar a Eternatus, +100 especies nuevas). |
-| ✔ Regla Estricta de Legendarios No Capturables (Eternatus y Zygarde son elementos de la trama).   |
-| ✔ Sistema Competitivo QoL: Todos los Pokémon se generan con 31 IVs en los 6 stats y EVs listos.   |
-| ✔ Catálogo de 21 Mentas de Naturaleza ($2,500 en Herboristerías) para cambiar stats libremente.    |
-| ✔ Calculadora Oficial de Daño Gen 5+ con STAB (1.5x), Críticos (1.5x), Tipos y Quemaduras.       |
-| ✔ Motor de Mega Evolución en Combate con chequeo de Mega-Aro, Piedras y Boost (+100 BST).         |
-| ✔ IA Táctica para Rivales y Líderes con detección de remates (KOs) y coberturas elementales.      |
-| ✔ Máquina de Estados de Batalla 1v1 (FSM) con Prioridad (+6..0), Velocidad y Reparto de EXP.     |
-| ✔ Sistema de Guardado Local .sav con Checksum SHA-256, 30 Cajas de PC y Mochila Categorizada.     |
-| ✔ Simulador de Batalla Jugable CLI con barras de vida ASCII para el combate en Villa Tranquimar.  |
-| ✔ Controlador del Jugador con movimiento tile-based, colisiones, salto de ledges y correr.        |
-| ✔ Gestor de Mapas Matriciales (Villa Tranquimar, Casa, Lab, Ruta 1 y Reserva) con Warps.          |
-| ✔ Línea de Visión de Entrenadores de Ruta (conos de 1 a 4 casillas) con trigger '!'.             |
-| ✔ Ciclo Día/Noche Acelerado Dinámico (24 min = 24 hrs) con modulación de luz ambiental.          |
-| ✔ Sistema de Shinies Balanceado (1/1024 base y 1/341 con Amuleto Iris sin combos artificiales).   |
-| ✔ Reserva Ecológica de Andara (Safari Tradicional: Balls, Cebo, Lodo, Iniciales & Pseudos 10-15%).|
-| ✔ Motor de Diálogos con Efecto Máquina de Escribir y Retratos Emocionales (Mugshots).             |
-| ✔ Árbol de Decisiones del Jugador y Sincronización Automática con story_flags del Guardado.      |
-| ✔ Cinemática del Prólogo: Ceremonia de Iniciales con Prof. Ceibo y Primer Combate con Nahuel.    |
-| ✔ Cinemática de Solsticio: Rescate y Adopción Emocional de Growlithe por parte de Nahuel.         |
-| ✔ Cinemática de la Cordillera: Encuentro y Advertencia de la Campeona Renata & Mega-Garchomp.     |
-| ✔ Cinemática del Cráter: Ruptura Ideológica entre la Dra. Clara y Alister (Aurora Cero).         |
-| ✔ Base de Datos Oficial de Entrenadores Jefes: 8 Líderes, Alto Mando y Campeona Renata.           |
-| ✔ Generación Procedural y Dinámica del Equipo de Nahuel según inicial y rutas recorridas.         |
-| ✔ Catálogo Expandido de ~110 Movimientos y Departamento de MTs/MOs en Tiendas por Dinero ($).     |
-| ✔ Acceso Directo a Movimientos de Huevo y Tutor vía MTs sin necesidad de crianza artificial.     |
-| ✔ Calculadora Oficial Gen 5+ de Captura con Poké Balls y Escudo Inviolable para Legendarios.      |
-| ✔ Estados Alterados Completos en Batalla: Sueño por turnos, Parálisis (25%) y Tóxico Acumulativo. |
-| ✔ Aprendizaje Automático de Movimientos al Subir de Nivel según learnsets de la Pokédex.         |
-| ✔ Shaders de Iluminación Dinámica (CanvasModulate) en 4 periodos y luces puntuales (farolas).     |
-| ✔ Motor Gráfico 2.5D con capas de terreno, objetos con Y-Sorting y cámara de exploración.        |
-| ✔ Escenario de Combate Parallax con cielo atmosférico dinámico y HUD de vida estilizado.         |
-| ✔ Controlador de Audio con pistas BGM para ciudades, rutas, líderes y efectos SFX.               |
-| ✔ Pantalla de Título y Orquestador Principal del Juego en src/main.py.                            |
-| ✔ Pipeline Automatizado de Empaquetado y Distribución para Windows (.EXE / .BAT en dist/).        |
-+---------------------------------------------------------------------------------------------------+
-```
+* ✅ **Motor de Combate TypeScript:** Cálculos de daño oficiales Gen 9, tabla de tipos completa, Mega-Evolución y sistema Anti-OneShot en rutas tempranas.
+* ✅ **Renderizador de Mapas con 5 Capas:** Terreno base, volumen y relieve 3D con acantilados sombreados, estructuras con sombras proyectadas, entidades Z-Sorted, oclusión aérea (*Canopy & Roofs*) y clima dinámico con ciclo Día/Noche.
+* ✅ **Selector de Protagonista:** 4 arquetipos (*Hombre Joven Blanco, Mujer Joven Blanca, Hombre Joven Moreno, Mujer Joven Morena*) reflejados en el Overworld.
+* ✅ **Ceremonia Inicial:** Elección de 27 iniciales (Generaciones 1 a 9) con el Prof. Ceibo y 1er combate nivel 5 contra el Rival Nahuel.
+* ✅ **Locomoción Avanzada:** Caminar (150 px/s), Correr (`Shift`), Bicicleta (`B`) y Surf acuático (`SURF`).
+* ✅ **Menús de Pausa y Vistas:** Pokédex interactiva con barras visuales de estadísticas, visualizador de equipo y mochila.
+* ✅ **Efectos y Evolución:** Motor de partículas para 7 elementos y cinemática de evolución con cancelación por tecla `ESC`/`B`/`X`.
+* ✅ **Mundo Exploratorio (8 Mapas):** Villa Tranquimar, Casa Prota, Lab Ceibo, Ruta 1, Pueblo Altiplano, Centro Pokémon, Gimnasio Altiplano, Ruta 2, Villa Yungas, Metrópolis Solsticio, Refugio de Adopción.
 
 ---
 
-## 🎯 Resumen de la Arquitectura del Motor (100% Offline para Windows)
-
-```mermaid
-graph TD
-    A[src/main.py: Orquestador Global & Title Screen] --> B[src/core: Motor de Batalla, Guardado .sav & NPCs]
-    A --> C[src/overworld: Mapas Matriciales, Reloj 24m=24h & Safari]
-    A --> D[src/graphics: Shaders de Luz CanvasModulate & Render 2.5D]
-    A --> E[src/battle_ui: Escenarios Parallax & HUD HD]
-    A --> F[src/audio: BGM & SFX]
-    A --> G[dist/PokemonEcosDeAndara: Paquete de Distribución Windows]
-```
+## 🚀 FASES DE DESARROLLO
 
 ---
 
-## 📁 Registro de Archivos y Módulos del Proyecto
+### 🏥 FASE 1: Servicios Esenciales de Pueblo y Objetos en el Mapa
+> **Objetivo:** Dar vida a los pueblos y rutas con los servicios clásicos de curación, compras y recompensas de exploración.
 
-| Archivo / Módulo | Descripción / Función |
-|---|---|
-| [`data/pokedex.json`](file:///c:/Users/Asus/Desktop/Proyecto/data/pokedex.json) | Base de datos de especies, tipos, stats base, learnsets y evoluciones sin intercambio. |
-| [`data/trainers.json`](file:///c:/Users/Asus/Desktop/Proyecto/data/trainers.json) | Base de datos de los 8 Líderes de Gimnasio, Alto Mando, Renata y pools de rutas. |
-| [`data/items.json`](file:///c:/Users/Asus/Desktop/Proyecto/data/items.json) | Catálogo de Poké Balls, MTs/MOs, piedras evolutivas, 21 mentas y 33 Mega Piedras. |
-| [`data/mega_evolutions.json`](file:///c:/Users/Asus/Desktop/Proyecto/data/mega_evolutions.json) | Datos de transformación mega (stats boost, habilidades y tipos). |
-| [`data/types.json`](file:///c:/Users/Asus/Desktop/Proyecto/data/types.json) | Matriz oficial de efectividades de los 18 tipos de Pokémon. |
-| [`data/moves.json`](file:///c:/Users/Asus/Desktop/Proyecto/data/moves.json) | Catálogo expandido de ~110 movimientos con potencia, precisión, PP y efectos. |
-| [`data/encounters.json`](file:///c:/Users/Asus/Desktop/Proyecto/data/encounters.json) | Tablas de encuentros por bioma, horario, shinies (1/1024) y Reserva Safari. |
-| [`data/maps_data.json`](file:///c:/Users/Asus/Desktop/Proyecto/data/maps_data.json) | Matrices de mapas, colisiones, hierba, ledges y puntos de teletransporte (Warps). |
-| [`data/dialogues.json`](file:///c:/Users/Asus/Desktop/Proyecto/data/dialogues.json) | Guiones narrativos, nodos de conversación, elecciones, mugshots y flags de historia. |
-| [`src/core/trainer_manager.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/trainer_manager.py) | Gestor de equipos de jefes y generación procedural del equipo de Nahuel por rutas. |
-| [`src/core/battle/catch_calculator.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/battle/catch_calculator.py) | Calculadora de captura oficial Gen 5+ con escudo de rechazo para Eternatus/Zygarde. |
-| [`src/core/battle/battle_engine.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/battle/battle_engine.py) | Máquina de estados de combate 1v1 con captura silvestre, estados avanzados y nivel. |
-| [`src/core/dialogue_manager.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/dialogue_manager.py) | Motor de diálogos, árboles de decisión, catálogo de mugshots y actualización de flags. |
-| [`src/core/story_events.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/story_events.py) | Orquestador de cinemáticas clave (Prólogo Ceibo, Adopción Growlithe, Renata, Aurora). |
-| [`src/menus/dialogue_visualizer.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/menus/dialogue_visualizer.py) | Visualizador interactivo de diálogos y cinemáticas con marcos en consola. |
-| [`src/overworld/time_cycle.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/overworld/time_cycle.py) | Gestor del ciclo día/noche acelerado (24 min = 24 hrs) y luz ambiental. |
-| [`src/overworld/player_controller.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/overworld/player_controller.py) | Controlador de movimiento tile-based, colisiones sólidas, saltos de ledge y correr. |
-| [`src/overworld/map_manager.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/overworld/map_manager.py) | Gestor de mapas matriciales, consulta de celdas y warps con visor ASCII. |
-| [`src/overworld/npc_manager.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/overworld/npc_manager.py) | Gestor de aldeanos y entrenadores de ruta con línea de visión (1-4 tiles) y '!'. |
-| [`src/overworld/encounter_manager.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/overworld/encounter_manager.py) | Motor de encuentros por pasos, tiradas shiny y Reserva Safari Tradicional. |
-| [`src/core/evolution_manager.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/evolution_manager.py) | Gestor de evoluciones por nivel, Cordón Unión, piedras, objetos directos y amistad. |
-| [`src/core/starter_selection.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/starter_selection.py) | Lógica de iniciales con ventaja para el rival y evento de Growlithe en Solsticio. |
-| [`src/core/shop_catalog.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/shop_catalog.py) | Catálogos de tiendas por ciudad, MTs/MOs y transacciones 100% por dinero ($). |
-| [`src/core/pokemon_generator.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/pokemon_generator.py) | Generador de Pokémon con 31 IVs en todo, EVs listos y uso de Mentas de Naturaleza. |
-| [`src/core/postgame_expansion.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/postgame_expansion.py) | Expansión de Isla Resonancia tras Eternatus y bloqueo de captura para Legendarios. |
-| [`src/core/battle/damage_calculator.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/battle/damage_calculator.py) | Calculadora de daño oficial Gen 5+, STAB (1.5x), críticos (1.5x) y tipos. |
-| [`src/core/battle/mega_engine.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/battle/mega_engine.py) | Motor de Mega Evolución en tiempo real en batalla (Mega-Aro y Mega Piedras). |
-| [`src/core/battle/battle_ai.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/battle/battle_ai.py) | IA táctica para Nahuel y Líderes con detección de remates y cálculo de coberturas. |
-| [`src/core/save_manager.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/core/save_manager.py) | Serializador y gestor de guardado `.sav` (30 Cajas de PC, Mochila y Flags). |
-| [`src/battle_ui/battle_simulator.py`](file:///c:/Users/Asus/Desktop/Proyecto/src/battle_ui/battle_simulator.py) | Simulador interactivo de combate en consola con barras de salud ASCII. |
-| [`tests/verify_depth.ps1`](file:///c:/Users/Asus/Desktop/Proyecto/tests/verify_depth.ps1) | Suite de pruebas de Sistemas de Profundidad (Jefes, MTs, Captura y Estados - 100%). |
-| [`tests/verify_phase5b.ps1`](file:///c:/Users/Asus/Desktop/Proyecto/tests/verify_phase5b.ps1) | Suite de pruebas de la Fase 5B (Diálogos, Mugshots, Cinemáticas y Flags - 100%). |
-| [`tests/verify_phase4.ps1`](file:///c:/Users/Asus/Desktop/Proyecto/tests/verify_phase4.ps1) | Suite de pruebas de la Fase 4 (Overworld, Safari, Mapas y Shinies - 100%). |
-| [`tests/verify_phase2.ps1`](file:///c:/Users/Asus/Desktop/Proyecto/tests/verify_phase2.ps1) | Suite de pruebas de la Fase 2 y Fase 5A (100% de aprobados). |
-| [`tests/verify_mechanics.ps1`](file:///c:/Users/Asus/Desktop/Proyecto/tests/verify_mechanics.ps1) | Suite de pruebas de mecánicas base e integridad de datos (100% de aprobados). |
+- [ ] **1.1. Centro Pokémon y Enfermera Joy Interactiva:**
+  - Diálogo de bienvenida de Joy (*"¡Hola! Te damos la bienvenida al Centro Pokémon..."*).
+  - Animación secuencial de curación: Las 6 Poké Balls se colocan en la máquina, parpadean con sonido característico (jingle de curación), y los PS/PP de todo el equipo se restauran al 100%.
+- [ ] **1.2. Tienda Pokémon (*Poké Mart*):**
+  - Mostrador de compras con dependiente.
+  - Catálogo dinámico: *Poké Ball ($200), Super Ball ($600), Poción ($300), Superpoción ($700), Antídoto ($100), Cuerda Huida ($550)*.
+  - Sistema de compra con selector de cantidad (`x1`, `x5`, `x10`), deducción de dinero y opción de venta de objetos.
+- [ ] **1.3. Objetos en el Suelo (*Item Balls*):**
+  - Sprites de Poké Balls rojas/doradas en rincones de las rutas y pueblos.
+  - Al interactuar (`Espacio / Enter / Z`), el jugador recoge el objeto (*"¡Aria encontró una Poción!"*) y se suma al inventario de la mochila.
+- [ ] **1.4. Carteles Informativos de Ruta y Lore:**
+  - Lectura interactiva de señales de madera y placas de piedra con descripciones de rutas y consejos para entrenadores.
 
-| [`HISTORIA_ANDARA.md`](file:///c:/Users/Asus/Desktop/Proyecto/HISTORIA_ANDARA.md) | Documento maestro de lore, gimnasios, trama de Nahuel, Eternatus y Zygarde. |
-| [`POKEDEX_REGIONAL_ANDARA.md`](file:///c:/Users/Asus/Desktop/Proyecto/POKEDEX_REGIONAL_ANDARA.md) | Catálogo ambiental regional (~220 especies) + Expansión exclusiva de Isla Resonancia. |
-| [`GUIA_PROYECTO_POKEMON_FANGAME.md`](file:///c:/Users/Asus/Desktop/Proyecto/GUIA_PROYECTO_POKEMON_FANGAME.md) | Fórmulas matemáticas oficiales, arquitectura técnica y guía de exportación a `.exe`. |
+---
 
+### ⚔️ FASE 2: Perfeccionamiento del Sistema de Combate
+> **Objetivo:** Alcanzar el 100% de paridad con las opciones tácticas y animaciones de los combates oficiales.
+
+- [ ] **2.1. Relevo de Pokémon en Combate (`PARTY`):**
+  - Al seleccionar *POKÉMON* en batalla, abrir la pantalla de selección del equipo con estados y barras de salud.
+  - Elegir a qué Pokémon enviar al campo de batalla consumiendo el turno del jugador y mostrando el texto y sprite de relevo.
+- [ ] **2.2. Animación Completa de Captura con Poké Ball:**
+  - Trayectoria parabólica de la Poké Ball lanzada hacia el Pokémon salvaje.
+  - Absorción en destello de luz roja.
+  - Secuencia de 1 a 3 rebotes/meneos en el suelo:
+    - Si escapa: Se abre la Poké Ball con humo y el combate continúa.
+    - Si se captura: Destello de estrellas, jingle de captura exitosa y registro automático en la Pokédex.
+- [ ] **2.3. Barra de Experiencia Animada (EXP):**
+  - Tras debilitar a un oponente, animación de llenado fluido de la barra azul de EXP.
+  - Al completarse: Subida de nivel, recálculo de estadísticas con pantalla de aumento (+2 Ataque, +3 PS...) y comprobación de nuevos movimientos.
+- [ ] **2.4. Pantalla de Aprendizaje / Olvido de Movimientos:**
+  - Si un Pokémon ya conoce 4 movimientos y aprende uno nuevo por nivel, pantalla modal para seleccionar cuál olvidar o descartar el nuevo movimiento.
+
+---
+
+### 👁️ FASE 3: Visión de Entrenadores y 1er Gimnasio de Andara
+> **Objetivo:** Introducir la emoción de los combates automáticos por visión y el primer gran desafío de medalla.
+
+- [ ] **3.1. Detección por Línea de Visión (*Trainer Eyes Meet*):**
+  - Los entrenadores NPC en rutas miran en una dirección fija o rotan periódicamente.
+  - Si el jugador cruza su campo de visión (3 a 5 casillas frontales):
+    - Aparece el icono de exclamación **`!`** sobre la cabeza del entrenador.
+    - El entrenador camina automáticamente casilla por casilla hacia el jugador.
+    - Suelta su diálogo desafiante y comienza el combate de entrenador.
+- [ ] **3.2. Gimnasio de Pueblo Altiplano (Líder Rocío - Tipo Roca/Tierra):**
+  - Interior del gimnasio con camino de adoquines, 2 entrenadores pupilos (*Montañero Bruno* y *Campista Lucas*).
+  - Plataforma elevada con la **Líder Rocío**:
+    - Equipo: *Geodude Nv. 12* y *Onix Nv. 14*.
+    - Recompensa al vencer: **🏅 Medalla Cumbre** (permite usar Golpe Roca fuera de combate) y la **MT39 (Tumba Rocas)** + $1,800.
+
+---
+
+### 💾 FASE 4: PC de Almacenamiento y Ficha de Entrenador
+> **Objetivo:** Gestión avanzada de Pokémon capturados y perfil completo del jugador.
+
+- [ ] **4.1. Sistema de Cajas del PC de Almacenamiento:**
+  - Terminal de PC en todos los Centros Pokémon (PC de Alguien / Prof. Ceibo).
+  - Opciones:
+    - *Depositar Pokémon:* Mover del equipo activo a la caja.
+    - *Retirar Pokémon:* Mover de la caja al equipo activo (máx 6).
+    - *Mover Pokémon:* Reorganizar libremente entre cajas 1 a 8.
+  - Visualización de sprites en miniatura y datos de cada Pokémon almacenado.
+- [ ] **4.2. Ficha de Entrenador (*Trainer Card*):**
+  - Pantalla accesible desde el Menú de Pausa:
+    - Retrato del avatar seleccionado.
+    - Nombre del Entrenador, ID público y Dinero actual.
+    - Tiempo de juego registrado.
+    - Vitrina de las **8 Medallas de Gimnasio de Andara** con medallas iluminadas según los logros del jugador.
+
+---
+
+### 🌲 FASE 5: Expansión Geográfica y Readaptación de Biomas Emblemáticos
+> **Objetivo:** Expandir la región de Andara con rutas laberínticas, cuevas, pasos de montaña y la trama del equipo rival.
+
+- [ ] **5.1. Readaptación del Bosque Nublado de Yungas (Laberinto Frondoso):**
+  - Inspirado en los grandes bosques clásicos (*Bosque Verde / Bosque Petalia*).
+  - Senderos estrechos entre árboles milenarios, cazabichos, hierba alta densa con Pokémon de tipo Bicho/Planta (*Oddish, Scyther, Heracross, Bellsprout*).
+- [ ] **5.2. Cueva del Cañón Solsticio (*Dungeon Clásico*):**
+  - Inspirada en *Cueva Unión / Monte Moon*.
+  - Mapas de varios niveles conectados por escaleras de roca, zonas oscuras iluminables con linterna, y Pokémon de tipo Tierra/Roca/Dragón (*Geodude, Machop, Rhyhorn, Gible*).
+- [ ] **5.3. Introducción del Equipo Villano: *Team Eclipse*:**
+  - Reclutas vestidos con uniformes estelares intentando extraer energía de los fósiles ancestrales de Andara.
+  - Evento de rescate en la Cueva del Cañón para desbloquear el acceso a Metrópolis Solsticio.
+- [ ] **5.4. Gimnasio 2 de Villa Yungas (Líder Thiago - Tipo Planta/Bicho):**
+  - Gimnasio selvático con puzzles de lianas y hojas gigantes.
+  - Equipo: *Grovyle Nv. 18*, *Scyther Nv. 20*.
+  - Recompensa: **🏅 Medalla Selva** y **MT19 (Gigadrenado)**.
+
+---
+
+## 🎯 ORDEN DE EJECUCIÓN RECOMENDADO
+
+1. **FASE 1:** Servicios del Centro Pokémon (Joy) + Tienda Poké Mart + Item Balls en el mapa.
+2. **FASE 2:** Relevo en combate (`PARTY`), animación de captura de Poké Ball y barra de EXP.
+3. **FASE 3:** Visión de entrenadores (`!`) y Combate del Gimnasio 1 contra Rocío con entrega de la Medalla Cumbre.
+4. **FASE 4:** Cajas del PC de almacenamiento y Ficha de Entrenador.
+5. **FASE 5:** Expansión del Cañón Solsticio, Team Eclipse y Gimnasio 2 de Yungas.
