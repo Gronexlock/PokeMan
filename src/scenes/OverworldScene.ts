@@ -4,6 +4,17 @@ import { DialogueBoxPhaser } from '../ui/DialogueBoxPhaser';
 import { MapManager } from '../overworld/MapManager';
 import { WarpManager } from '../overworld/WarpManager';
 import { InteractionManager } from '../overworld/InteractionManager';
+import { PokemonCenter } from '../overworld/PokemonCenter';
+import { PokeMartMenu, PlayerWallet } from '../overworld/PokeMartMenu';
+import { TrainerManager, TrainerDefinition, GYM_ALTIPLANO_TRAINERS, BADGE_CUMBRE } from '../overworld/TrainerManager';
+import { PCStorageUI } from '../overworld/PCStorageUI';
+import { TrainerCardUI } from '../ui/TrainerCardUI';
+import { SaveLoadUI } from '../ui/SaveLoadUI';
+import { DayNightSystem } from '../overworld/DayNightSystem';
+import { WeatherSystem } from '../overworld/WeatherSystem';
+import { SurfManager } from '../overworld/SurfManager';
+import { BattlePokemon } from '../core/battle';
+import { SaveData } from '../core/types';
 
 export interface OverworldSceneConfig {
   mapKey: string;
@@ -48,14 +59,54 @@ export class OverworldScene extends Phaser.Scene {
   public warpManager!: WarpManager;
   public interactionManager!: InteractionManager;
 
+  // --- Servicios de Pueblo (Fase 3) ---
+  public pokemonCenter!: PokemonCenter;
+  public pokeMart!: PokeMartMenu;
+  public trainerManager!: TrainerManager;
+
+  // --- Sistemas de Gestión y Guardado (Fase 4) ---
+  public pcStorage!: PCStorageUI;
+  public trainerCard!: TrainerCardUI;
+  public saveLoadUI!: SaveLoadUI;
+
+  // --- Sistemas de Mundo Dinámico (Fase 5) ---
+  public dayNightSystem!: DayNightSystem;
+  public weatherSystem!: WeatherSystem;
+  public surfManager!: SurfManager;
+
+  /** Datos de identidad del jugador */
+  public playerName: string = 'Red';
+  public trainerId: string = '38492';
+  public gender: 'male' | 'female' = 'male';
+  public playTimeSeconds: number = 0;
+
+  /** Equipo del jugador (se pasa al Centro y BattleScene) */
+  public playerParty: BattlePokemon[] = [];
+
+  /** Billetera / inventario del jugador */
+  public playerWallet: PlayerWallet = {
+    money: 3000,
+    inventory: new Map([['poke_ball', 5], ['potion', 3]])
+  };
+
+  /** Medallas obtenidas */
+  public badges: string[] = [];
+
+  /** Clave del mapa / ciudad actual para el Poké Mart */
+  public currentCityKey: string = 'villa_tranquimar';
+
   // --- Constantes de Movimiento y Encuentros ---
   private readonly WALK_SPEED = 140;
   private readonly RUN_SPEED = 240;
-  private readonly ENCOUNTER_PROBABILITY = 0.10; // 10% de probabilidad al pisar césped alto
+  private readonly ENCOUNTER_PROBABILITY = 0.10;
 
-  // Control de posición en cuadrícula para evitar disparar encuentros en cada frame
+  // Control de posición en cuadrícula
   private lastTilePosition: { x: number; y: number } = { x: -1, y: -1 };
   private isEncounterTriggered: boolean = false;
+
+  // --- Estado de Salto (Ledge / Desnivel) ---
+  private isJumping: boolean = false;
+  private currentFacing: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT' = 'DOWN';
 
   constructor() {
     super({ key: 'OverworldScene' });
@@ -158,16 +209,57 @@ export class OverworldScene extends Phaser.Scene {
 
     // --- I. WarpManager (Transiciones entre Mapas) ---
     this.warpManager = new WarpManager(this);
-    // Activar cooldown al inicio para no retransportar al jugador nada más aparecer
     this.warpManager.activateCooldown();
     this.warpManager.fadeIn(400);
 
     // --- J. InteractionManager (Letreros e Item Balls) ---
     this.interactionManager = new InteractionManager(this, this.dialogueBox);
-    // Instanciar Item Balls del mapa en pantalla usando los datos del MapManager
     if (this.mapManager?.itemBalls) {
       this.interactionManager.spawnItemBalls(this.mapManager.itemBalls);
     }
+
+    // --- K. Servicios de Pueblo (Fase 3) ---
+    this.pokemonCenter = new PokemonCenter(this, this.dialogueBox);
+    this.pokeMart = new PokeMartMenu(this);
+    this.trainerManager = new TrainerManager(this);
+
+    // --- L. Gestión y Guardado (Fase 4) ---
+    this.pcStorage = new PCStorageUI(this);
+    this.trainerCard = new TrainerCardUI(this);
+    this.saveLoadUI = new SaveLoadUI(this);
+
+    // --- M. Mundo Dinámico, Clima y Surf (Fase 5) ---
+    this.dayNightSystem = new DayNightSystem(this, 10); // Iniciar a las 10:00 AM
+    this.weatherSystem = new WeatherSystem(this, 'CLEAR');
+    this.surfManager = new SurfManager(this, this.dialogueBox);
+
+    // Inicializar equipo por defecto si está vacío
+    if (this.playerParty.length === 0) {
+      this.playerParty = [
+        {
+          id: 6, name: 'Charizard', types: ['fire', 'flying'], level: 36,
+          currentHp: 110, maxHp: 110, attack: 84, defense: 78, spAttack: 109, spDefense: 85, speed: 100,
+          moves: [
+            { id: 'flamethrower', name: 'Lanzallamas', type: 'fire', category: 'special', power: 90, accuracy: 100, pp: 15, maxPp: 15 },
+            { id: 'dragon_claw',  name: 'Garra Dragón', type: 'dragon', category: 'physical', power: 80, accuracy: 100, pp: 15, maxPp: 15 },
+            { id: 'air_slash',    name: 'Tajo Aéreo',   type: 'flying', category: 'special', power: 75, accuracy: 95, pp: 15, maxPp: 15 },
+            { id: 'slash',        name: 'Cuchillada',   type: 'normal', category: 'physical', power: 70, accuracy: 100, pp: 20, maxPp: 20 },
+          ]
+        },
+        {
+          id: 25, name: 'Pikachu', types: ['electric'], level: 12,
+          currentHp: 42, maxHp: 42, attack: 30, defense: 22, spAttack: 28, spDefense: 24, speed: 35,
+          moves: [
+            { id: 'thunderbolt', name: 'Impactrueno', type: 'electric', category: 'special', power: 40, accuracy: 100, pp: 30, maxPp: 30 },
+            { id: 'quickattack', name: 'Ataque Rápido', type: 'normal', category: 'physical', power: 40, accuracy: 100, pp: 30, maxPp: 30, priority: 1 },
+          ]
+        }
+      ];
+    }
+
+    // Cargar entrenadores del mapa actual
+    const trainersForMap: TrainerDefinition[] = [];
+    this.trainerManager.spawnTrainers(trainersForMap);
   }
 
   /**
@@ -243,10 +335,39 @@ export class OverworldScene extends Phaser.Scene {
   /**
    * 3. UPDATE: Bucle de actualización por frame.
    */
-  update(_time: number, _delta: number): void {
+  update(_time: number, delta: number): void {
     if (this.isEncounterTriggered) return;
 
-    // A. Si hay un diálogo activo en pantalla, el movimiento se congela y Espacio avanza el texto
+    // Actualizar tiempo de juego (Fase 4)
+    this.playTimeSeconds += delta / 1000;
+
+    // A.1: Si hay alguna UI modal activa (PC, Ficha, Guardado, Tienda), enrutar su input y congelar jugador
+    if (this.pcStorage?.visible) {
+      this.player.setVelocity(0, 0);
+      this.player.anims.stop();
+      this.pcStorage.handleInput();
+      return;
+    }
+    if (this.trainerCard?.visible) {
+      this.player.setVelocity(0, 0);
+      this.player.anims.stop();
+      this.trainerCard.handleInput();
+      return;
+    }
+    if (this.saveLoadUI?.visible) {
+      this.player.setVelocity(0, 0);
+      this.player.anims.stop();
+      this.saveLoadUI.handleInput();
+      return;
+    }
+    if (this.pokeMart?.visible) {
+      this.player.setVelocity(0, 0);
+      this.player.anims.stop();
+      this.pokeMart.handleInput();
+      return;
+    }
+
+    // A.2: Si hay un diálogo activo en pantalla, el movimiento se congela y Espacio avanza el texto
     if (this.dialogueBox && this.dialogueBox.isDialogueActive()) {
       this.player.setVelocity(0, 0);
       this.player.anims.stop();
@@ -261,6 +382,30 @@ export class OverworldScene extends Phaser.Scene {
       return;
     }
 
+    // A.3: Teclas rápidas para abrir interfaces (Hotkeys)
+    if (this.input.keyboard) {
+      // 'C' -> Ficha de Entrenador (Trainer Card)
+      if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C))) {
+        this.openTrainerCard();
+        return;
+      }
+      // 'P' -> PC de Almacenamiento
+      if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P))) {
+        this.openPCStorage();
+        return;
+      }
+      // 'G' -> Guardar Partida (Save Screen)
+      if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G))) {
+        this.openSaveMenu();
+        return;
+      }
+      // 'L' -> Cargar Partida (Load Screen)
+      if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L))) {
+        this.openLoadMenu();
+        return;
+      }
+    }
+
     const actionPressed =
       Phaser.Input.Keyboard.JustDown(this.spaceKey) ||
       Phaser.Input.Keyboard.JustDown(this.enterKey) ||
@@ -268,6 +413,14 @@ export class OverworldScene extends Phaser.Scene {
 
     // B. Resolución de Acción (prioridad descendente)
     if (actionPressed) {
+      // B.0: Comprobar Surf frente a agua (Fase 5)
+      if (this.groundLayer && this.surfManager) {
+        const surfStarted = this.surfManager.tryStartSurf(
+          this.player, this.map, this.groundLayer, this.currentFacing
+        );
+        if (surfStarted) return;
+      }
+
       // B.1: Item Ball cercana
       const pickedUp = this.interactionManager?.tryPickupItemBall(
         this.player.x, this.player.y,
@@ -309,10 +462,68 @@ export class OverworldScene extends Phaser.Scene {
       );
     }
 
-    // D. Hints de proximidad de Item Balls
+    // F. Entrenadores (comprobación pasiva por visión, sin necesidad de pulsar botón)
+    if (!this.trainerManager?.hasActiveBattle && !this.isJumping) {
+      this.trainerManager?.update(
+        this.player.x, this.player.y,
+        this.map?.tileWidth ?? 32,
+        (trainerDef) => {
+          // El entrenador llegó al jugador: iniciar diálogo de desafío
+          this.isEncounterTriggered = true;
+          this.player.setVelocity(0, 0);
+
+          this.dialogueBox.startDialogue(trainerDef.name, trainerDef.dialogueBefore, () => {
+            // Iniciar BattleScene con el primer Pokémon del equipo del entrenador
+            this.scene.launch('BattleScene', {
+              playerPokemon: this.playerParty[0],
+              playerParty:   this.playerParty,
+              opponentPokemon: trainerDef.team[0],
+              encounterType: 'trainer',
+            });
+            this.scene.pause();
+
+            // Escuchar el fin del combate
+            this.scene.get('BattleScene').events.once('battleEnd', (won: boolean) => {
+              this.scene.resume();
+              this.isEncounterTriggered = false;
+
+              if (won) {
+                this.trainerManager.markDefeated(trainerDef.id);
+                // Diálogo post-combate + recompensas
+                this.playerWallet.money += trainerDef.reward;
+                const afterLines = [
+                  ...trainerDef.dialogueAfter,
+                  `¡Recibiste ${trainerDef.reward.toLocaleString()} ¥!`
+                ];
+                // Si es el Líder de Gimnasio, otorgar medalla
+                if (trainerDef.aiTier === 'gym_leader') {
+                  const badge = BADGE_CUMBRE;
+                  if (!this.badges.includes(badge.id)) {
+                    this.badges.push(badge.id);
+                    afterLines.push(`¡Has recibido la ${badge.name}!`);
+                  }
+                }
+                this.dialogueBox.startDialogue(trainerDef.name, afterLines);
+              } else {
+                this.trainerManager.releaseLock();
+                this.dialogueBox.startDialogue('Sistema', ['¡Tu equipo fue derrotado!', 'Has vuelto al último Centro Pokémon visitado.']);
+              }
+            });
+          });
+        },
+        this.game.loop.delta
+      );
+    }
+
+    // G. Hints de proximidad de Item Balls
     this.interactionManager?.updateProximityHints(this.player.x, this.player.y);
 
-    // E. Movimiento del Jugador y Encuentros en Césped Alto
+    // H. Actualizaciones de Sistemas de Mundo Dinámico (Fase 5)
+    this.dayNightSystem?.update(delta, this.player.x, this.player.y);
+    this.weatherSystem?.update(delta);
+    this.surfManager?.update(this.player.x, this.player.y, delta);
+
+    // I. Movimiento del Jugador y Encuentros en Césped / Agua
     this.handlePlayerMovement();
     this.checkTallGrassEncounter();
   }
@@ -369,44 +580,119 @@ export class OverworldScene extends Phaser.Scene {
   }
 
   /**
-   * Gestiona el movimiento en 4 direcciones.
+   * Gestiona el movimiento en 4 direcciones y comprueba desniveles de salto (Ledge).
    */
   private handlePlayerMovement(): void {
-    const isRunning = this.cursors?.shift.isDown || this.wasdKeys?.SHIFT.isDown;
-    const speed = isRunning ? this.RUN_SPEED : this.WALK_SPEED;
+    // Bloquear movimiento durante el salto
+    if (this.isJumping) {
+      this.player.setVelocity(0, 0);
+      return;
+    }
+
+    const isSurfing = this.surfManager?.surfing ?? false;
+    const isRunning = (this.cursors?.shift.isDown || this.wasdKeys?.SHIFT.isDown) && !isSurfing;
+    const speed = isSurfing ? this.surfManager.SURF_SPEED : (isRunning ? this.RUN_SPEED : this.WALK_SPEED);
 
     let vx = 0;
     let vy = 0;
 
-    const isLeft = this.cursors?.left.isDown || this.wasdKeys?.A.isDown;
+    const isLeft  = this.cursors?.left.isDown  || this.wasdKeys?.A.isDown;
     const isRight = this.cursors?.right.isDown || this.wasdKeys?.D.isDown;
-    const isUp = this.cursors?.up.isDown || this.wasdKeys?.W.isDown;
-    const isDown = this.cursors?.down.isDown || this.wasdKeys?.S.isDown;
+    const isUp    = this.cursors?.up.isDown    || this.wasdKeys?.W.isDown;
+    const isDown  = this.cursors?.down.isDown  || this.wasdKeys?.S.isDown;
 
-    if (isLeft) vx = -speed;
-    else if (isRight) vx = speed;
+    if (isLeft)       { vx = -speed; this.currentFacing = 'LEFT';  }
+    else if (isRight) { vx =  speed; this.currentFacing = 'RIGHT'; }
+    if (isUp)         { vy = -speed; this.currentFacing = 'UP';    }
+    else if (isDown)  { vy =  speed; this.currentFacing = 'DOWN';  }
 
-    if (isUp) vy = -speed;
-    else if (isDown) vy = speed;
+    if (vx !== 0 && vy !== 0) { vx *= 0.7071; vy *= 0.7071; }
 
-    if (vx !== 0 && vy !== 0) {
-      vx *= 0.7071;
-      vy *= 0.7071;
+    // --- Comprobación de Desembarque de Surf ---
+    if (isSurfing && this.groundLayer && (vx !== 0 || vy !== 0)) {
+      const dismounted = this.surfManager.tryDismount(
+        this.player, this.map, this.groundLayer, this.currentFacing
+      );
+      if (dismounted) return;
+    }
+
+    // --- Comprobación de Ledge antes de aplicar velocidad ---
+    if (!isSurfing && this.mapManager && (vx !== 0 || vy !== 0)) {
+      const tileSize  = this.map?.tileWidth ?? 32;
+      // Proyectamos 1 tile en la dirección actual para ver si hay un desnivel
+      const lookAheadX = this.player.x + (vx > 0 ? tileSize : vx < 0 ? -tileSize : 0);
+      const lookAheadY = this.player.y + (vy > 0 ? tileSize : vy < 0 ? -tileSize : 0);
+      const tileX = this.map.worldToTileX(lookAheadX) ?? -1;
+      const tileY = this.map.worldToTileY(lookAheadY) ?? -1;
+
+      const ledge = this.mapManager.getLedgeAt(tileX, tileY);
+      if (ledge && ledge.jumpDirection === this.currentFacing) {
+        this.performLedgeJump(ledge.jumpDirection);
+        return;
+      }
     }
 
     this.player.setVelocity(vx, vy);
 
-    if (vx < 0) {
-      this.player.anims.play('walk_left', true);
-    } else if (vx > 0) {
-      this.player.anims.play('walk_right', true);
-    } else if (vy < 0) {
-      this.player.anims.play('walk_up', true);
-    } else if (vy > 0) {
-      this.player.anims.play('walk_down', true);
-    } else {
-      this.player.anims.stop();
-    }
+    if (vx < 0)      { this.player.anims.play('walk_left',  true); }
+    else if (vx > 0) { this.player.anims.play('walk_right', true); }
+    else if (vy < 0) { this.player.anims.play('walk_up',    true); }
+    else if (vy > 0) { this.player.anims.play('walk_down',  true); }
+    else             { this.player.anims.stop(); }
+  }
+
+  /**
+   * Ejecuta el salto parabólico de desnivel (Ledge Jump).
+   * El jugador salta 2 casillas hacia adelante con un arco visual usando dos Tweens encadenados.
+   * La colisión se desactiva durante el salto para que pueda atravesar el borde.
+   */
+  private performLedgeJump(direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT'): void {
+    if (this.isJumping) return;
+    this.isJumping = true;
+
+    const tileSize = this.map?.tileWidth ?? 32;
+    const jumpTiles = 2;
+
+    // Calcular el destino final del salto (2 casillas en la dirección del ledge)
+    const deltaX = direction === 'LEFT' ? -(tileSize * jumpTiles) : direction === 'RIGHT' ? (tileSize * jumpTiles) : 0;
+    const deltaY = direction === 'DOWN' ? (tileSize * jumpTiles)  : direction === 'UP'   ? -(tileSize * jumpTiles) : 0;
+
+    const targetX = this.player.x + deltaX;
+    const targetY = this.player.y + deltaY;
+
+    // Arco parabólico con dos tweens encadenados (subida + bajada)
+    const arcHeight = 24; // Altura máxima del arco en píxeles
+
+    this.player.setVelocity(0, 0);
+    if (this.player.body) (this.player.body as Phaser.Physics.Arcade.Body).setEnable(false);
+
+    // Animación de salto (se congela en el frame de caminata hacia abajo)
+    this.player.anims.play('walk_down', true);
+
+    // Fase 1: Subir al punto medio del arco
+    this.tweens.add({
+      targets: this.player,
+      x: this.player.x + deltaX / 2,
+      y: this.player.y + deltaY / 2 - arcHeight,
+      duration: 180,
+      ease: 'Quad.easeOut',
+      onComplete: () => {
+        // Fase 2: Bajar al destino final
+        this.tweens.add({
+          targets: this.player,
+          x: targetX,
+          y: targetY,
+          duration: 180,
+          ease: 'Quad.easeIn',
+          onComplete: () => {
+            // Reactivar física y desbloquear movimiento
+            if (this.player.body) (this.player.body as Phaser.Physics.Arcade.Body).setEnable(true);
+            this.isJumping = false;
+            this.player.anims.stop();
+          }
+        });
+      }
+    });
   }
 
   /**
@@ -427,6 +713,31 @@ export class OverworldScene extends Phaser.Scene {
     const isMoving = this.player.body ? this.player.body.velocity.length() > 0 : false;
     if (!isMoving) return;
 
+    // Comprobación en agua (Surf)
+    if (this.surfManager?.surfing) {
+      if (this.surfManager.checkWaterEncounter()) {
+        const waterPkmn = this.surfManager.waterEncounters[
+          Phaser.Math.Between(0, this.surfManager.waterEncounters.length - 1)
+        ];
+        this.triggerWildBattleEncounter({
+          id: waterPkmn.id,
+          name: waterPkmn.name,
+          types: ['water'],
+          level: Phaser.Math.Between(waterPkmn.levelRange[0], waterPkmn.levelRange[1]),
+          currentHp: 35,
+          maxHp: 35,
+          attack: 20,
+          defense: 25,
+          speed: 28,
+          moves: [
+            { id: 'watergun', name: 'Pistola Agua', type: 'water', category: 'special', power: 40, accuracy: 100, pp: 25, maxPp: 25 },
+            { id: 'tackle',   name: 'Placaje',      type: 'normal', category: 'physical', power: 40, accuracy: 100, pp: 35, maxPp: 35 },
+          ]
+        });
+      }
+      return;
+    }
+
     let isStandingOnGrass = false;
     if (this.grassLayer) {
       const grassTile = this.grassLayer.getTileAt(currentTileX, currentTileY);
@@ -443,19 +754,23 @@ export class OverworldScene extends Phaser.Scene {
     }
   }
 
-  private triggerWildBattleEncounter(): void {
+  private triggerWildBattleEncounter(customOpponent?: BattlePokemon): void {
     this.isEncounterTriggered = true;
     this.player.setVelocity(0, 0);
     this.player.anims.stop();
 
     const cam = this.cameras.main;
-    cam.flash(300, 255, 255, 255, false, (_camera, progress) => {
+    cam.flash(300, 255, 255, 255, false, (_camera: Phaser.Cameras.Scene2D.Camera, progress: number) => {
       if (progress === 1) {
-        cam.fade(500, 0, 0, 0, false, (_cam2, fadeProgress) => {
+        cam.fade(500, 0, 0, 0, false, (_cam2: Phaser.Cameras.Scene2D.Camera, fadeProgress: number) => {
           if (fadeProgress === 1) {
             this.scene.start('BattleScene', {
+              playerPokemon: this.playerParty[0],
+              playerParty: this.playerParty,
+              opponentPokemon: customOpponent,
               encounterType: 'wild',
-              mapName: 'Route1'
+              mapName: this._initData.mapKey || 'Route1',
+              weather: this.weatherSystem?.currentWeather ?? 'CLEAR'
             });
           }
         });
@@ -494,4 +809,170 @@ export class OverworldScene extends Phaser.Scene {
       repeat: -1
     });
   }
+
+  // ──────────────────────────────────────────────────────────────────────────────
+  // MÉTODOS DE FASE 4: APERTURA DE INTERFACES Y GUARDADO
+  // ──────────────────────────────────────────────────────────────────────────────
+
+  /**
+   * Abre la Ficha de Entrenador (TrainerCardUI).
+   */
+  public openTrainerCard(): void {
+    if (!this.trainerCard) return;
+    this.player.setVelocity(0, 0);
+    this.player.anims.stop();
+
+    this.trainerCard.open({
+      playerName: this.playerName,
+      trainerId: this.trainerId,
+      gender: this.gender,
+      money: this.playerWallet.money,
+      playTimeSeconds: Math.floor(this.playTimeSeconds),
+      pokedexSeen: 34,
+      pokedexCaught: 12,
+      badges: [...this.badges],
+    });
+  }
+
+  /**
+   * Abre el PC de Almacenamiento (PCStorageUI).
+   */
+  public openPCStorage(): void {
+    if (!this.pcStorage) return;
+    this.player.setVelocity(0, 0);
+    this.player.anims.stop();
+
+    this.pcStorage.open(this.playerParty);
+  }
+
+  /**
+   * Abre la pantalla de Guardar Partida (SaveLoadUI en modo SAVE).
+   */
+  public openSaveMenu(): void {
+    if (!this.saveLoadUI) return;
+    this.player.setVelocity(0, 0);
+    this.player.anims.stop();
+
+    this.saveLoadUI.openSave(() => this.generateSaveData());
+  }
+
+  /**
+   * Abre la pantalla de Cargar Partida (SaveLoadUI en modo LOAD).
+   */
+  public openLoadMenu(): void {
+    if (!this.saveLoadUI) return;
+    this.player.setVelocity(0, 0);
+    this.player.anims.stop();
+
+    this.saveLoadUI.openLoad((loadedData) => this.applyLoadedSaveData(loadedData));
+  }
+
+  /**
+   * Genera el snapshot completo de SaveData con el estado actual del juego.
+   */
+  public generateSaveData(slotName: string = 'save_slot_1'): SaveData {
+    const inventoryRecord: Record<string, number> = {};
+    this.playerWallet.inventory.forEach((qty, id) => {
+      inventoryRecord[id] = qty;
+    });
+
+    return {
+      slot: slotName,
+      player_name: this.playerName,
+      gender: this.gender,
+      badges: [...this.badges],
+      money: this.playerWallet.money,
+      current_map: this._initData.mapKey || 'route1_map',
+      player_x: Math.floor(this.player.x),
+      player_y: Math.floor(this.player.y),
+      player_facing: this.currentFacing,
+      party: this.playerParty.map(p => ({
+        species_id: typeof p.id === 'number' ? p.id : 25,
+        species_name: p.name,
+        types: p.types,
+        level: p.level,
+        current_hp: p.currentHp,
+        max_hp: p.maxHp,
+        base_stats: { hp: p.maxHp, attack: p.attack, defense: p.defense, special_attack: p.spAttack || p.attack, special_defense: p.spDefense || p.defense, speed: p.speed },
+        stats: { hp: p.maxHp, attack: p.attack, defense: p.defense, special_attack: p.spAttack || p.attack, special_defense: p.spDefense || p.defense, speed: p.speed },
+        ivs: { hp: 31, attack: 31, defense: 31, special_attack: 31, special_defense: 31, speed: 31 },
+        evs: { hp: 0, attack: 0, defense: 0, special_attack: 0, special_defense: 0, speed: 0 },
+        base_nature: 'hardy',
+        effective_nature: 'hardy',
+        status: null,
+        moves: p.moves.map(m => ({
+          id: m.id,
+          name: m.name,
+          current_pp: m.pp,
+          max_pp: m.maxPp || m.pp,
+          data: { name: m.name, type: m.type, category: m.category, power: m.power, accuracy: m.accuracy, pp: m.pp }
+        })),
+        held_item: null
+      })),
+      pc_boxes: this.pcStorage ? (this.pcStorage.exportBoxes() as any) : [],
+      inventory: inventoryRecord,
+      story_flags: {},
+      pokedex_seen: [25, 7, 74, 95, 111],
+      pokedex_caught: [25],
+      play_time_seconds: Math.floor(this.playTimeSeconds),
+      timestamp: new Date().toISOString()
+    };
+  }
+
+  /**
+   * Restaura el estado del juego tras cargar una partida.
+   */
+  public applyLoadedSaveData(data: SaveData): void {
+    this.playerName = data.player_name || this.playerName;
+    this.gender = data.gender || this.gender;
+    this.badges = data.badges || [];
+    this.playerWallet.money = data.money ?? this.playerWallet.money;
+    this.playTimeSeconds = data.play_time_seconds ?? 0;
+
+    // Restaurar inventario
+    if (data.inventory) {
+      this.playerWallet.inventory.clear();
+      Object.entries(data.inventory).forEach(([id, qty]) => {
+        this.playerWallet.inventory.set(id, qty);
+      });
+    }
+
+    // Restaurar equipo
+    if (data.party && data.party.length > 0) {
+      this.playerParty = data.party.map(p => ({
+        id: p.species_id,
+        name: p.species_name,
+        types: p.types,
+        level: p.level,
+        currentHp: p.current_hp,
+        maxHp: p.max_hp,
+        attack: p.stats.attack,
+        defense: p.stats.defense,
+        spAttack: p.stats.special_attack,
+        spDefense: p.stats.special_defense,
+        speed: p.stats.speed,
+        moves: p.moves.map(m => ({
+          id: m.id,
+          name: m.name,
+          type: m.data.type,
+          category: m.data.category,
+          power: m.data.power || 40,
+          accuracy: m.data.accuracy || 100,
+          pp: m.current_pp,
+          maxPp: m.max_pp
+        }))
+      }));
+    }
+
+    // Posicionar jugador en el mapa guardado
+    if (data.player_x && data.player_y) {
+      this.player.setPosition(data.player_x, data.player_y);
+    }
+
+    this.dialogueBox.startDialogue('Sistema', [
+      `¡Bienvenido de nuevo, ${this.playerName}!`,
+      'La partida se ha cargado correctamente.'
+    ]);
+  }
 }
+

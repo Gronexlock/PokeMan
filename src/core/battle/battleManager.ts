@@ -31,6 +31,9 @@ export interface BattlePokemon {
   spDefense?: number;
   speed: number;
   moves: BattleMove[];
+  isMega?: boolean;
+  megaStone?: string;
+  originalName?: string;
 }
 
 /**
@@ -43,6 +46,8 @@ export type BattleStepType =
   | 'DAMAGE'
   | 'CRITICAL_HIT'
   | 'EFFECTIVENESS'
+  | 'MEGA_EVOLUTION'
+  | 'WEATHER_EFFECT'
   | 'FAINT'
   | 'BATTLE_END';
 
@@ -108,10 +113,24 @@ export class BattleManager {
   public isBattleOver: boolean = false;
   public winner: CombatantSide | null = null;
 
-  constructor(playerPokemon: BattlePokemon, opponentPokemon: BattlePokemon) {
-    // Clonamos superficialmente las entidades para evitar mutaciones no deseadas fuera del motor
+  /**
+   * `true` si es un combate de entrenador (no se puede huir ni lanzar Poké Balls).
+   * `false` (default) para encuentros salvajes.
+   */
+  public is_trainer_battle: boolean = false;
+  public currentWeather: string = 'CLEAR';
+  public playerMegaUsed: boolean = false;
+  public opponentMegaUsed: boolean = false;
+
+  constructor(
+    playerPokemon: BattlePokemon,
+    opponentPokemon: BattlePokemon,
+    options: { isTrainerBattle?: boolean; weather?: string } = {}
+  ) {
     this.player = { ...playerPokemon, moves: [...playerPokemon.moves] };
     this.opponent = { ...opponentPokemon, moves: [...opponentPokemon.moves] };
+    this.is_trainer_battle = options.isTrainerBattle ?? false;
+    this.currentWeather = options.weather ?? 'CLEAR';
     this.checkBattleStatus();
   }
 
@@ -196,12 +215,23 @@ export class BattleManager {
     // 6. Efectividad de Tipos
     const effectiveness = this.getTypeEffectiveness(move.type, defender.types);
 
-    // 7. Factor Aleatorio Oficial (0.85 a 1.00)
+    // 7. Modificador de Clima
+    let weatherMultiplier = 1.0;
+    const mt = move.type.toLowerCase();
+    if (this.currentWeather === 'RAIN' || this.currentWeather === 'THUNDERSTORM') {
+      if (mt === 'water') weatherMultiplier = 1.5;
+      if (mt === 'fire') weatherMultiplier = 0.5;
+    } else if (this.currentWeather === 'HARSH_SUN') {
+      if (mt === 'fire') weatherMultiplier = 1.5;
+      if (mt === 'water') weatherMultiplier = 0.5;
+    }
+
+    // 8. Factor Aleatorio Oficial (0.85 a 1.00)
     const randomMultiplier = options.forceRandom ?? (Math.floor(Math.random() * 16 + 85) / 100);
 
-    // 8. Cálculo final
+    // 9. Cálculo final
     let finalDamage = Math.floor(
-      baseDamage * critMultiplier * stabMultiplier * effectiveness * randomMultiplier
+      baseDamage * critMultiplier * stabMultiplier * effectiveness * weatherMultiplier * randomMultiplier
     );
 
     if (effectiveness === 0) {
@@ -229,9 +259,21 @@ export class BattleManager {
    * Ejecuta un turno completo de combate, resolviendo prioridades, velocidades y generando
    * el listado secuencial de eventos (steps) para que Phaser 3 los anime.
    */
-  public executeTurn(playerMoveIndex: number, opponentMoveIndex?: number): TurnResult {
+  public executeTurn(
+    playerMoveIndex: number,
+    opponentMoveIndex?: number,
+    options: { playerMega?: boolean; opponentMega?: boolean } = {}
+  ): TurnResult {
     this.turnNumber++;
     const steps: BattleStep[] = [];
+
+    // --- A. Mega-Evolución antes de cualquier ataque ---
+    if (options.playerMega && !this.playerMegaUsed && !this.player.isMega) {
+      this.triggerMegaEvolution('player', steps);
+    }
+    if (options.opponentMega && !this.opponentMegaUsed && !this.opponent.isMega) {
+      this.triggerMegaEvolution('opponent', steps);
+    }
 
     if (this.isBattleOver) {
       return {
@@ -448,6 +490,34 @@ export class BattleManager {
       this.isBattleOver = false;
       this.winner = null;
     }
+  }
+
+  /**
+   * Ejecuta la transformación de Mega-Evolución de un contendiente.
+   */
+  public triggerMegaEvolution(side: 'player' | 'opponent', steps: BattleStep[]): void {
+    const pkmn = side === 'player' ? this.player : this.opponent;
+    if (pkmn.isMega) return;
+
+    pkmn.originalName = pkmn.name;
+    pkmn.isMega = true;
+    pkmn.name = `Mega-${pkmn.name}`;
+
+    // Aumento de estadísticas oficial (+100 BST general)
+    pkmn.attack += 30;
+    pkmn.defense += 20;
+    if (pkmn.spAttack) pkmn.spAttack += 30;
+    if (pkmn.spDefense) pkmn.spDefense += 20;
+    pkmn.speed += 10;
+
+    if (side === 'player') this.playerMegaUsed = true;
+    else this.opponentMegaUsed = true;
+
+    steps.push({
+      type: 'MEGA_EVOLUTION',
+      actor: side,
+      message: `¡El Mega-Aro reacciona! ¡${pkmn.originalName} ha Mega Evolucionado en ${pkmn.name}!`
+    });
   }
 
   /**

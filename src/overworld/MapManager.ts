@@ -13,7 +13,7 @@ export interface MapWarp {
   targetX: number;     // Coordenada X de aparición en el nuevo mapa
   targetY: number;     // Coordenada Y de aparición en el nuevo mapa
   facingDirection?: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
-  transitionType?: 'door_fade' | 'slide' | 'instant';
+  transitionType?: 'door_fade' | 'slide' | 'slide_up' | 'slide_down' | 'instant';
 }
 
 /**

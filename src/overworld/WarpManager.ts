@@ -79,7 +79,6 @@ export class WarpManager {
    */
   private executeTransition(warp: MapWarp, onComplete: (result: WarpTransitionResult) => void): void {
     this.isTransitioning = true;
-    const cam = this.cameras;
 
     switch (warp.transitionType) {
       case 'instant':
