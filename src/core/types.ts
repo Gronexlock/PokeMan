@@ -218,25 +218,30 @@ export interface DialogueTree {
 }
 
 export interface SaveData {
-  slot: string;
+  slot?: string;
   player_name: string;
-  gender: 'male' | 'female';
+  gender?: 'male' | 'female';
+  player_gender?: string;
   player_sprite?: string;
   badges: string[];
   money: number;
   current_map: string;
-  player_x: number;
-  player_y: number;
-  player_facing: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
+  player_x?: number;
+  player_y?: number;
+  player_position?: { x: number; y: number };
+  player_facing?: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
   party: PokemonInstance[];
-  pc_boxes: PokemonInstance[][];
-  inventory: Record<string, number>;
-  story_flags: Record<string, any>;
+  pc_boxes?: PokemonInstance[][];
+  inventory?: Record<string, number>;
+  bag?: any;
+  story_flags?: Record<string, any>;
   last_respawn_point?: { map: string; x: number; y: number };
-  pokedex_seen: number[];
-  pokedex_caught: number[];
-  play_time_seconds: number;
-  timestamp: string;
+  pokedex?: { seen: number[]; caught: number[] };
+  pokedex_seen?: number[];
+  pokedex_caught?: number[];
+  play_time?: number;
+  play_time_seconds?: number;
+  timestamp?: string;
 }
 
 export type GameState =

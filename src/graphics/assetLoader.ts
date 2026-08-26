@@ -36,7 +36,19 @@ export class AssetLoader {
       'young_guy.png',
       'purple_girl.png',
       'straw.png',
-      'young_girl.png'
+      'young_girl.png',
+      'rival.png',
+      'gym_leader_rocio.png',
+      'gym_leader_thiago.png',
+      'champion_renata.png',
+      'elite_inti.png',
+      'elite_marina.png',
+      'npc_bugcatcher.png',
+      'npc_fisherman.png',
+      'npc_hiker.png',
+      'npc_lass.png',
+      'npc_medium.png',
+      'npc_swimmer.png'
     ];
 
     const objectSprites = [

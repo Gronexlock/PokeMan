@@ -40,14 +40,34 @@ export class EvolutionScreen {
       if (this.pokemon && this.targetSpecies) {
         this.pokemon.species_id = this.targetSpecies.id;
         this.pokemon.species_name = this.targetSpecies.name;
-        this.pokemon.types = this.targetSpecies.types;
+        this.pokemon.types = [...this.targetSpecies.types];
+        this.pokemon.base_stats = { ...this.targetSpecies.stats };
+
+        const ivs = this.pokemon.ivs || { hp: 31, attack: 31, defense: 31, special_attack: 31, special_defense: 31, speed: 31 };
+        const evs = this.pokemon.evs || { hp: 0, attack: 0, defense: 0, special_attack: 0, special_defense: 0, speed: 0 };
+        const level = this.pokemon.level;
+
         // Recalcular salud proporcional
         const oldMax = this.pokemon.max_hp;
         const newHp = Math.floor(
-          ((2 * this.targetSpecies.stats.hp + this.pokemon.ivs.hp + Math.floor(this.pokemon.evs.hp / 4)) * this.pokemon.level) / 100
-        ) + this.pokemon.level + 10;
+          ((2 * this.targetSpecies.stats.hp + ivs.hp + Math.floor(evs.hp / 4)) * level) / 100
+        ) + level + 10;
         this.pokemon.max_hp = newHp;
-        this.pokemon.current_hp += (newHp - oldMax);
+        this.pokemon.current_hp = Math.max(1, this.pokemon.current_hp + (newHp - oldMax));
+
+        // Recalcular estadísticas secundarias
+        const calcOtherStat = (base: number, iv: number, ev: number) => {
+          return Math.floor(((2 * base + iv + Math.floor(ev / 4)) * level) / 100) + 5;
+        };
+
+        if (this.pokemon.stats) {
+          this.pokemon.stats.hp = newHp;
+          this.pokemon.stats.attack = calcOtherStat(this.targetSpecies.stats.attack, ivs.attack, evs.attack);
+          this.pokemon.stats.defense = calcOtherStat(this.targetSpecies.stats.defense, ivs.defense, evs.defense);
+          this.pokemon.stats.special_attack = calcOtherStat(this.targetSpecies.stats.special_attack, ivs.special_attack, evs.special_attack);
+          this.pokemon.stats.special_defense = calcOtherStat(this.targetSpecies.stats.special_defense, ivs.special_defense, evs.special_defense);
+          this.pokemon.stats.speed = calcOtherStat(this.targetSpecies.stats.speed, ivs.speed, evs.speed);
+        }
       }
       this.phase = 'REVEAL';
       this.animTimer = 0;

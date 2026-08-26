@@ -230,26 +230,27 @@ Los mapas deben exportarse desde **Tiled Map Editor** como JSON ortogonal con es
 | # | Tarea | Módulo | Estado |
 |---|-------|--------|--------|
 | 6.1 | Bootstrap Phaser 3: `gameConfig.ts`, launcher en `main.ts`, controles HTML y CRT | `src/config/gameConfig.ts`, `src/main.ts` | ✅ |
-| 6.2 | Suite de Tests Unitarios: `BattleManager.test.ts` (daño, STAB, críticos, climas, Mega) | `tests/battleManager.test.ts` | ⬜ |
-| 6.3 | Suite de Tests de Persistencia: `SaveManager.test.ts` y exportación de cajas PC | `tests/saveManager.test.ts` | ⬜ |
-| 6.4 | Suite de Tests de Misiones: `QuestManager.test.ts` (transiciones de estado y recompensas) | `tests/questManager.test.ts` | ⬜ |
+| 6.2 | Suite de Tests Unitarios: `BattleManager.test.ts` (daño, STAB, críticos, climas, Mega) | `tests/battleManager.test.ts` | ✅ |
+| 6.3 | Suite de Tests de Persistencia: `SaveManager.test.ts` y exportación de cajas PC | `tests/saveManager.test.ts` | ✅ |
+| 6.4 | Suite de Tests de Misiones: `QuestManager.test.ts` (transiciones de estado y recompensas) | `tests/questManager.test.ts` | ✅ |
 
 ### 🎵 FASE 7 — Pipeline de Audio y Efectos Sonoros (SFX / BGM)
 
 | # | Tarea | Módulo | Estado |
 |---|-------|--------|--------|
-| 7.1 | Gestor de Audio Phaser 3: BGM por mapa con cross-fade y control de volumen/mute | `src/audio/AudioManager.ts` | ⬜ |
-| 7.2 | BGM de Combate: temas dinámicos (Pokémon Salvaje, Entrenador, Líder de Gimnasio) | `src/scenes/BattleScene.ts` | ⬜ |
-| 7.3 | Librería de SFX: ataques elementales, efectividad, salto de ledge, typewriter y jingles | `src/audio/AudioManager.ts` | ⬜ |
+| 7.1 | Gestor de Audio Phaser 3: BGM por mapa con cross-fade y control de volumen/mute | `src/audio/AudioManager.ts` | ✅ |
+| 7.2 | BGM de Combate: temas dinámicos (Pokémon Salvaje, Entrenador, Líder de Gimnasio) | `src/scenes/BattleScene.ts` | ✅ |
+| 7.3 | Librería de SFX: ataques elementales, efectividad, salto de ledge, typewriter y jingles | `src/audio/AudioManager.ts` | ✅ |
 
-### 🗺️ FASE 8 — Expansión de Contenido, Mapas y Pokédex Regional
+### 🗺️ FASE 8 — Expansión de Contenido, Pokédex Regional de Andara y Gran Campaña
 
-| # | Tarea | Módulo | Estado |
-|---|-------|--------|--------|
-| 8.1 | Pokédex Regional de Andara: catálogo de 150 especies con evoluciones y learnsets | `src/core/pokedexData.ts` | ⬜ |
-| 8.2 | Mapas Tiled Adicionales: Villa Tranquimar, Lab Ceibo, Ruta 2, Metrópolis Solsticio | `assets/maps/` | ⬜ |
-| 8.3 | Los 7 Gimnasios Restantes y Alto Mando: Líderes, puzzles de gimnasio y medallas | `src/overworld/TrainerManager.ts` | ⬜ |
-| 8.4 | Eventos Narrativos de Andara: despertar de Zygarde y misterio de los fragmentos | `src/core/quests/` | ⬜ |
+| # | Tarea | Módulo / Archivos | Estado |
+|---|-------|-------------------|--------|
+| 8.1 | **Pokédex Regional de Andara & Motor de Evolución Offline**: Catálogo de ~220 especies base en 10 biomas sudamericanos, 31 IVs perfectos automáticos, objeto **Cordón Unión** (*Link Cable*), uso directo de ítems evolutivos (Revestimiento Metálico, Escama Dragón, Escama Bella, etc.), mentas de naturaleza y catálogo 100% por dinero convencional ($) en tiendas | `src/core/pokedexData.ts`, `src/core/evolutionEngine.ts`, `src/overworld/PokeMartMenu.ts` | ✅ |
+| 8.2 | **Reserva Ecológica de Andara (Zona Safari) y Mapas Clave**: Mecánica de Safari sin límite de pasos ni tiempo (30 Safari Balls, hábitats de los 21/27 iniciales de Gen 1-9), mapas Tiled de *Villa Tranquimar & Muelle, Lab Ceibo, Ruta 2, Pueblo Altiplano, Villa Yungas, Metrópolis Solsticio, Cuenca Esmeralda, Paso Vulcania y Cumbres Australes* | `src/overworld/SafariManager.ts`, `src/overworld/MapManager.ts`, `assets/maps/` | ✅ |
+| 8.3 | **Los 7 Gimnasios de Andara, Alto Mando y Campeona Renata**: Gimnasios 2 a 8 con escalado competitivo y Mega-Evolución (Thiago - Bicho/Planta, Marina - Agua, Inti - Psíquico/Fantasma, Valeria - Eléctrico/Acero con Mega-Ampharos, Kael - Veneno/Lucha con Mega-Venusaur, Damián - Fuego con Mega-Houndoom, Silvana - Hielo/Dragón con Mega-Altaria/Glalie), Alto Mando Monotipo Estratégico (Nayra, Marcos, Lautaro, Ezequiel) y combate contra la Campeona **Renata (Mega-Garchomp Nv. 62-65)** | `src/overworld/TrainerManager.ts` | ✅ |
+| 8.4 | **Campaña Narrativa de Andara & Clímax Legendario**: Arco emocional de **Nahuel y su Arcanine**, trama del **Proyecto Aurora** vs "Aurora Cero" (Dra. Clara vs Alister), batalla de supervivencia contra **Eternatus** (Legendario no capturable), intervención autónoma de **Zygarde Forma 100%** y traspaso del Arcanine de Nahuel al Campeón | `src/core/quests/storyManager.ts`, `src/core/quests/` | ✅ |
+| 8.5 | **Postgame: Isla Resonancia, Pokédex Expandida & Defensa del Título**: Emergencia del archipiélago meridional tras el cataclismo, Pokédex Expandida (Fósiles, formas de Hisui, Megas raras de la Brecha Temporal Nv. 60-75), **Santuario del Equilibrio (Boss Battle Zygarde 100% Nv. 85)** y sistema de alertas de Defensa del Título de Campeón (revanchas Nv. 80-95 con Mega-Evoluciones) | `src/overworld/PostgameManager.ts`, `src/scenes/OverworldScene.ts` | ✅ |
 
 ---
 
@@ -340,13 +341,42 @@ interface QuestNPC {
   - `WeatherSystem` (`overworld/WeatherSystem.ts`): 7 climas dinámicos (Despejado, Lluvia, Tormenta Eléctrica con relámpagos reales, Tormenta de Arena, Sol Abrasador, Nieve y Niebla) con emisores de partículas y modificadores oficiales en `BattleManager` (+50% Agua en lluvia, +50% Fuego en sol, daño residual).
   - `SurfManager` (`overworld/SurfManager.ts`): Navegación acuática por HM Surf, detección de tiles de agua, diálogo interactivo de confirmación, montura animada de Lapras con ondas de agua, desembarco automático en orilla y encuentros salvajes acuáticos (Tentacool, Magikarp, Marill, Psyduck).
   - **Mega-Evolución** (`BattleScene.ts` / `BattleManager.ts`): Botón interactivo `✨ MEGA [M]`, cinemática de transformación con destello prismático y energía telúrica, +100 BST en estadísticas, cambio de nombre y aura dorada de combate `[MEGA]`.
-- **Fase 6 — 6.1 Bootstrap Phaser 3 (Completada):**
-  - Instalación de dependencia `phaser@^3.88.2`.
-  - Creación de `src/config/gameConfig.ts` (960×540, Arcade Physics, Pixel Art, `[OverworldScene, BattleScene]`).
-  - Reescritura de `src/main.ts` como lanzador de Phaser 3 conectado a controles táctiles y filtro CRT.
-  - Verificación exitosa de TypeScript (`npx tsc --noEmit` -> 0 errores) y bundle de producción (`npm run build` -> OK).
+- **Fase 6 completa (Suite de Pruebas Unitarias y QA):**
+  - Framework de testing TypeScript nativo en `tests/testRunner.ts` con aserciones tipadas (`describe`, `it`, `expect`, matchers de igualdad, rangos, contención, arrays y funciones).
+  - `tests/battleManager.test.ts` (6.2): Batería completa de pruebas para efectividad de 18 tipos (inmunidades, súper efectividad simple y dual 4x), fórmula de daño Gen 9, STAB (1.5x), críticos (1.5x), modificadores de clima (Lluvia/Sol), movimientos de estado, resolución de prioridades y desempates de velocidad, interrupción por debilitamiento (OHKO) y activación de Mega-Evolución (+110 BST).
+  - `tests/saveManager.test.ts` (6.3): Pruebas de persistencia en 3 ranuras independientes de `localStorage`, serialización/deserialización de metadatos (`listSlots`), exportación/importación JSON formateada, rechazo de datos corruptos, y validación estructural de las 8 cajas de PC (240 Pokémon de capacidad).
+  - `tests/questManager.test.ts` (6.4): Pruebas de la máquina de estados de misiones (`no_hablado` -> `mision_activa` -> `mision_completada`), validación de entrega de ítems requeridos, recompensas de dinero e inventario, registro de nuevos NPCs y callbacks reactivos `onStateChange`.
+  - `tests/index.html` y script `"test"` en `package.json` para ejecución tanto en entorno de desarrollo web como en consola.
+
+- **Fase 7 completa (Pipeline de Audio y Efectos Sonoros — SFX / BGM):**
+  - `src/audio/AudioManager.ts` (7.1): Gestor de audio centralizado con soporte Web Audio API y sintetizador chiptune procedural; BGM por mapa con cross-fade suave, control de volumen master/bgm/sfx, toggle de mute y memoria de pista overworld.
+  - `src/scenes/BattleScene.ts` (7.2): BGM dinámicos de combate (Pokémon Salvaje, Entrenador y Líder de Gimnasio), fanfarrias de victoria (`victory_wild`, `victory_trainer`, `victory_gym`) y reanudación automática de la música del mapa al concluir la batalla.
+  - `src/audio/AudioManager.ts` (7.3): Librería completa de SFX integrada:
+    - Ataques elementales por tipo (Fuego, Agua, Eléctrico, Planta, Tierra/Roca, Psíquico, Normal/Lucha, Hielo) y categoría.
+    - Efectividad y críticos (`super_effective`, `not_very_effective`, `immune`, `crit_hit`).
+    - Overworld y UI (`typewriter`, `select`, `confirm`, `cancel`, `ledge_jump`, `exclamation`, `item_pickup`).
+    - Captura con Poké Ball (`ball_throw`, `ball_bounce`, `ball_wiggle`, `ball_catch`, `ball_break`).
+    - Curación del Centro Pokémon (secuencia de 6 campanas y jingle clásico de Joy en `PokemonCenter.ts`).
+    - Mega-Evolución (`mega_evolution`), subida de nivel (`level_up`) y EXP (`exp_gain`).
+  - `tests/audioManager.test.ts`: Batería de pruebas unitarias para control de volumen, clamping, muting, resolución de temas de combate, SFX y jingles.
+
+- **Expansiones de Profundidad y Pulido de Juego Base (Opciones A, B y C):**
+  - **Opción A (Habilidades Pasivas & Held Items en Combate)**:
+    - `src/core/battle/battleManager.ts`: Soporte nativo para habilidades de entrada (*Intimidate, Drizzle, Drought, Sand Stream, Snow Warning*), inmunidad por *Levitate*, potenciador de *Technician* (1.5x en movimientos <= 60), supervivencia OHKO por *Sturdy* / *Focus Sash*, absorción de daño por *Disguise* (Mimikyu), potenciación de *Choice Band / Specs / Scarf* (1.5x), +30% daño y 10% retroceso con *Life Orb*, daño de contacto con *Rocky Helmet*, recuperación pasiva de 1/16 PS con *Leftovers* y consumo automático de *Sitrus Berry* al <= 50% PS.
+    - `tests/abilitiesAndItems.test.ts`: Suite de pruebas unitarias verificando todas las habilidades pasivas e ítems equipados.
+  - **Opción B (Mecánicas de Exploración y Campo)**:
+    - `src/overworld/BicycleManager.ts`: Bicicleta de Andara con alternancia en tecla `B` y duplicación de velocidad (130 -> 260 px/s).
+    - `src/overworld/RepelSystem.ts`: Repelente (100 pasos), Superrepelente (200 pasos) y Máx. Repelente (250 pasos) con bloqueo de encuentros salvajes de nivel inferior al líder del equipo.
+    - `src/overworld/FishingManager.ts`: Caña Vieja, Caña Buena y Supercaña con tablas de pesca escalonadas (Magikarp, Poliwag, Tentacool, Gyarados, Carvanha, Feebas, Kingdra).
+    - `src/overworld/FieldObstacleManager.ts`: Obstáculos de ruta interactivos (Árboles finos para Corte, Rocas agrietadas para Golpe Roca y Rocas pesadas para Fuerza).
+    - `tests/fieldMechanics.test.ts`: Suite de pruebas unitarias verificando velocidad de bici, pasos de repelente, pesca y obstáculos.
+  - **Opción C (Expansión Narrativa y Mazmorras)**:
+    - `src/overworld/AuroraInfiltrationManager.ts`: Infiltración en el Laboratorio Subterráneo de Solsticio (3 terminales de seguridad desactivables y rescate de Pokémon cautivos) y enfrentamiento con los 3 Comandantes de Aurora Cero en la Central Vulcania (*Ignis, Umbra, Alister*).
+    - `src/overworld/NahuelRivalryManager.ts`: Los 5 Duelos Clave de Rivalidad con Nahuel (Villa Tranquimar Nv. 5, Entrada a Solsticio Nv. 16 con Growlithe, Puente de Yungas Nv. 26, Cumbres Australes Nv. 54 y Liga/Postgame Nv. 88 con Arcanine).
+    - `src/overworld/RuinsPuzzleManager.ts`: Rompecabezas de las Ruinas Ancestrales de Ciudad Condorina con 3 pilares rúnicos (*Sol, Luna, Tierra*) sobre placas de presión para abrir la Cámara Sagrada de Zygarde.
+    - `tests/narrativeExpansion.test.ts`: Suite de pruebas unitarias para terminales de Aurora Cero, duelos de Nahuel y puzzle de ruinas.
 
 ---
 
-*Estado del Proyecto: 🏆 Core Engine (Fases 1-5) + Bootstrap Phaser 3 (6.1) COMPLETADOS. Próxima tarea: 6.2 Suite de Tests Unitarios (Vitest).*
+*Estado del Proyecto: 🏆 PROYECTO 100% COMPLETADO Y PULIDO (Fases 1 a 8 + Expansiones de Combate, Campo y Trama). Core Engine, Overworld, Battle System, Guardado/PC, Mundo Dinámico & Clima, Suite de Pruebas QA (9 suites completas), Audio & SFX, Pokédex Regional, Reserva Ecológica, 8 Gimnasios, Alto Mando, Campeona Renata, Campaña Narrativa y Postgame de Isla Resonancia.*
 

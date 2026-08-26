@@ -175,7 +175,7 @@ export class QuestManager {
       }
     });
 
-    // NPC 2: Pescador Mateo en Villa Tranquimar
+    // NPC 2: Pescador Mateo en Villa Tranquimar (Costa/Muelle)
     this.registerNPC({
       id: 'pescador_mateo',
       name: 'Pescador Mateo',
@@ -196,6 +196,96 @@ export class QuestManager {
         ],
         mision_completada: [
           'Sigue entrenando duro. Dicen que en Pueblo Altiplano la Líder Rocío no perdona ni un error.'
+        ]
+      }
+    });
+
+    // NPC 3: Niña Mimi en Villa Tranquimar (Zona Residencial)
+    this.registerNPC({
+      id: 'nina_mimi',
+      name: 'Niña Mimi',
+      mapId: 'villa_tranquimar',
+      x: 6,
+      y: 8,
+      facing: 'DOWN',
+      spriteKey: 'npc_lass',
+      state: 'no_hablado',
+      dialogues: {
+        no_hablado: [
+          '¡Hola! Mi mamá dice que los Pokémon salvajes adoran esconderse entre las flores.',
+          '¡Ten cuidado si caminas descalzo cerca del césped alto!'
+        ]
+      }
+    });
+
+    // NPC 4: Cazabichos Lucas en Villa Yungas / Bosque
+    this.registerNPC({
+      id: 'cazabichos_lucas',
+      name: 'Cazabichos Lucas',
+      mapId: 'villa_yungas',
+      x: 14,
+      y: 10,
+      facing: 'RIGHT',
+      spriteKey: 'npc_bugcatcher',
+      state: 'no_hablado',
+      dialogues: {
+        no_hablado: [
+          '¡He capturado un Sewaddle y un Yanma en este bosque húmedo!',
+          'El Líder Thiago sabe cómo sincronizar sus ataques con el viento de las copas de los árboles.'
+        ]
+      }
+    });
+
+    // NPC 5: Montañero Bruno en Pueblo Altiplano (Cordillera / Roca)
+    this.registerNPC({
+      id: 'montanero_bruno',
+      name: 'Montañero Bruno',
+      mapId: 'pueblo_altiplano',
+      x: 10,
+      y: 6,
+      facing: 'DOWN',
+      spriteKey: 'npc_hiker',
+      state: 'no_hablado',
+      dialogues: {
+        no_hablado: [
+          '¡El aire frío de la cordillera fortalece los pulmones y el espíritu!',
+          'Para desafiar a la Líder Rocío necesitas ataques de tipo Agua o Planta bien entrenados.'
+        ]
+      }
+    });
+
+    // NPC 6: Nadadora Clara en Ruta Costera / Bahía
+    this.registerNPC({
+      id: 'nadadora_clara',
+      name: 'Nadadora Clara',
+      mapId: 'puerto_coralina',
+      x: 15,
+      y: 12,
+      facing: 'LEFT',
+      spriteKey: 'npc_swimmer',
+      state: 'no_hablado',
+      dialogues: {
+        no_hablado: [
+          'El arrecife de Andara es el más cristalino del mundo.',
+          'El Alto Mando Marina cuida de los corales y de los Pokémon acuáticos más veloces.'
+        ]
+      }
+    });
+
+    // NPC 7: Médium Valeria en el Santuario Condorino
+    this.registerNPC({
+      id: 'medium_valeria',
+      name: 'Médium Valeria',
+      mapId: 'solsticio_metropolis',
+      x: 18,
+      y: 5,
+      facing: 'DOWN',
+      spriteKey: 'npc_medium',
+      state: 'no_hablado',
+      dialogues: {
+        no_hablado: [
+          'Siento las ondas espirituales de los guardianes ancestrales de Andara...',
+          'El Alto Mando Inti y la Campeona Renata velan por el equilibrio de nuestra región.'
         ]
       }
     });

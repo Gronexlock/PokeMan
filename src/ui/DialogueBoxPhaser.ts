@@ -1,4 +1,5 @@
 import * as Phaser from 'phaser';
+import { AudioManager } from '../audio';
 
 export interface DialogueBoxConfig {
   scene: Phaser.Scene;
@@ -206,6 +207,7 @@ export class DialogueBoxPhaser {
     // Avanzar a la siguiente frase
     this.currentSentenceIndex++;
     if (this.currentSentenceIndex < this.dialogueQueue.length) {
+      AudioManager.getInstance().playSfx('select');
       this.showCurrentSentence();
       return true;
     }
@@ -221,6 +223,7 @@ export class DialogueBoxPhaser {
   public closeDialogue(): void {
     this.isOpen = false;
     this.isTyping = false;
+    AudioManager.getInstance().playSfx('confirm');
 
     if (this.typingTimerEvent) {
       this.typingTimerEvent.remove();

@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import { BattlePokemon } from '../core/battle';
 import { DialogueBoxPhaser } from '../ui/DialogueBoxPhaser';
+import { AudioManager } from '../audio';
 
 /**
  * Sistema del Centro Pokémon.
@@ -108,7 +109,10 @@ export class PokemonCenter {
     this.capsuleGraphics = capsuleGfx;
     this.healingMachineContainer = container;
 
-    // Jingle de curación: flash del borde de la cámara en azul claro
+    // 7.3 — Jingle oficial de curación del Centro Pokémon
+    AudioManager.getInstance().playPokemonCenterHealJingle();
+
+    // Flash del borde de la cámara en azul claro
     this.scene.cameras.main.flash(200, 173, 216, 230);
 
     // Secuencia: las cápsulas se iluminan una a una (de izquierda a derecha)

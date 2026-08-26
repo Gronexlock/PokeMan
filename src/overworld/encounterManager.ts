@@ -23,9 +23,9 @@ export class EncounterManager {
   private initDefaultEncounterZones(): void {
     // Ruta 1: Sendero Costero
     this.encounterZones.set('route_1_coastal', [
-      { species_id: 18, min_level: 3, max_level: 5, weight: 30, time_periods: ['morning', 'day'] },    // Pidgeot/Pidgey
+      { species_id: 16, min_level: 3, max_level: 5, weight: 30, time_periods: ['morning', 'day'] },    // Pidgey
       { species_id: 43, min_level: 3, max_level: 4, weight: 25, time_periods: ['morning', 'day', 'sunset'] }, // Oddish
-      { species_id: 12, min_level: 3, max_level: 5, weight: 20, time_periods: ['morning', 'day'] },    // Butterfree
+      { species_id: 10, min_level: 3, max_level: 5, weight: 20, time_periods: ['morning', 'day'] },    // Caterpie
       { species_id: 92, min_level: 4, max_level: 6, weight: 25, time_periods: ['night'] },              // Gastly
       { species_id: 133, min_level: 5, max_level: 5, weight: 5 }                                         // Eevee (Raro)
     ]);

@@ -15,6 +15,7 @@ import { WeatherSystem } from '../overworld/WeatherSystem';
 import { SurfManager } from '../overworld/SurfManager';
 import { BattlePokemon } from '../core/battle';
 import { SaveData } from '../core/types';
+import { AudioManager, BgmTrackKey } from '../audio';
 
 export interface OverworldSceneConfig {
   mapKey: string;
@@ -27,11 +28,14 @@ export interface OverworldSceneConfig {
 }
 
 export class OverworldScene extends Phaser.Scene {
-  // --- Referencias del Mapa y Capas de Tiled ---
-  private map!: Phaser.Tilemaps.Tilemap;
-  private groundLayer!: Phaser.Tilemaps.TilemapLayer;
+  // --- Referencias del Mapa y Capas ---
+  private mapWidthPx: number = 640;
+  private mapHeightPx: number = 480;
+  private currentCollisionMatrix: number[][] = [];
+  private obstaclesGroup!: Phaser.Physics.Arcade.StaticGroup;
+  private groundLayer!: Phaser.Tilemaps.TilemapLayer | null;
   private grassLayer!: Phaser.Tilemaps.TilemapLayer | null;
-  private obstaclesLayer!: Phaser.Tilemaps.TilemapLayer;
+  private obstaclesLayer!: Phaser.Tilemaps.TilemapLayer | null;
   private overheadLayer!: Phaser.Tilemaps.TilemapLayer | null;
 
   // --- Entidad Jugador y Físicas ---
@@ -75,9 +79,7 @@ export class OverworldScene extends Phaser.Scene {
   public surfManager!: SurfManager;
 
   /** Datos de identidad del jugador */
-  public playerName: string = 'Red';
   public trainerId: string = '38492';
-  public gender: 'male' | 'female' = 'male';
   public playTimeSeconds: number = 0;
 
   /** Equipo del jugador (se pasa al Centro y BattleScene) */
@@ -113,27 +115,68 @@ export class OverworldScene extends Phaser.Scene {
   }
 
   /**
-   * 1. PRELOAD: Carga del JSON exportado de Tiled, el Tileset y los Sprites.
+   * 1. PRELOAD: Carga de datos de mapas, tilesets GBA, casas, árboles y spritesheets de personajes.
    */
   preload(): void {
-    this.load.tilemapTiledJSON('route1_map', 'assets/maps/route1.json');
-    this.load.image('andara_tileset', 'assets/tilesets/andara_tileset.png');
-    this.load.spritesheet('player', 'assets/characters/player_walk.png', {
-      frameWidth: 32,
-      frameHeight: 48
-    });
+    // 1. Datos
+    this.load.json('maps_data', '/data/maps_data.json');
+
+    // 2. Personajes y NPCs (spritesheets de 512x512 = 4x4 frames de 128x128)
+    this.load.spritesheet('player', '/assets/sprites/gba/characters/player.png', { frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('player_female', '/assets/sprites/gba/characters/hat_girl.png', { frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('npc_professor', '/assets/sprites/gba/characters/professor.png', { frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('npc_rival', '/assets/sprites/gba/characters/rival.png', { frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('npc_leader_rocio', '/assets/sprites/gba/characters/gym_leader_rocio.png', { frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('npc_leader_thiago', '/assets/sprites/gba/characters/gym_leader_thiago.png', { frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('npc_champion_renata', '/assets/sprites/gba/characters/champion_renata.png', { frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('npc_elite_inti', '/assets/sprites/gba/characters/elite_inti.png', { frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('npc_elite_marina', '/assets/sprites/gba/characters/elite_marina.png', { frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('npc_young_guy', '/assets/sprites/gba/characters/young_guy.png', { frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('npc_fisherman', '/assets/sprites/gba/characters/npc_fisherman.png', { frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('npc_young_girl', '/assets/sprites/gba/characters/young_girl.png', { frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('npc_hat_girl', '/assets/sprites/gba/characters/hat_girl.png', { frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('npc_blond', '/assets/sprites/gba/characters/blond.png', { frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('npc_purple_girl', '/assets/sprites/gba/characters/purple_girl.png', { frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('npc_bugcatcher', '/assets/sprites/gba/characters/npc_bugcatcher.png', { frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('npc_hiker', '/assets/sprites/gba/characters/npc_hiker.png', { frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('npc_swimmer', '/assets/sprites/gba/characters/npc_swimmer.png', { frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('npc_medium', '/assets/sprites/gba/characters/npc_medium.png', { frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('npc_lass', '/assets/sprites/gba/characters/npc_lass.png', { frameWidth: 128, frameHeight: 128 });
+
+    // 3. Estructuras, Árboles y Objetos GBA
+    this.load.image('house_small', '/assets/sprites/gba/objects/house_small.png');
+    this.load.image('house_small_alt', '/assets/sprites/gba/objects/house_small_alt.png');
+    this.load.image('house_large', '/assets/sprites/gba/objects/house_large.png');
+    this.load.image('hospital', '/assets/sprites/gba/objects/hospital.png');
+    this.load.image('tree_green', '/assets/sprites/gba/objects/green_tree.png');
+    this.load.image('tree_bushy', '/assets/sprites/gba/objects/green_tree_bushy.png');
+    this.load.image('tree_small', '/assets/sprites/gba/objects/green_tree_small.png');
+    this.load.image('grass_tile', '/assets/sprites/gba/objects/grass.png');
+    this.load.image('grass_rock', '/assets/sprites/gba/objects/grassrock1.png');
+
+    // 4. Tilesets y Aguas
+    this.load.image('world_tileset', '/assets/sprites/gba/tilesets/world.png');
+    this.load.image('coast_tileset', '/assets/sprites/gba/tilesets/coast.png');
+    this.load.image('water_0', '/assets/sprites/gba/tilesets/water/0.png');
+    this.load.image('water_1', '/assets/sprites/gba/tilesets/water/1.png');
+    this.load.image('water_2', '/assets/sprites/gba/tilesets/water/2.png');
+    this.load.image('water_3', '/assets/sprites/gba/tilesets/water/3.png');
   }
 
   /**
-   * 2. CREATE: Inicialización del Tilemap, Capas, NPCs, Diálogo, Colisiones, Cámara y Controles.
+   * 2. CREATE: Inicialización del Mundo, Capas, NPCs, Diálogo, Colisiones, Cámara y Controles.
    */
-  /**
-   * Datos inyectados al cambiar de mapa (desde WarpManager.completeTransition).
-   */
-  init(data?: { mapKey?: string; spawnX?: number; spawnY?: number; facing?: string }): void {
+  public playerName: string = 'Alex';
+  public playerGender: string = 'boy';
+  public playerSpriteKey: string = 'player';
+
+  init(data?: { mapKey?: string; spawnX?: number; spawnY?: number; facing?: string; playerName?: string; gender?: string; spriteKey?: string }): void {
     this._initData = data || {};
+    if (data?.playerName) this.playerName = data.playerName;
+    if (data?.gender) this.playerGender = data.gender;
+    if (data?.spriteKey) this.playerSpriteKey = data.spriteKey;
   }
-  private _initData: { mapKey?: string; spawnX?: number; spawnY?: number; facing?: string } = {};
+  private _initData: { mapKey?: string; spawnX?: number; spawnY?: number; facing?: string; playerName?: string; gender?: string; spriteKey?: string } = {};
 
   create(): void {
     this.isEncounterTriggered = false;
@@ -141,80 +184,146 @@ export class OverworldScene extends Phaser.Scene {
     // Inicializar gestor de misiones y NPCs
     this.questManager = new QuestManager();
 
-    // --- A. Creación del Tilemap ---
-    this.map = this.make.tilemap({ key: 'route1_map' });
-    const tileset = this.map.addTilesetImage('Tiled_Tileset_Name', 'andara_tileset');
+    // --- A. Cargar datos del mapa actual ---
+    const mapsJson = this.cache.json.get('maps_data')?.maps || {};
+    const activeMap = this._initData.mapKey || 'villa_tranquimar';
+    const mapDef = mapsJson[activeMap] || mapsJson['villa_tranquimar'] || {
+      id: 'villa_tranquimar',
+      display_name: 'Villa Tranquimar',
+      width: 20,
+      height: 15,
+      biome: 'coastal_town',
+      collision_matrix: [
+        [1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1],
+        [1,0,1,1,1,0,1,0,0,0,0,0,0,1,0,1,1,1,0,1],
+        [1,0,1,5,1,0,0,0,0,0,0,0,0,0,0,1,5,1,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,1],
+        [1,0,0,0,1,1,5,1,0,0,0,0,1,1,1,1,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [3,3,3,3,3,3,3,3,3,0,0,3,3,3,3,3,3,3,3,3],
+        [3,3,3,3,3,3,3,3,3,0,0,3,3,3,3,3,3,3,3,3],
+        [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3]
+      ]
+    };
 
-    if (!tileset) {
-      console.warn('Tileset no cargado directamente, generando fallback gráfico.');
-    }
+    const matrix: number[][] = mapDef.collision_matrix;
+    this.currentCollisionMatrix = matrix;
+    const mapRows = matrix.length;
+    const mapCols = mapRows > 0 ? matrix[0].length : 20;
+    const tileSize = 32;
+    this.mapWidthPx = mapCols * tileSize;
+    this.mapHeightPx = mapRows * tileSize;
 
-    // --- B. Creación de Capas ---
-    if (tileset) {
-      this.groundLayer = this.map.createLayer('Ground', tileset, 0, 0)!;
-      this.grassLayer = this.map.createLayer('TallGrass', tileset, 0, 0);
-      this.obstaclesLayer = this.map.createLayer('Obstacles', tileset, 0, 0)!;
+    // --- B. Renderizar Terreno de Overworld ---
+    this.renderOverworldTerrain(mapDef, matrix, mapCols, mapRows, tileSize);
 
-      if (this.obstaclesLayer) {
-        this.obstaclesLayer.setCollisionByProperty({ collides: true });
-      }
-    }
+    // --- C. Spawn del Jugador y Físicas ---
+    const spawnX = this._initData.spawnX || 300;
+    const spawnY = this._initData.spawnY || 240;
+    const activeSpriteKey = this.playerSpriteKey || (this.playerGender === 'girl' ? 'player_female' : 'player');
 
-    // --- C. Spawn del Jugador ---
-    let spawnX = 160;
-    let spawnY = 160;
-    const spawnPoint = this.map.findObject('SpawnObjects', obj => obj.name === 'PlayerSpawn');
-    if (spawnPoint && spawnPoint.x !== undefined && spawnPoint.y !== undefined) {
-      spawnX = spawnPoint.x;
-      spawnY = spawnPoint.y;
-    }
-
-    this.player = this.physics.add.sprite(spawnX, spawnY, 'player', 0);
+    this.player = this.physics.add.sprite(spawnX, spawnY, activeSpriteKey, 0);
+    this.player.setDisplaySize(36, 36);
     this.player.setCollideWorldBounds(true);
-    this.player.setSize(20, 16);
-    this.player.setOffset(6, 32);
+    this.player.body.setSize(60, 60);
+    this.player.body.setOffset(34, 60);
+    this.player.setDepth(10);
 
-    if (this.obstaclesLayer) {
-      this.physics.add.collider(this.player, this.obstaclesLayer);
+    if (this.obstaclesGroup) {
+      this.physics.add.collider(this.player, this.obstaclesGroup);
     }
 
-    // Capa de techos sobre el jugador
-    if (tileset) {
-      this.overheadLayer = this.map.createLayer('Overhead', tileset, 0, 0);
-      if (this.overheadLayer) {
-        this.overheadLayer.setDepth(10);
-      }
+    // --- D. Inicialización de MapManager y Metadatos ---
+    this.mapManager = new MapManager(this);
+    this.currentCityKey = activeMap;
+
+    if (mapDef.warps && Array.isArray(mapDef.warps)) {
+      this.mapManager.warps = mapDef.warps.map((w: any) => ({
+        id: w.id || `warp_${w.x}_${w.y}`,
+        x: (w.x ?? 0) * tileSize + tileSize / 2,
+        y: (w.y ?? 0) * tileSize + tileSize / 2,
+        width: tileSize,
+        height: tileSize,
+        targetMapKey: w.target_map_key || w.targetMapKey || 'villa_tranquimar',
+        targetX: (w.target_x ?? w.targetX ?? 5) * tileSize + 16,
+        targetY: (w.target_y ?? w.targetY ?? 5) * tileSize + 16,
+        facingDirection: w.facing_direction || w.facingDirection || 'DOWN',
+        transitionType: w.transition_type || 'door_fade'
+      }));
     }
 
-    // --- D. Spawn de NPCs en el Mapa ---
+    if (mapDef.signposts && Array.isArray(mapDef.signposts)) {
+      this.mapManager.signposts = mapDef.signposts.map((s: any) => ({
+        id: s.id || `sign_${s.x}_${s.y}`,
+        x: (s.x ?? 0) * tileSize + tileSize / 2,
+        y: (s.y ?? 0) * tileSize + tileSize / 2,
+        title: s.title || 'Letrero',
+        text: s.text || ''
+      }));
+    }
+
+    if (mapDef.item_balls && Array.isArray(mapDef.item_balls)) {
+      this.mapManager.itemBalls = mapDef.item_balls.map((ib: any) => ({
+        id: ib.id || `item_${ib.x}_${ib.y}`,
+        x: (ib.x ?? 0) * tileSize + 16,
+        y: (ib.y ?? 0) * tileSize + 16,
+        itemId: ib.item_id || ib.itemId || 'potion',
+        itemName: ib.item_name || ib.itemName || 'Poción',
+        quantity: ib.quantity || 1
+      }));
+    }
+
+    if (mapDef.ledges && Array.isArray(mapDef.ledges)) {
+      this.mapManager.ledges = new Map();
+      mapDef.ledges.forEach((l: any) => {
+        const tx = l.tile_x ?? l.tileX ?? 0;
+        const ty = l.tile_y ?? l.tileY ?? 0;
+        this.mapManager.ledges.set(`${tx},${ty}`, {
+          tileX: tx,
+          tileY: ty,
+          jumpDirection: l.jump_direction ?? l.jumpDirection ?? 'DOWN'
+        });
+      });
+    }
+
+    // --- E. Spawn de NPCs en el Mapa ---
     this.spawnNPCs();
 
-    // --- E. Configuración de Cámara ---
+    // --- F. Configuración de Cámara ---
     this.setupCamera();
 
-    // --- F. Animaciones del Jugador ---
+    // --- G. Animaciones del Jugador ---
     this.createPlayerAnimations();
 
-    // --- G. Registro de Entradas del Teclado ---
+    // --- H. Registro de Entradas del Teclado ---
     this.setupInputControls();
 
-    // --- H. Cuadro de Diálogo Letra por Letra (Typewriter) ---
+    // --- I. Cuadro de Diálogo Letra por Letra (Typewriter) ---
     this.dialogueBox = new DialogueBoxPhaser({
       scene: this,
       charDelayMs: 25,
       onLetterTyped: () => {
-        // this.sound.play('text_blip', { volume: 0.2 });
+        AudioManager.getInstance().playSfx('typewriter');
       }
     });
 
-    // --- I. WarpManager (Transiciones entre Mapas) ---
+    // 7.1 — Iniciar BGM ambiental según mapa
+    AudioManager.getInstance().playBgm(this.getMapBgmKey(activeMap));
+
+    // --- J. WarpManager (Transiciones entre Mapas) ---
     this.warpManager = new WarpManager(this);
     this.warpManager.activateCooldown();
     this.warpManager.fadeIn(400);
 
-    // --- J. InteractionManager (Letreros e Item Balls) ---
+    // --- K. InteractionManager (Letreros e Item Balls) ---
     this.interactionManager = new InteractionManager(this, this.dialogueBox);
-    if (this.mapManager?.itemBalls) {
+    if (this.mapManager.itemBalls.length > 0) {
       this.interactionManager.spawnItemBalls(this.mapManager.itemBalls);
     }
 
@@ -263,12 +372,219 @@ export class OverworldScene extends Phaser.Scene {
   }
 
   /**
-   * Instancia los NPCs registrados para este mapa y configura sus hitboxes de colisión.
+   * Renderiza el terreno base, caminos, agua animada, hierba alta y edificios con gráficos GBA pixel-art.
+   */
+  private renderOverworldTerrain(mapDef: any, matrix: number[][], cols: number, rows: number, ts: number): void {
+    const bg = this.add.graphics();
+    bg.setDepth(1);
+
+    const isIndoor = mapDef.biome === 'indoor';
+    const isCoast = mapDef.biome === 'coastal_town' || mapDef.id === 'villa_tranquimar';
+
+    // 1. Suelo Base
+    if (isIndoor) {
+      bg.fillStyle(0xdfd2ba, 1);
+      bg.fillRect(0, 0, cols * ts, rows * ts);
+    } else {
+      bg.fillStyle(0x4fa43e, 1);
+      bg.fillRect(0, 0, cols * ts, rows * ts);
+    }
+
+    // Grupo estático de obstáculos para física de colisión
+    this.obstaclesGroup = this.physics.add.staticGroup();
+
+    // 2. Capa de Suelos, Senderos y Agua
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const x = c * ts;
+        const y = r * ts;
+        const val = matrix[r][c];
+
+        if (isIndoor) {
+          bg.lineStyle(1, 0xc6b69b, 0.4);
+          bg.strokeRect(x, y, ts, ts);
+          continue;
+        }
+
+        // Sendero de tierra continuo (código 0)
+        if (val === 0) {
+          const pathColor = isCoast ? 0xe5d3a5 : 0x8d6e63;
+          bg.fillStyle(pathColor, 0.85);
+          bg.fillRoundedRect(x + 1, y + 1, ts - 2, ts - 2, 4);
+
+          // Detalles de piedritas y textura
+          if ((c * 7 + r * 13) % 4 === 0) {
+            bg.fillStyle(0x78553d, 0.35);
+            bg.fillRect(x + 8, y + 10, 4, 3);
+            bg.fillRect(x + 20, y + 22, 3, 2);
+          }
+        }
+
+        // Playa / Arena costera
+        if (isCoast && r === 11 && val !== 3) {
+          bg.fillStyle(0xf0dfb6, 0.95);
+          bg.fillRect(x, y + ts - 12, ts, 12);
+          bg.fillStyle(0xffffff, 0.7);
+          bg.fillRect(x, y + ts - 4, ts, 4);
+        }
+
+        // Hierba alta (código 2) con sprite de hierba GBA
+        if (val === 2) {
+          bg.fillStyle(0x3f8c32, 1);
+          bg.fillRect(x, y, ts, ts);
+          if (this.textures.exists('grass_tile')) {
+            const gt = this.add.image(x + ts / 2, y + ts / 2, 'grass_tile');
+            gt.setDisplaySize(32, 32);
+            gt.setDepth(3);
+          }
+        }
+
+        // Agua profunda (código 3) con animación GBA
+        if (val === 3) {
+          bg.fillStyle(0x0284c7, 1);
+          bg.fillRect(x, y, ts, ts);
+
+          const waterKey = `water_${(c + r) % 4}`;
+          if (this.textures.exists(waterKey)) {
+            const wImg = this.add.image(x + ts / 2, y + ts / 2, waterKey);
+            wImg.setDisplaySize(32, 32);
+            wImg.setDepth(2);
+          }
+
+          const obs = this.add.rectangle(x + ts / 2, y + ts / 2, ts, ts);
+          obs.setVisible(false);
+          this.physics.add.existing(obs, true);
+          this.obstaclesGroup.add(obs);
+        }
+
+        // Desnivel / Ledge (código 4)
+        if (val === 4) {
+          bg.fillStyle(0x2e6b22, 1);
+          bg.fillRect(x, y + ts - 16, ts, 4);
+          bg.fillStyle(0x8b6932, 1);
+          bg.fillRect(x, y + ts - 12, ts, 12);
+          bg.fillStyle(0x000000, 0.25);
+          bg.fillRect(x, y + ts, ts, 4);
+        }
+
+        // Obstáculo sólido genérico (código 1)
+        if (val === 1) {
+          const obs = this.add.rectangle(x + ts / 2, y + ts / 2, ts, ts);
+          obs.setVisible(false);
+          this.physics.add.existing(obs, true);
+          this.obstaclesGroup.add(obs);
+        }
+      }
+    }
+
+    // 3. Estructuras y Casas GBA según Mapa (escalado pixel-perfect)
+    if (mapDef.id === 'villa_tranquimar') {
+      // Casa del Protagonista (2, 2) - Cabaña GBA 96x96
+      if (this.textures.exists('house_small')) {
+        const h1 = this.add.image(2 * ts + 48, 2 * ts + 48, 'house_small');
+        h1.setDisplaySize(96, 96);
+        h1.setDepth(5);
+        bg.fillStyle(0x000000, 0.35);
+        bg.fillRect(2 * ts + 10, 4 * ts + 20, 76, 12);
+      }
+
+      // Casa del Rival Nahuel (15, 2) - Cabaña GBA 96x96
+      if (this.textures.exists('house_small_alt')) {
+        const h2 = this.add.image(15 * ts + 48, 2 * ts + 48, 'house_small_alt');
+        h2.setDisplaySize(96, 96);
+        h2.setDepth(5);
+        bg.fillStyle(0x000000, 0.35);
+        bg.fillRect(15 * ts + 10, 4 * ts + 20, 76, 12);
+      }
+
+      // Laboratorio Pokémon del Profesor Ceibo (4, 6) - Edificio 144x128
+      if (this.textures.exists('house_large')) {
+        const h3 = this.add.image(5 * ts + 72, 6 * ts + 56, 'house_large');
+        h3.setDisplaySize(144, 128);
+        h3.setDepth(5);
+        bg.fillStyle(0x000000, 0.35);
+        bg.fillRect(5 * ts + 12, 8 * ts + 20, 120, 16);
+      }
+
+      // Muelle de madera con tablones y barco amarrado
+      const dockCols = [9, 10];
+      const dockRows = [12, 13, 14];
+      for (const dr of dockRows) {
+        for (const dc of dockCols) {
+          const dx = dc * ts;
+          const dy = dr * ts;
+          bg.fillStyle(0x000000, 0.35);
+          bg.fillRect(dx + 4, dy + 6, ts - 4, ts - 4);
+          bg.fillStyle(0x8d5b32, 1);
+          bg.fillRect(dx, dy, ts, ts);
+          bg.lineStyle(1.5, 0x5c3a1e, 1);
+          for (let i = 0; i < ts; i += 10) {
+            bg.strokeLineShape(new Phaser.Geom.Line(dx, dy + i, dx + ts, dy + i));
+          }
+        }
+      }
+
+      // Barco pesquero amarrado
+      const boatX = 11 * ts + 8;
+      const boatY = 13 * ts + 6;
+      bg.fillStyle(0xa0683c, 1);
+      bg.fillEllipse(boatX + 24, boatY + 20, 56, 30);
+      bg.fillStyle(0xdfc39e, 1);
+      bg.fillRect(boatX + 10, boatY + 12, 28, 16);
+
+      // Árboles Frondosos GBA en perímetro (64x80)
+      const treePositions = [
+        { x: 0, y: 1 }, { x: 0, y: 3 }, { x: 0, y: 5 }, { x: 0, y: 7 }, { x: 0, y: 9 },
+        { x: 19, y: 1 }, { x: 19, y: 3 }, { x: 19, y: 5 }, { x: 19, y: 7 }, { x: 19, y: 9 },
+        { x: 7, y: 2 }, { x: 12, y: 2 }, { x: 1, y: 7 }, { x: 18, y: 7 }
+      ];
+
+      treePositions.forEach(t => {
+        if (this.textures.exists('tree_green')) {
+          const tree = this.add.image(t.x * ts + 16, t.y * ts + 16, 'tree_green');
+          tree.setDisplaySize(48, 64);
+          tree.setDepth(t.y * ts + 32 > 10 ? 9 : 4);
+        }
+      });
+    } else if (mapDef.id === 'pueblo_altiplano' || mapDef.id === 'solsticio_metropolis') {
+      // Centro Pokémon con techo rojo
+      if (this.textures.exists('hospital')) {
+        const cp = this.add.image(3 * ts + 72, 2 * ts + 56, 'hospital');
+        cp.setDisplaySize(144, 128);
+        cp.setDepth(5);
+      }
+      // Poké Mart con techo azul
+      if (this.textures.exists('house_small_alt')) {
+        const pm = this.add.image(14 * ts + 48, 2 * ts + 48, 'house_small_alt');
+        pm.setDisplaySize(96, 96);
+        pm.setDepth(5);
+      }
+      for (let y = 1; y < rows - 2; y += 3) {
+        if (this.textures.exists('tree_green')) {
+          this.add.image(32, y * ts + 32, 'tree_green').setDisplaySize(48, 64).setDepth(5);
+          this.add.image((cols - 2) * ts + 32, y * ts + 32, 'tree_green').setDisplaySize(48, 64).setDepth(5);
+        }
+      }
+    } else {
+      // Árboles genéricos para rutas y bosques
+      for (let y = 1; y < rows; y += 3) {
+        if (this.textures.exists('tree_green')) {
+          this.add.image(32, y * ts + 32, 'tree_green').setDisplaySize(48, 64).setDepth(5);
+          this.add.image((cols - 2) * ts + 32, y * ts + 32, 'tree_green').setDisplaySize(48, 64).setDepth(5);
+        }
+      }
+    }
+  }
+
+  /**
+   * Instancia los NPCs registrados para este mapa con sus avatares GBA pixel-art.
    */
   private spawnNPCs(): void {
-    const npcs = this.questManager.getNPCsForMap('ceibo_lab').concat(
-      this.questManager.getNPCsForMap('villa_tranquimar')
-    );
+    const activeMap = this._initData.mapKey || 'villa_tranquimar';
+    let npcs = this.questManager.getNPCsForMap(activeMap);
+    if (npcs.length === 0 && activeMap === 'villa_tranquimar') {
+      npcs = this.questManager.getNPCsForMap('villa_tranquimar');
+    }
 
     npcs.forEach(npc => {
       const worldX = npc.x * 32 + 16;
@@ -277,21 +593,23 @@ export class OverworldScene extends Phaser.Scene {
       let npcSprite: Phaser.GameObjects.Sprite | Phaser.GameObjects.Rectangle;
 
       if (this.textures.exists(npc.spriteKey)) {
-        npcSprite = this.add.sprite(worldX, worldY, npc.spriteKey);
+        npcSprite = this.add.sprite(worldX, worldY, npc.spriteKey, 0);
+        npcSprite.setDisplaySize(36, 36);
+        npcSprite.setDepth(9);
       } else {
-        // Placeholder visual estilizado para el NPC
         npcSprite = this.add.rectangle(worldX, worldY, 24, 32, 0x9b59b6, 1);
         (npcSprite as Phaser.GameObjects.Rectangle).setStrokeStyle(2, 0x8e44ad);
+        npcSprite.setDepth(9);
       }
 
       // Etiqueta flotante con el nombre del NPC
-      const nameTag = this.add.text(worldX, worldY - 26, npc.name, {
+      const nameTag = this.add.text(worldX, worldY - 28, npc.name, {
         fontFamily: 'Arial, sans-serif',
         fontSize: '11px',
         color: '#ffffff',
         backgroundColor: '#000000aa',
-        padding: { x: 4, y: 2 }
-      }).setOrigin(0.5);
+        padding: { x: 5, y: 2 }
+      }).setOrigin(0.5).setDepth(11);
 
       this.npcSprites.push({
         npcData: npc,
@@ -306,10 +624,48 @@ export class OverworldScene extends Phaser.Scene {
   private setupCamera(): void {
     const camera = this.cameras.main;
     camera.startFollow(this.player, true, 0.1, 0.1);
-    camera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-    this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-    camera.setZoom(2.5);
+    camera.setBounds(0, 0, this.mapWidthPx, this.mapHeightPx);
+    this.physics.world.setBounds(0, 0, this.mapWidthPx, this.mapHeightPx);
+    camera.setZoom(1.75);
     camera.roundPixels = true;
+  }
+
+  /**
+   * Configura las animaciones de 4 direcciones para el spritesheet del protagonista GBA (chico o chica).
+   */
+  private createPlayerAnimations(): void {
+    const activeKey = this.playerSpriteKey || (this.playerGender === 'girl' ? 'player_female' : 'player');
+
+    // Eliminar animaciones previas para recargar con el spritesheet correspondiente
+    this.anims.remove('walk_down');
+    this.anims.remove('walk_left');
+    this.anims.remove('walk_right');
+    this.anims.remove('walk_up');
+
+    this.anims.create({
+      key: 'walk_down',
+      frames: this.anims.generateFrameNumbers(activeKey, { start: 0, end: 3 }),
+      frameRate: 8,
+      repeat: -1
+    });
+    this.anims.create({
+      key: 'walk_left',
+      frames: this.anims.generateFrameNumbers(activeKey, { start: 4, end: 7 }),
+      frameRate: 8,
+      repeat: -1
+    });
+    this.anims.create({
+      key: 'walk_right',
+      frames: this.anims.generateFrameNumbers(activeKey, { start: 8, end: 11 }),
+      frameRate: 8,
+      repeat: -1
+    });
+    this.anims.create({
+      key: 'walk_up',
+      frames: this.anims.generateFrameNumbers(activeKey, { start: 12, end: 15 }),
+      frameRate: 8,
+      repeat: -1
+    });
   }
 
   /**
@@ -552,6 +908,16 @@ export class OverworldScene extends Phaser.Scene {
    * Inicia el diálogo letra por letra con el NPC y gestiona la transición de estados de la misión.
    */
   public startNPCDialogue(npc: QuestNPC): void {
+    // Interacciones especiales de servicios
+    if (npc.id.includes('joy') || npc.name.toLowerCase().includes('joy') || npc.name.toLowerCase().includes('enfermera')) {
+      this.pokemonCenter.startHealingSequence(this.playerParty);
+      return;
+    }
+    if (npc.id.includes('mart') || npc.name.toLowerCase().includes('tienda') || npc.name.toLowerCase().includes('tendero')) {
+      this.pokeMart.open(this.playerWallet, this.currentCityKey);
+      return;
+    }
+
     // 1. Obtener diálogos correspondientes al estado actual del NPC
     const sentences = this.questManager.getDialoguesForNPC(npc.id);
 
@@ -609,21 +975,22 @@ export class OverworldScene extends Phaser.Scene {
     if (vx !== 0 && vy !== 0) { vx *= 0.7071; vy *= 0.7071; }
 
     // --- Comprobación de Desembarque de Surf ---
-    if (isSurfing && this.groundLayer && (vx !== 0 || vy !== 0)) {
-      const dismounted = this.surfManager.tryDismount(
-        this.player, this.map, this.groundLayer, this.currentFacing
-      );
-      if (dismounted) return;
+    if (isSurfing && (vx !== 0 || vy !== 0)) {
+      const targetTileX = Math.floor((this.player.x + (vx > 0 ? 20 : vx < 0 ? -20 : 0)) / 32);
+      const targetTileY = Math.floor((this.player.y + (vy > 0 ? 20 : vy < 0 ? -20 : 0)) / 32);
+      if (this.currentCollisionMatrix && this.currentCollisionMatrix[targetTileY]?.[targetTileX] === 0) {
+        this.surfManager.dismount(this.player);
+        return;
+      }
     }
 
     // --- Comprobación de Ledge antes de aplicar velocidad ---
     if (!isSurfing && this.mapManager && (vx !== 0 || vy !== 0)) {
-      const tileSize  = this.map?.tileWidth ?? 32;
-      // Proyectamos 1 tile en la dirección actual para ver si hay un desnivel
+      const tileSize = 32;
       const lookAheadX = this.player.x + (vx > 0 ? tileSize : vx < 0 ? -tileSize : 0);
       const lookAheadY = this.player.y + (vy > 0 ? tileSize : vy < 0 ? -tileSize : 0);
-      const tileX = this.map.worldToTileX(lookAheadX) ?? -1;
-      const tileY = this.map.worldToTileY(lookAheadY) ?? -1;
+      const tileX = Math.floor(lookAheadX / tileSize);
+      const tileY = Math.floor(lookAheadY / tileSize);
 
       const ledge = this.mapManager.getLedgeAt(tileX, tileY);
       if (ledge && ledge.jumpDirection === this.currentFacing) {
@@ -638,7 +1005,13 @@ export class OverworldScene extends Phaser.Scene {
     else if (vx > 0) { this.player.anims.play('walk_right', true); }
     else if (vy < 0) { this.player.anims.play('walk_up',    true); }
     else if (vy > 0) { this.player.anims.play('walk_down',  true); }
-    else             { this.player.anims.stop(); }
+    else {
+      this.player.anims.stop();
+      if (this.currentFacing === 'DOWN') this.player.setFrame(0);
+      else if (this.currentFacing === 'LEFT') this.player.setFrame(4);
+      else if (this.currentFacing === 'RIGHT') this.player.setFrame(8);
+      else if (this.currentFacing === 'UP') this.player.setFrame(12);
+    }
   }
 
   /**
@@ -649,6 +1022,9 @@ export class OverworldScene extends Phaser.Scene {
   private performLedgeJump(direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT'): void {
     if (this.isJumping) return;
     this.isJumping = true;
+
+    // 7.3 — SFX salto de desnivel
+    AudioManager.getInstance().playSfx('ledge_jump');
 
     const tileSize = this.map?.tileWidth ?? 32;
     const jumpTiles = 2;
@@ -699,10 +1075,8 @@ export class OverworldScene extends Phaser.Scene {
    * Detección de césped alto y tirada del 10%.
    */
   private checkTallGrassEncounter(): void {
-    const currentTileX = this.map.worldToTileX(this.player.x);
-    const currentTileY = this.map.worldToTileY(this.player.y + 16);
-
-    if (currentTileX === null || currentTileY === null) return;
+    const currentTileX = Math.floor(this.player.x / 32);
+    const currentTileY = Math.floor((this.player.y + 16) / 32);
 
     const hasMovedToNewTile =
       currentTileX !== this.lastTilePosition.x || currentTileY !== this.lastTilePosition.y;
@@ -739,11 +1113,8 @@ export class OverworldScene extends Phaser.Scene {
     }
 
     let isStandingOnGrass = false;
-    if (this.grassLayer) {
-      const grassTile = this.grassLayer.getTileAt(currentTileX, currentTileY);
-      if (grassTile && grassTile.index !== -1) {
-        isStandingOnGrass = true;
-      }
+    if (this.currentCollisionMatrix && this.currentCollisionMatrix[currentTileY]?.[currentTileX] === 2) {
+      isStandingOnGrass = true;
     }
 
     if (isStandingOnGrass) {
@@ -758,6 +1129,9 @@ export class OverworldScene extends Phaser.Scene {
     this.isEncounterTriggered = true;
     this.player.setVelocity(0, 0);
     this.player.anims.stop();
+
+    // 7.3 — SFX de alerta de encuentro
+    AudioManager.getInstance().playSfx('exclamation');
 
     const cam = this.cameras.main;
     cam.flash(300, 255, 255, 255, false, (_camera: Phaser.Cameras.Scene2D.Camera, progress: number) => {
@@ -778,37 +1152,21 @@ export class OverworldScene extends Phaser.Scene {
     });
   }
 
-  private createPlayerAnimations(): void {
-    if (this.anims.exists('walk_down')) return;
-
-    this.anims.create({
-      key: 'walk_down',
-      frames: this.anims.generateFrameNumbers('player', { start: 0, end: 3 }),
-      frameRate: 8,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'walk_left',
-      frames: this.anims.generateFrameNumbers('player', { start: 4, end: 7 }),
-      frameRate: 8,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'walk_right',
-      frames: this.anims.generateFrameNumbers('player', { start: 8, end: 11 }),
-      frameRate: 8,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'walk_up',
-      frames: this.anims.generateFrameNumbers('player', { start: 12, end: 15 }),
-      frameRate: 8,
-      repeat: -1
-    });
+  /**
+   * Devuelve la clave de pista BGM según el identificador de mapa.
+   */
+  public getMapBgmKey(mapKey: string): BgmTrackKey {
+    const key = mapKey.toLowerCase();
+    if (key.includes('tranquimar')) return 'villa_tranquimar';
+    if (key.includes('altiplano')) return 'pueblo_altiplano';
+    if (key.includes('lab') || key.includes('ceibo')) return 'lab_ceibo';
+    if (key.includes('center') || key.includes('centro')) return 'centro_pokemon';
+    if (key.includes('mart') || key.includes('tienda')) return 'tienda_pokemon';
+    if (key.includes('gym') || key.includes('gimnasio')) return 'gimnasio_altiplano';
+    return 'ruta_1';
   }
+
+
 
   // ──────────────────────────────────────────────────────────────────────────────
   // MÉTODOS DE FASE 4: APERTURA DE INTERFACES Y GUARDADO

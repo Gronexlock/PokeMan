@@ -33,6 +33,6 @@ export class TimeCycleManager {
   }
 
   public setHour(hour: number): void {
-    this.gameMinutes = (hour % 24) * 60;
+    this.gameMinutes = ((hour % 24 + 24) % 24) * 60;
   }
 }

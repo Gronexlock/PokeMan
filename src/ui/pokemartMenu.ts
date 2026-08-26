@@ -131,6 +131,7 @@ export class PokemartMenu {
       ctx.font = '13px "PokemonGBA", "Outfit", sans-serif';
       ctx.fillText(`Precio Unitario: $${selItem.price}`, detailX + 16, detailY + 62);
 
+      if (!saveData.inventory) saveData.inventory = {};
       const inBag = saveData.inventory[selItem.id] || 0;
       ctx.fillText(`En la Mochila: x${inBag}`, detailX + 16, detailY + 86);
 
@@ -202,6 +203,7 @@ export class PokemartMenu {
         const total = selItem.price * this.buyQuantity;
         if (saveData.money >= total) {
           saveData.money -= total;
+          if (!saveData.inventory) saveData.inventory = {};
           saveData.inventory[selItem.id] = (saveData.inventory[selItem.id] || 0) + this.buyQuantity;
           this.audio.playSfx('confirm');
           this.message = `¡Compraste ${this.buyQuantity}x ${selItem.name}! ¿Algo más?`;

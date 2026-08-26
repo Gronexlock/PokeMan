@@ -34,6 +34,17 @@ export interface BattlePokemon {
   isMega?: boolean;
   megaStone?: string;
   originalName?: string;
+  ability?: string;
+  heldItem?: string;
+  hasConsumedHeldItem?: boolean;
+  disguiseBroken?: boolean;
+  statStages?: {
+    attack: number;
+    defense: number;
+    spAttack: number;
+    spDefense: number;
+    speed: number;
+  };
 }
 
 /**
@@ -48,6 +59,10 @@ export type BattleStepType =
   | 'EFFECTIVENESS'
   | 'MEGA_EVOLUTION'
   | 'WEATHER_EFFECT'
+  | 'ABILITY_TRIGGER'
+  | 'HELD_ITEM_TRIGGER'
+  | 'RECOIL_DAMAGE'
+  | 'HEAL'
   | 'FAINT'
   | 'BATTLE_END';
 
@@ -122,6 +137,14 @@ export class BattleManager {
   public playerMegaUsed: boolean = false;
   public opponentMegaUsed: boolean = false;
 
+  public get weather(): string {
+    return this.currentWeather;
+  }
+
+  public set weather(val: string) {
+    this.currentWeather = val;
+  }
+
   constructor(
     playerPokemon: BattlePokemon,
     opponentPokemon: BattlePokemon,
@@ -193,16 +216,26 @@ export class BattleManager {
       };
     }
 
+    // Habilidad del atacante: Experto (Technician) (+50% poder si es <= 60)
+    let movePower = move.power;
+    if (attacker.ability === 'technician' && movePower <= 60) {
+      movePower = Math.floor(movePower * 1.5);
+    }
+
     // 2. Selección de Ataque vs Defensa (Físico o Especial)
     const isSpecial = move.category === 'special';
-    const atk = isSpecial ? (attacker.spAttack ?? attacker.attack) : attacker.attack;
-    const def = Math.max(1, isSpecial ? (defender.spDefense ?? defender.defense) : defender.defense);
+    let atk = isSpecial ? (attacker.spAttack ?? attacker.attack) : attacker.attack;
+    let def = Math.max(1, isSpecial ? (defender.spDefense ?? defender.defense) : defender.defense);
     const level = attacker.level || 5;
+
+    // Held Items ofensivos: Choice Band / Choice Specs
+    if (attacker.heldItem === 'choice_band' && !isSpecial) atk = Math.floor(atk * 1.5);
+    if (attacker.heldItem === 'choice_specs' && isSpecial) atk = Math.floor(atk * 1.5);
 
     // 3. Fórmula base de daño de Pokémon:
     // Base = [ ( (2 * Nivel / 5 + 2) * Poder * (Atk / Def) ) / 50 ] + 2
     const levelFactor = Math.floor((2 * level) / 5) + 2;
-    let baseDamage = Math.floor((levelFactor * move.power * (atk / def)) / 50) + 2;
+    let baseDamage = Math.floor((levelFactor * movePower * (atk / def)) / 50) + 2;
 
     // 4. Golpe Crítico (Probabilidad clásica ~6.25% -> 1.5x daño)
     const isCritical = options.forceCritical ?? (Math.random() < 0.0625);
@@ -212,8 +245,11 @@ export class BattleManager {
     const hasStab = attacker.types.some(t => t.toLowerCase() === move.type.toLowerCase());
     const stabMultiplier = hasStab ? 1.5 : 1.0;
 
-    // 6. Efectividad de Tipos
-    const effectiveness = this.getTypeEffectiveness(move.type, defender.types);
+    // 6. Efectividad de Tipos (Inmunidad por Levitación)
+    let effectiveness = this.getTypeEffectiveness(move.type, defender.types);
+    if (move.type.toLowerCase() === 'ground' && defender.ability === 'levitate') {
+      effectiveness = 0;
+    }
 
     // 7. Modificador de Clima
     let weatherMultiplier = 1.0;
@@ -226,12 +262,18 @@ export class BattleManager {
       if (mt === 'water') weatherMultiplier = 0.5;
     }
 
+    // Held Item: Vidasfera (Life Orb: +30% daño)
+    let itemMultiplier = 1.0;
+    if (attacker.heldItem === 'life_orb') {
+      itemMultiplier = 1.3;
+    }
+
     // 8. Factor Aleatorio Oficial (0.85 a 1.00)
     const randomMultiplier = options.forceRandom ?? (Math.floor(Math.random() * 16 + 85) / 100);
 
     // 9. Cálculo final
     let finalDamage = Math.floor(
-      baseDamage * critMultiplier * stabMultiplier * effectiveness * weatherMultiplier * randomMultiplier
+      baseDamage * critMultiplier * stabMultiplier * effectiveness * weatherMultiplier * itemMultiplier * randomMultiplier
     );
 
     if (effectiveness === 0) {
@@ -262,7 +304,7 @@ export class BattleManager {
   public executeTurn(
     playerMoveIndex: number,
     opponentMoveIndex?: number,
-    options: { playerMega?: boolean; opponentMega?: boolean } = {}
+    options: { playerMega?: boolean; opponentMega?: boolean; isPlayerSwitchOrItem?: boolean } = {}
   ): TurnResult {
     this.turnNumber++;
     const steps: BattleStep[] = [];
@@ -292,26 +334,42 @@ export class BattleManager {
       };
     }
 
-    // Obtener movimientos seleccionados
-    const playerMove = this.player.moves[playerMoveIndex] || this.player.moves[0];
-    
-    // IA básica para oponente si no se especifica: elige un movimiento aleatorio disponible
+    // IA básica para oponente si no se especifica
     const oppMoveIdx = opponentMoveIndex !== undefined
       ? opponentMoveIndex
       : Math.floor(Math.random() * this.opponent.moves.length);
     const opponentMove = this.opponent.moves[oppMoveIdx] || this.opponent.moves[0];
 
-    // Determinar orden de turno según Prioridad de movimiento y Velocidad (@pkmn/engine resolution)
+    // Si el turno del jugador fue consumido cambiando de Pokémon o usando un ítem
+    if (options.isPlayerSwitchOrItem) {
+      if (this.opponent.currentHp > 0) {
+        this.processMoveAction('opponent', 'player', this.opponent, this.player, opponentMove, steps);
+      }
+      if (!this.isBattleOver) {
+        this.processEndOfTurnEffects(steps);
+      }
+      return this.buildTurnResult(steps);
+    }
+
+    // Obtener movimiento seleccionado por el jugador
+    const playerMove = this.player.moves[playerMoveIndex] || this.player.moves[0];
+
+    // Modificadores de velocidad por Choice Scarf
+    let pSpeed = this.player.speed;
+    let oSpeed = this.opponent.speed;
+    if (this.player.heldItem === 'choice_scarf') pSpeed = Math.floor(pSpeed * 1.5);
+    if (this.opponent.heldItem === 'choice_scarf') oSpeed = Math.floor(oSpeed * 1.5);
+
+    // Determinar orden de turno según Prioridad de movimiento y Velocidad
     const playerPriority = playerMove?.priority ?? 0;
     const opponentPriority = opponentMove?.priority ?? 0;
 
     let playerFirst = true;
     if (playerPriority !== opponentPriority) {
       playerFirst = playerPriority > opponentPriority;
-    } else if (this.player.speed !== this.opponent.speed) {
-      playerFirst = this.player.speed > this.opponent.speed;
+    } else if (pSpeed !== oSpeed) {
+      playerFirst = pSpeed > oSpeed;
     } else {
-      // Speed tie (desempate 50/50)
       playerFirst = Math.random() < 0.5;
     }
 
@@ -336,7 +394,87 @@ export class BattleManager {
       this.processMoveAction(secondCombatant.side, secondCombatant.targetSide, secondCombatant.pokemon, secondCombatant.target, secondCombatant.move, steps);
     }
 
+    // --- ACCIÓN 3: Efectos de fin de turno (Restos / Leftovers) ---
+    if (!this.isBattleOver) {
+      this.processEndOfTurnEffects(steps);
+    }
+
     return this.buildTurnResult(steps);
+  }
+
+  /**
+   * Dispara habilidades al entrar al combate (Intimidación, Llovizna, Sequía, etc.).
+   */
+  public triggerSwitchInAbilities(side: CombatantSide, steps: BattleStep[]): void {
+    const pkmn = side === 'player' ? this.player : this.opponent;
+    const opp = side === 'player' ? this.opponent : this.player;
+    const pkmnLabel = side === 'player' ? pkmn.name : `El ${pkmn.name} enemigo`;
+    const oppLabel = side === 'player' ? `El ${opp.name} enemigo` : opp.name;
+
+    if (!pkmn.ability) return;
+    const ab = pkmn.ability.toLowerCase();
+
+    if (ab === 'intimidate') {
+      opp.attack = Math.max(1, Math.floor(opp.attack * 0.8));
+      steps.push({
+        type: 'ABILITY_TRIGGER',
+        actor: side,
+        target: side === 'player' ? 'opponent' : 'player',
+        message: `¡La Intimidación de ${pkmnLabel} redujo el Ataque de ${oppLabel}!`
+      });
+    } else if (ab === 'drizzle') {
+      this.currentWeather = 'RAIN';
+      steps.push({
+        type: 'ABILITY_TRIGGER',
+        actor: side,
+        message: `¡La habilidad Llovizna de ${pkmnLabel} hizo que empezara a llover!`
+      });
+    } else if (ab === 'drought') {
+      this.currentWeather = 'HARSH_SUN';
+      steps.push({
+        type: 'ABILITY_TRIGGER',
+        actor: side,
+        message: `¡La habilidad Sequía de ${pkmnLabel} intensificó los rayos del sol!`
+      });
+    } else if (ab === 'sand_stream') {
+      this.currentWeather = 'SANDSTORM';
+      steps.push({
+        type: 'ABILITY_TRIGGER',
+        actor: side,
+        message: `¡La habilidad Chorro Arena de ${pkmnLabel} desató una tormenta de arena!`
+      });
+    } else if (ab === 'snow_warning') {
+      this.currentWeather = 'SNOW';
+      steps.push({
+        type: 'ABILITY_TRIGGER',
+        actor: side,
+        message: `¡La habilidad Nevada de ${pkmnLabel} desató una nevada!`
+      });
+    }
+  }
+
+  /**
+   * Resuelve efectos pasivos de fin de turno (Restos, etc.).
+   */
+  private processEndOfTurnEffects(steps: BattleStep[]): void {
+    const combatants: { side: CombatantSide; pkmn: BattlePokemon }[] = [
+      { side: 'player', pkmn: this.player },
+      { side: 'opponent', pkmn: this.opponent }
+    ];
+
+    for (const { side, pkmn } of combatants) {
+      if (pkmn.currentHp > 0 && pkmn.currentHp < pkmn.maxHp && pkmn.heldItem === 'leftovers') {
+        const heal = Math.max(1, Math.floor(pkmn.maxHp / 16));
+        pkmn.currentHp = Math.min(pkmn.maxHp, pkmn.currentHp + heal);
+        const label = side === 'player' ? pkmn.name : `El ${pkmn.name} enemigo`;
+        steps.push({
+          type: 'HELD_ITEM_TRIGGER',
+          actor: side,
+          damage: heal,
+          message: `¡Los Restos de ${label} restauraron un poco de sus PS!`
+        });
+      }
+    }
   }
 
   /**
@@ -394,7 +532,7 @@ export class BattleManager {
       return;
     }
 
-    // Inmunidad de tipo
+    // Inmunidad de tipo (o por Levitación)
     if (result.effectivenessText === 'immune') {
       steps.push({
         type: 'EFFECTIVENESS',
@@ -404,6 +542,37 @@ export class BattleManager {
         message: `No afecta a ${targetLabel}...`
       });
       return;
+    }
+
+    // Habilidad: Disfraz (Disguise)
+    if (defender.ability === 'disguise' && !defender.disguiseBroken && result.damage > 0) {
+      defender.disguiseBroken = true;
+      steps.push({
+        type: 'ABILITY_TRIGGER',
+        actor: targetSide,
+        message: `¡El Disfraz de ${targetLabel} absorbió el golpe y se rompió!`
+      });
+      result.damage = 0;
+    }
+
+    // Habilidad Robustez (Sturdy) & Objeto Banda Focus (Focus Sash)
+    if (result.damage >= defender.currentHp && defender.currentHp === defender.maxHp) {
+      if (defender.ability === 'sturdy') {
+        result.damage = defender.currentHp - 1;
+        steps.push({
+          type: 'ABILITY_TRIGGER',
+          actor: targetSide,
+          message: `¡${targetLabel} resistió el golpe letal gracias a su Robustez!`
+        });
+      } else if (defender.heldItem === 'focus_sash' && !defender.hasConsumedHeldItem) {
+        result.damage = defender.currentHp - 1;
+        defender.hasConsumedHeldItem = true;
+        steps.push({
+          type: 'HELD_ITEM_TRIGGER',
+          actor: targetSide,
+          message: `¡${targetLabel} se aferró con 1 PS gracias a su Banda Focus!`
+        });
+      }
     }
 
     // 4. Aplicación de Daño
@@ -426,7 +595,7 @@ export class BattleManager {
     });
 
     // 5. Paso de Crítico
-    if (result.isCritical) {
+    if (result.isCritical && result.damage > 0) {
       steps.push({
         type: 'CRITICAL_HIT',
         actor: actorSide,
@@ -451,6 +620,43 @@ export class BattleManager {
         target: targetSide,
         effectiveness: 'not_very_effective',
         message: 'No es muy efectivo...'
+      });
+    }
+
+    // Vidasfera (Life Orb) retroceso
+    if (attacker.heldItem === 'life_orb' && result.damage > 0 && attacker.currentHp > 0) {
+      const recoil = Math.max(1, Math.floor(attacker.maxHp * 0.1));
+      attacker.currentHp = Math.max(0, attacker.currentHp - recoil);
+      steps.push({
+        type: 'RECOIL_DAMAGE',
+        actor: actorSide,
+        damage: recoil,
+        message: `¡${actorLabel} perdió algo de vida por la Vidasfera!`
+      });
+    }
+
+    // Casco Dentado (Rocky Helmet) contacto físico
+    if (defender.heldItem === 'rocky_helmet' && move.category === 'physical' && result.damage > 0 && attacker.currentHp > 0) {
+      const helmetDamage = Math.max(1, Math.floor(attacker.maxHp / 6));
+      attacker.currentHp = Math.max(0, attacker.currentHp - helmetDamage);
+      steps.push({
+        type: 'HELD_ITEM_TRIGGER',
+        actor: targetSide,
+        damage: helmetDamage,
+        message: `¡El Casco Dentado de ${targetLabel} lastimó a ${actorLabel}!`
+      });
+    }
+
+    // Baya Zidra (Sitrus Berry) consumo a <= 50% HP
+    if (defender.heldItem === 'sitrus_berry' && !defender.hasConsumedHeldItem && defender.currentHp > 0 && defender.currentHp <= Math.floor(defender.maxHp / 2)) {
+      defender.hasConsumedHeldItem = true;
+      const heal = Math.max(1, Math.floor(defender.maxHp * 0.25));
+      defender.currentHp = Math.min(defender.maxHp, defender.currentHp + heal);
+      steps.push({
+        type: 'HEAL',
+        actor: targetSide,
+        damage: heal,
+        message: `¡${targetLabel} consumió su Baya Zidra y restauró PS!`
       });
     }
 

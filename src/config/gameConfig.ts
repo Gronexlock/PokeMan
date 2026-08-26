@@ -1,4 +1,5 @@
 import * as Phaser from 'phaser';
+import { IntroScene } from '../scenes/IntroScene';
 import { OverworldScene } from '../scenes/OverworldScene';
 import { BattleScene } from '../scenes/BattleScene';
 
@@ -9,14 +10,13 @@ import { BattleScene } from '../scenes/BattleScene';
  * - Resolución nativa 960x540 (16:9 pixel-perfect scaling).
  * - Renderizado PixelArt sin antialiasing borroso.
  * - Motor de física Arcade desacoplado (sin gravedad en Overworld).
- * - Sistema de escenas modular: OverworldScene (mundo) y BattleScene (combate).
+ * - Sistema de escenas modular: IntroScene -> OverworldScene -> BattleScene.
  */
 export const gameConfig: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   width: 960,
   height: 540,
   parent: 'game-viewport',
-  canvas: document.getElementById('game-canvas') as HTMLCanvasElement || undefined,
   pixelArt: true,
   roundPixels: true,
   antialias: false,
@@ -34,5 +34,5 @@ export const gameConfig: Phaser.Types.Core.GameConfig = {
     width: 960,
     height: 540
   },
-  scene: [OverworldScene, BattleScene]
+  scene: [IntroScene, OverworldScene, BattleScene]
 };

@@ -27,7 +27,7 @@ export class CatchCalculator {
     isNightOrCave: boolean = false,
     baseCatchRate: number = 45
   ): CatchResult {
-    const ballKey = ballId.toLowerCase().replace('_', '');
+    const ballKey = ballId.toLowerCase().replaceAll('_', '');
     let ballMod = this.BALL_MODIFIERS[ballKey] || 1.0;
 
     // Master Ball es 100% garantizada
@@ -40,17 +40,18 @@ export class CatchCalculator {
       };
     }
 
-    // Reglas especiales de Balls
-    if (ballKey === 'quickball' && turnNumber === 1) {
-      ballMod = 5.0;
-    } else if (ballKey === 'quickball') {
-      ballMod = 1.0;
-    }
-
-    if (ballKey === 'duskball' && isNightOrCave) {
-      ballMod = 3.0;
+    // Reglas especiales de Balls según mecánicas oficiales
+    if (ballKey === 'quickball') {
+      ballMod = turnNumber === 1 ? 5.0 : 1.0;
     } else if (ballKey === 'duskball') {
-      ballMod = 1.0;
+      ballMod = isNightOrCave ? 3.0 : 1.0;
+    } else if (ballKey === 'netball') {
+      const isWaterOrBug = target.types.some(t => t.toLowerCase() === 'water' || t.toLowerCase() === 'bug');
+      ballMod = isWaterOrBug ? 3.5 : 1.0;
+    } else if (ballKey === 'nestball') {
+      ballMod = Math.max(1.0, (41 - target.level) / 10);
+    } else if (ballKey === 'timerball') {
+      ballMod = Math.min(4.0, 1.0 + turnNumber * 0.3);
     }
 
     // Modificador de estado

@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 import { BattleManager, BattlePokemon, BattleMove, BattleStep, TurnResult } from '../core/battle';
+import { AudioManager } from '../audio';
 
 export interface BattleSceneInitData {
   playerPokemon?: BattlePokemon;
@@ -158,10 +159,45 @@ export class BattleScene extends Phaser.Scene {
     this.playerParty = data.playerParty || [defaultPlayer];
     this.encounterType = data.encounterType || 'wild';
     this.trainerId = data.trainerId || '';
+    this.mapName = data.mapName || 'villa_tranquimar';
     this.oppCurrentHpVisual  = this.battleManager.opponent.currentHp;
     this.playerCurrentHpVisual = this.battleManager.player.currentHp;
     this.isProcessingTurn = false;
     this.menuState = 'MAIN';
+  }
+
+  /**
+   * 1. PRELOAD: Carga dinámica de sprites de combate (front y back) para los Pokémon activos.
+   */
+  preload(): void {
+    const opp = this.battleManager?.opponent;
+    const player = this.battleManager?.player;
+
+    if (opp?.id) {
+      this.load.image(`pokemon_front_${opp.id}`, `/assets/sprites/battle/front/${opp.id}.png`);
+    }
+    if (player?.id) {
+      this.load.image(`pokemon_back_${player.id}`, `/assets/sprites/battle/back/${player.id}.png`);
+      this.load.image(`pokemon_front_${player.id}`, `/assets/sprites/battle/front/${player.id}.png`);
+    }
+
+    // Precargar starters y Pokémon frecuentes
+    const commonIds = [1, 4, 6, 7, 9, 10, 16, 25, 72, 129, 183];
+    for (const id of commonIds) {
+      this.load.image(`pokemon_front_${id}`, `/assets/sprites/battle/front/${id}.png`);
+      this.load.image(`pokemon_back_${id}`, `/assets/sprites/battle/back/${id}.png`);
+    }
+
+    // Precargar retratos y sprites de batalla de entrenadores GBA
+    const trainerKeys = [
+      'trainer_player_boy', 'trainer_player_girl', 'trainer_professor', 'trainer_rival',
+      'trainer_gym_rocio', 'trainer_gym_thiago', 'trainer_elite_inti', 'trainer_elite_marina',
+      'trainer_champion_renata', 'trainer_fisherman', 'trainer_hiker', 'trainer_bugcatcher',
+      'trainer_swimmer', 'trainer_medium', 'trainer_lass'
+    ];
+    for (const tk of trainerKeys) {
+      this.load.image(tk, `/assets/sprites/gba/trainers/${tk}.png`);
+    }
   }
 
   // ──────────────────────────────────────────────────────────────────────────────
@@ -181,7 +217,18 @@ export class BattleScene extends Phaser.Scene {
     this.createPartyMenu(width, height);
     this.createBagMenu(width, height);
     this.setupKeyboard();
+
+    // 7.2 — Iniciar BGM dinámico según tipo de combate
+    AudioManager.getInstance().playBattleBgm(this.getBattleBgmType());
+
     this.startBattleIntro();
+  }
+
+  private getBattleBgmType(): 'wild' | 'trainer' | 'gym' {
+    if (this.trainerId.includes('rocio') || this.trainerId.includes('gym') || this.trainerId.includes('leader')) {
+      return 'gym';
+    }
+    return this.encounterType === 'trainer' ? 'trainer' : 'wild';
   }
 
   // ──────────────────────────────────────────────────────────────────────────────
@@ -202,6 +249,7 @@ export class BattleScene extends Phaser.Scene {
                     Phaser.Input.Keyboard.JustDown(this.escKey);
 
     if (cancel && this.menuState !== 'MAIN') {
+      AudioManager.getInstance().playSfx('cancel');
       this.showMainMenu();
       return;
     }
@@ -248,10 +296,56 @@ export class BattleScene extends Phaser.Scene {
   }
 
   private createCombatantSprites(w: number, _h: number): void {
-    this.opponentSprite = this.add.rectangle(w - 220, 160, 100, 100, 0x3498db, 1);
-    (this.opponentSprite as Phaser.GameObjects.Rectangle).setStrokeStyle(3, 0x2980b9);
-    this.playerSprite = this.add.rectangle(200, 320, 110, 110, 0xf1c40f, 1);
-    (this.playerSprite as Phaser.GameObjects.Rectangle).setStrokeStyle(3, 0xd4ac0d);
+    const opp = this.battleManager.opponent;
+    const player = this.battleManager.player;
+
+    const oppKey = `pokemon_front_${opp.id}`;
+    const playerKey = `pokemon_back_${player.id}`;
+
+    // Sombra del oponente
+    this.add.ellipse(w - 220, 215, 130, 40, 0x000000, 0.25);
+
+    if (this.textures.exists(oppKey)) {
+      this.opponentSprite = this.add.sprite(w - 220, 150, oppKey);
+      (this.opponentSprite as Phaser.GameObjects.Sprite).setScale(2.4);
+    } else {
+      this.opponentSprite = this.add.rectangle(w - 220, 160, 100, 100, 0x3498db, 1);
+      (this.opponentSprite as Phaser.GameObjects.Rectangle).setStrokeStyle(3, 0x2980b9);
+    }
+
+    // Animación de respiración / flotación del oponente
+    this.tweens.add({
+      targets: this.opponentSprite,
+      y: (this.opponentSprite.y as number) - 8,
+      duration: 1200,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.easeInOut'
+    });
+
+    // Sombra del jugador
+    this.add.ellipse(200, 380, 150, 45, 0x000000, 0.25);
+
+    if (this.textures.exists(playerKey)) {
+      this.playerSprite = this.add.sprite(200, 305, playerKey);
+      (this.playerSprite as Phaser.GameObjects.Sprite).setScale(2.6);
+    } else if (this.textures.exists(`pokemon_front_${player.id}`)) {
+      this.playerSprite = this.add.sprite(200, 305, `pokemon_front_${player.id}`);
+      (this.playerSprite as Phaser.GameObjects.Sprite).setScale(2.6);
+    } else {
+      this.playerSprite = this.add.rectangle(200, 320, 110, 110, 0xf1c40f, 1);
+      (this.playerSprite as Phaser.GameObjects.Rectangle).setStrokeStyle(3, 0xd4ac0d);
+    }
+
+    // Animación de respiración del Pokémon del jugador
+    this.tweens.add({
+      targets: this.playerSprite,
+      y: (this.playerSprite.y as number) - 6,
+      duration: 1000,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.easeInOut'
+    });
   }
 
   private createOpponentHUD(): void {
@@ -673,7 +767,7 @@ export class BattleScene extends Phaser.Scene {
     await this.delay(600);
 
     // El oponente ataca en este turno (relevo consume el turno)
-    const result = this.battleManager.executeTurn(0); // Oponente escoge movimiento aleatorio
+    const result = this.battleManager.executeTurn(0, undefined, { isPlayerSwitchOrItem: true });
     await this.animateTurnSequence(result);
     this.finishTurn(result);
   }
@@ -710,7 +804,8 @@ export class BattleScene extends Phaser.Scene {
 
     if (!this.battleManager.isBattleOver) {
       // El oponente ataca después de que usamos el objeto (consume el turno)
-      const result = this.battleManager.executeTurn(Math.floor(Math.random() * this.battleManager.opponent.moves.length));
+      const oppMoveIdx = Math.floor(Math.random() * this.battleManager.opponent.moves.length);
+      const result = this.battleManager.executeTurn(0, oppMoveIdx, { isPlayerSwitchOrItem: true });
       await this.animateTurnSequence(result);
       this.finishTurn(result);
     }
@@ -727,6 +822,16 @@ export class BattleScene extends Phaser.Scene {
     const targetX = this.opponentSprite.x;
     const targetY = this.opponentSprite.y;
 
+    // Regla de Diseño Fundamental de Andara: Los Legendarios son fuerzas divinas NO capturables
+    const uncatchables = ['eternatus', 'zygarde', 'mewtwo', 'rayquaza', 'kyogre', 'groudon', 'arceus'];
+    if (uncatchables.some(u => opponent.name.toLowerCase().includes(u))) {
+      await this.displayDialogue(`¡La inmensa energía de ${opponent.name} rechaza las Poké Balls!`);
+      AudioManager.getInstance().playSfx('ball_break');
+      this.isSubMenuOpen = false;
+      this.showMainMenu();
+      return;
+    }
+
     // Crear el sprite de la Poké Ball (gráfico circular)
     const ball = this.add.graphics();
     ball.fillStyle(0xe74c3c, 1);
@@ -739,6 +844,7 @@ export class BattleScene extends Phaser.Scene {
     ball.y = startY;
 
     await this.displayDialogue(`¡${this.battleManager.player.name} lanzó una ${ballId === 'poke_ball' ? 'Poké Ball' : 'Poké Ball'}!`);
+    AudioManager.getInstance().playSfx('ball_throw');
 
     // Trayectoria parabólica: Bezier curvo hacia el oponente
     const midX = (startX + targetX) / 2;
@@ -765,6 +871,7 @@ export class BattleScene extends Phaser.Scene {
     // Absorción: el Pokémon se encoge y la ball parpadea en rojo
     await this.tweenPromise({ targets: this.opponentSprite, scaleX: 0, scaleY: 0, alpha: 0.3, duration: 300, ease: 'Power2' });
     this.cameras.main.flash(200, 255, 0, 0);
+    AudioManager.getInstance().playSfx('ball_bounce');
     (this.opponentSprite as Phaser.GameObjects.Rectangle).setAlpha(0);
     await this.delay(200);
 
@@ -777,6 +884,7 @@ export class BattleScene extends Phaser.Scene {
     // Animación de rebotes en el suelo (1 a 3 sacudidas)
     ball.y = targetY + 20;
     for (let s = 0; s < shakes; s++) {
+      AudioManager.getInstance().playSfx('ball_wiggle');
       await this.tweenPromise({ targets: ball, angle: ball.angle + 25,  duration: 200, ease: 'Sine.easeInOut' });
       await this.tweenPromise({ targets: ball, angle: ball.angle - 25, duration: 200, ease: 'Sine.easeInOut' });
       await this.delay(100);
@@ -784,6 +892,7 @@ export class BattleScene extends Phaser.Scene {
 
     if (caught) {
       // ✅ Captura exitosa
+      AudioManager.getInstance().playSfx('ball_catch');
       this.cameras.main.flash(400, 255, 255, 0);
       await this.displayDialogue(`¡${opponent.name} fue capturado!`);
       await this.delay(400);
@@ -801,6 +910,7 @@ export class BattleScene extends Phaser.Scene {
       this.endBattle();
     } else {
       // ❌ Escape de la Poké Ball
+      AudioManager.getInstance().playSfx('ball_break');
       await this.tweenPromise({ targets: ball, angle: ball.angle + 45, duration: 250, ease: 'Power2' });
       ball.destroy();
       // El Pokémon vuelve a aparecer
@@ -856,6 +966,9 @@ export class BattleScene extends Phaser.Scene {
       switch (step.type) {
         case 'USE_MOVE':
           await this.displayDialogue(step.message);
+          if (step.move) {
+            AudioManager.getInstance().playMoveSfx(step.move.type, step.move.category);
+          }
           await this.animateMoveExecution(step.actor);
           break;
         case 'MOVE_MISS':
@@ -863,16 +976,30 @@ export class BattleScene extends Phaser.Scene {
           await this.delay(700);
           break;
         case 'DAMAGE':
+          if (step.effectiveness === 'super_effective') {
+            AudioManager.getInstance().playSfx('super_effective');
+          } else if (step.effectiveness === 'not_very_effective') {
+            AudioManager.getInstance().playSfx('not_very_effective');
+          } else if (step.effectiveness === 'immune') {
+            AudioManager.getInstance().playSfx('immune');
+          } else {
+            AudioManager.getInstance().playSfx('normal_hit');
+          }
           if (step.target && step.targetHpAfter !== undefined && step.targetMaxHp !== undefined) {
             await this.animateHpReduction(step.target, step.targetHpAfter, step.targetMaxHp);
           }
           break;
         case 'CRITICAL_HIT':
+          AudioManager.getInstance().playSfx('crit_hit');
+          await this.displayDialogue(step.message);
+          await this.delay(800);
+          break;
         case 'EFFECTIVENESS':
           await this.displayDialogue(step.message);
           await this.delay(800);
           break;
         case 'MEGA_EVOLUTION':
+          AudioManager.getInstance().playSfx('mega_evolution');
           await this.animateMegaEvolution(step.actor, step.message);
           break;
         case 'WEATHER_EFFECT':
@@ -880,6 +1007,7 @@ export class BattleScene extends Phaser.Scene {
           await this.delay(700);
           break;
         case 'FAINT':
+          AudioManager.getInstance().playSfx('faint');
           await this.displayDialogue(step.message);
           await this.animateFaint(step.actor);
           break;
@@ -887,6 +1015,7 @@ export class BattleScene extends Phaser.Scene {
           await this.displayDialogue(step.message);
           // 2.9 — Animación de EXP si el jugador ganó
           if (result.winner === 'player') {
+            AudioManager.getInstance().playVictoryBgm(this.getBattleBgmType());
             await this.animateExpGain();
           }
           break;
@@ -903,6 +1032,7 @@ export class BattleScene extends Phaser.Scene {
     const opponent = this.battleManager.opponent;
     const expGained = Math.floor(opponent.level * 5 + 10); // Fórmula simplificada
     await this.displayDialogue(`¡${this.battleManager.player.name} ganó ${expGained} puntos de EXP!`);
+    AudioManager.getInstance().playSfx('exp_gain');
 
     const sx = this.scale.width - 330 + 48, sy = this.scale.height - 265 + 90;
     const targetRatio = Math.min(1, this.currentExpRatio + expGained / 100);
@@ -925,6 +1055,7 @@ export class BattleScene extends Phaser.Scene {
       this.battleManager.player.level++;
       this.playerLevelText.setText(`Nv.${this.battleManager.player.level}`);
       this.cameras.main.flash(500, 255, 255, 255);
+      AudioManager.getInstance().playSfx('level_up');
       await this.displayDialogue(`¡${this.battleManager.player.name} subió al nivel ${this.battleManager.player.level}!`);
     } else {
       this.currentExpRatio = targetRatio;
@@ -1107,6 +1238,9 @@ export class BattleScene extends Phaser.Scene {
 
   private endBattle(): void {
     const playerWon = this.battleManager.winner === 'player';
+    // 7.1 — Reanudar música ambiental del Overworld
+    AudioManager.getInstance().resumePreviousOverworldBgm();
+
     this.cameras.main.fade(700, 0, 0, 0, false, (_cam: Phaser.Cameras.Scene2D.Camera, p: number) => {
       if (p < 1) return;
       if (this.encounterType === 'trainer') {
@@ -1117,7 +1251,9 @@ export class BattleScene extends Phaser.Scene {
           this.scene.resume('OverworldScene');
         }
       } else {
-        this.scene.start('OverworldScene');
+        this.scene.start('OverworldScene', {
+          mapKey: this.mapName
+        });
       }
     });
   }
@@ -1125,6 +1261,7 @@ export class BattleScene extends Phaser.Scene {
   // Propiedades de tipo de encuentro (deben estar al inicio del update cycle)
   private encounterType: 'wild' | 'trainer' = 'wild';
   private trainerId: string = '';
+  private mapName: string = 'villa_tranquimar';
 
   // Exponer para BattleManager
   get is_trainer_battle(): boolean { return this.battleManager.is_trainer_battle; }
