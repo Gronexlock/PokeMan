@@ -76,7 +76,7 @@ export class PauseMenu {
     } else if (this.activeTab === 'PARTY') {
       this.renderPartyViewer(ctx, saveData.party, width, height);
     } else if (this.activeTab === 'BAG') {
-      this.renderBagViewer(ctx, saveData.inventory, width, height);
+      this.renderBagViewer(ctx, saveData.inventory || {}, width, height);
     } else if (this.activeTab === 'POKEDEX') {
       this.renderPokedexViewer(ctx, width, height);
     }
@@ -202,11 +202,22 @@ export class PauseMenu {
         ctx.fillRect(cardX, cardY, cardW, cardH);
         ctx.strokeRect(cardX, cardY, cardW, cardH);
 
-        // Icono / Artwork
-        const icon = this.loader.getImage(this.loader.getPokemonArtworkUrl(poke.species_id)) ||
-                     this.loader.getImage(this.loader.getPokemonGifUrl(poke.species_id));
+        // Icono / Artwork de PokéSprite / PokeAPI
+        let icon = this.loader.getImage(this.loader.getPokemonIconUrl(poke.species_id)) ||
+                   this.loader.getImage(this.loader.getPokemonArtworkUrl(poke.species_id)) ||
+                   this.loader.getImage(this.loader.getPokemonGifUrl(poke.species_id));
+
+        if (!icon) {
+          this.loader.getPokemonIcon(poke.species_id).catch(() => {});
+        }
+
         if (icon && icon.complete && icon.naturalWidth > 0) {
-          ctx.drawImage(icon, cardX + 10, cardY + 12, 60, 60);
+          ctx.drawImage(icon, cardX + 10, cardY + 16, 56, 56);
+        } else {
+          ctx.fillStyle = '#38bdf8';
+          ctx.beginPath();
+          ctx.arc(cardX + 38, cardY + 44, 20, 0, Math.PI * 2);
+          ctx.fill();
         }
 
         // Nombre y Nivel
@@ -383,8 +394,16 @@ export class PauseMenu {
         ctx.font = '14px "PokemonGBA", "Outfit", sans-serif';
       }
 
+      // Mini icono de PokéSprite en la lista
+      const listIcon = this.loader.getImage(this.loader.getPokemonIconUrl(sp.id));
+      if (listIcon && listIcon.complete && listIcon.naturalWidth > 0) {
+        ctx.drawImage(listIcon, listX + 12, itemY + 4, 32, 32);
+      } else {
+        this.loader.getPokemonIcon(sp.id).catch(() => {});
+      }
+
       const numStr = `#${sp.id.toString().padStart(3, '0')}`;
-      ctx.fillText(`${numStr}  ${sp.name}`, listX + 16, itemY + 26);
+      ctx.fillText(`${numStr}  ${sp.name}`, listX + 50, itemY + 26);
     }
 
     // Panel de detalles del Pokémon seleccionado a la derecha
@@ -394,11 +413,19 @@ export class PauseMenu {
       const detailY = listY;
       const detailW = boxW - listW - 80;
 
-      // Ilustración Oficial
-      const artwork = this.loader.getImage(this.loader.getPokemonArtworkUrl(selSpecies.id)) ||
-                      this.loader.getImage(this.loader.getPokemonGifUrl(selSpecies.id));
+      // Ilustración Oficial HD (PokeAPI Official Artwork / Showdown GIF)
+      let artwork = this.loader.getImage(this.loader.getPokemonArtworkUrl(selSpecies.id)) ||
+                    this.loader.getImage(this.loader.getPokemonGifUrl(selSpecies.id));
+
+      if (!artwork) {
+        this.loader.getPokemonArtwork(selSpecies.id).catch(() => {});
+      }
+
       if (artwork && artwork.complete && artwork.naturalWidth > 0) {
-        ctx.drawImage(artwork, detailX + (detailW - 140) / 2, detailY + 10, 140, 140);
+        const ratio = artwork.naturalWidth / artwork.naturalHeight;
+        const artH = 140;
+        const artW = artH * ratio;
+        ctx.drawImage(artwork, detailX + (detailW - artW) / 2, detailY + 10, artW, artH);
       }
 
       // Nombre y Número

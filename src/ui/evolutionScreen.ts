@@ -24,6 +24,16 @@ export class EvolutionScreen {
     this.animTimer = 0;
     this.phase = 'INTRO';
     this.onFinishedCallback = onFinished;
+
+    // Precargar arte oficial y GIF animado de ambas formas
+    if (this.pokemon) {
+      this.loader.getPokemonArtwork(this.pokemon.species_id).catch(() => {});
+      this.loader.getPokemonSpriteFront(this.pokemon.species_id).catch(() => {});
+    }
+    if (this.targetSpecies) {
+      this.loader.getPokemonArtwork(this.targetSpecies.id).catch(() => {});
+      this.loader.getPokemonSpriteFront(this.targetSpecies.id).catch(() => {});
+    }
   }
 
   public update(dt: number): void {
@@ -152,8 +162,12 @@ export class EvolutionScreen {
     }
 
     const currentSpeciesId = showTarget ? this.targetSpecies.id : this.pokemon.species_id;
-    const pokeImg = this.loader.getImage(this.loader.getPokemonArtworkUrl(currentSpeciesId)) ||
-                    this.loader.getImage(this.loader.getPokemonGifUrl(currentSpeciesId));
+    let pokeImg = this.loader.getImage(this.loader.getPokemonArtworkUrl(currentSpeciesId)) ||
+                  this.loader.getImage(this.loader.getPokemonGifUrl(currentSpeciesId));
+
+    if (!pokeImg) {
+      this.loader.getPokemonArtwork(currentSpeciesId).catch(() => {});
+    }
 
     if (pokeImg && pokeImg.complete && pokeImg.naturalWidth > 0) {
       ctx.save();
@@ -161,13 +175,16 @@ export class EvolutionScreen {
       ctx.scale(scale, scale);
 
       if (isSilhouette) {
-        // Silueta blanca brillante
+        // Silueta blanca brillante durante la pulsación evolutiva
         ctx.fillStyle = '#ffffff';
         ctx.shadowColor = '#38bdf8';
         ctx.shadowBlur = 25;
       }
 
-      ctx.drawImage(pokeImg, -90, -90, 180, 180);
+      const ratio = pokeImg.naturalWidth / pokeImg.naturalHeight;
+      const drawH = 180;
+      const drawW = drawH * ratio;
+      ctx.drawImage(pokeImg, -drawW / 2, -drawH / 2, drawW, drawH);
       ctx.restore();
     }
 

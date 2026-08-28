@@ -5,9 +5,24 @@ export class StarterSelectScreen {
   private loader: AssetLoader;
   public element: 'fire' | 'water' | 'grass' = 'fire';
   public selectedIndex: number = 0;
+  private spriteCache: Map<string, HTMLImageElement> = new Map();
 
   constructor() {
     this.loader = AssetLoader.getInstance();
+    this.preloadAllStarters();
+  }
+
+  private preloadAllStarters(): void {
+    const all = [...ALL_STARTERS.fire, ...ALL_STARTERS.water, ...ALL_STARTERS.grass];
+    for (const sp of all) {
+      this.loader.getPokemonArtwork(sp.species_id).then(img => {
+        this.spriteCache.set(`art_${sp.species_id}`, img);
+      }).catch(() => {});
+
+      this.loader.getPokemonSpriteFront(sp.species_id).then(img => {
+        this.spriteCache.set(`gif_${sp.species_id}`, img);
+      }).catch(() => {});
+    }
   }
 
   public setElement(element: 'fire' | 'water' | 'grass'): void {
@@ -90,12 +105,16 @@ export class StarterSelectScreen {
       ctx.fillRect(x, y, itemW, itemH);
       ctx.strokeRect(x, y, itemW, itemH);
 
-      // Imagen / Artwork oficial
-      const artUrl = this.loader.getPokemonArtworkUrl(sp.species_id);
-      let img = this.loader.getImage(artUrl);
+      // Imagen / Artwork oficial HD con fallback a GIF de Showdown
+      let img = this.spriteCache.get(`art_${sp.species_id}`) ||
+                this.spriteCache.get(`gif_${sp.species_id}`) ||
+                this.loader.getImage(this.loader.getPokemonArtworkUrl(sp.species_id)) ||
+                this.loader.getImage(this.loader.getPokemonGifUrl(sp.species_id));
+
       if (!img) {
-        this.loader.loadImage(artUrl);
-        img = this.loader.getImage(this.loader.getPokemonGifUrl(sp.species_id));
+        this.loader.getPokemonArtwork(sp.species_id).then(loaded => {
+          this.spriteCache.set(`art_${sp.species_id}`, loaded);
+        }).catch(() => {});
       }
 
       if (img && img.complete && img.naturalWidth > 0) {
@@ -134,16 +153,17 @@ export class StarterSelectScreen {
     ctx.fillRect(detailX, detailY, detailW, detailH);
     ctx.strokeRect(detailX, detailY, detailW, detailH);
 
-    // Arte grande del Pokémon
-    const bigArtUrl = this.loader.getPokemonArtworkUrl(selPoke.species_id);
-    let bigImg = this.loader.getImage(bigArtUrl);
-    if (!bigImg) {
-      this.loader.loadImage(bigArtUrl);
-      bigImg = this.loader.getImage(this.loader.getPokemonGifUrl(selPoke.species_id));
-    }
+    // Arte grande del Pokémon (HD Artwork)
+    let bigImg = this.spriteCache.get(`art_${selPoke.species_id}`) ||
+                 this.spriteCache.get(`gif_${selPoke.species_id}`) ||
+                 this.loader.getImage(this.loader.getPokemonArtworkUrl(selPoke.species_id)) ||
+                 this.loader.getImage(this.loader.getPokemonGifUrl(selPoke.species_id));
 
     if (bigImg && bigImg.complete && bigImg.naturalWidth > 0) {
-      ctx.drawImage(bigImg, detailX + (detailW - 130) / 2, detailY + 14, 130, 130);
+      const ratio = bigImg.naturalWidth / bigImg.naturalHeight;
+      const drawH = 135;
+      const drawW = drawH * ratio;
+      ctx.drawImage(bigImg, detailX + (detailW - drawW) / 2, detailY + 12, drawW, drawH);
     }
 
     // Nombre y tipo

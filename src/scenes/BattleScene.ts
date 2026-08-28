@@ -827,7 +827,6 @@ export class BattleScene extends Phaser.Scene {
     if (uncatchables.some(u => opponent.name.toLowerCase().includes(u))) {
       await this.displayDialogue(`¡La inmensa energía de ${opponent.name} rechaza las Poké Balls!`);
       AudioManager.getInstance().playSfx('ball_break');
-      this.isSubMenuOpen = false;
       this.showMainMenu();
       return;
     }

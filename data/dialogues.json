@@ -7,49 +7,49 @@
         {
           "node_id": "c1",
           "speaker": "Profesor Ceibo",
-          "portrait": "ceibo_enthusiastic",
+          "portrait": "professor",
           "text": "¡Ah, qué mañana tan resplandeciente en Villa Tranquimar! El viento del mar susurra que hoy comienza algo extraordinario.",
           "next_node": "c2"
         },
         {
           "node_id": "c2",
           "speaker": "Nahuel",
-          "portrait": "nahuel_excited",
+          "portrait": "rival",
           "text": "¡Profesor Ceibo! ¡Por fin llega! Mi amigo y yo hemos estado esperando este día desde que éramos niños corriendo por el muelle.",
           "next_node": "c3"
         },
         {
           "node_id": "c3",
           "speaker": "Profesor Ceibo",
-          "portrait": "ceibo_wise",
-          "text": "La juventud y la ilusión siempre me conmueven... Antes de que sus familias se trasladen a Metrópolis Solsticio, ha llegado la hora de entregarles su primer compañero.",
+          "portrait": "professor",
+          "text": "La juventud y la ilusión siempre me conmueven... Antes de que emprendan su viaje por Andara, ha llegado la hora de entregarles su primer compañero.",
           "next_node": "c4"
         },
         {
           "node_id": "c4",
           "speaker": "Profesor Ceibo",
-          "portrait": "ceibo_explanatory",
+          "portrait": "professor",
           "text": "En Andara creemos que un Pokémon no se elige al azar; se sintoniza con el latido de tu propio espíritu.",
           "next_node": "c5"
         },
         {
           "node_id": "c5",
           "speaker": "Profesor Ceibo",
-          "portrait": "ceibo_neutral",
+          "portrait": "professor",
           "text": "Dime, joven entrenador... Cuando miras hacia el horizonte y piensas en el viaje que te espera, ¿qué virtud guía tu corazón?",
           "choices": [
             {
-              "text": "La perseverancia de la raíz que crece en silencio (Planta - Bulbasaur / Treecko).",
+              "text": "La perseverancia de la raíz que crece en silencio (Planta - Bulbasaur / Treecko / Turtwig).",
               "choice_key": "grass",
               "next_node": "c_grass"
             },
             {
-              "text": "La llama ardiente de la determinación y la pasión (Fuego - Charmander / Torchic).",
+              "text": "La llama ardiente de la determinación y la pasión (Fuego - Charmander / Cyndaquil / Torchic).",
               "choice_key": "fire",
               "next_node": "c_fire"
             },
             {
-              "text": "La serenidad del río que se adapta a cualquier cauce (Agua - Squirtle / Mudkip).",
+              "text": "La serenidad del río que se adapta a cualquier cauce (Agua - Squirtle / Totodile / Mudkip).",
               "choice_key": "water",
               "next_node": "c_water"
             }
@@ -58,7 +58,7 @@
         {
           "node_id": "c_grass",
           "speaker": "Profesor Ceibo",
-          "portrait": "ceibo_enthusiastic",
+          "portrait": "professor",
           "text": "¡Magnífico! La paciencia de la tierra fértil. La vida florece donde hay dedicación inquebrantable.",
           "set_flag": { "starter_element": "grass" },
           "next_node": "c_rival_react"
@@ -66,7 +66,7 @@
         {
           "node_id": "c_fire",
           "speaker": "Profesor Ceibo",
-          "portrait": "ceibo_enthusiastic",
+          "portrait": "professor",
           "text": "¡Excelente! La chispa incombustible. Aquel que arde con pasión ilumina el sendero para todos los que le rodean.",
           "set_flag": { "starter_element": "fire" },
           "next_node": "c_rival_react"
@@ -74,7 +74,7 @@
         {
           "node_id": "c_water",
           "speaker": "Profesor Ceibo",
-          "portrait": "ceibo_enthusiastic",
+          "portrait": "professor",
           "text": "¡Hermosa respuesta! La fluidez del agua. Quien sabe adaptarse nunca se quiebra ante las tormentas.",
           "set_flag": { "starter_element": "water" },
           "next_node": "c_rival_react"
@@ -82,102 +82,194 @@
         {
           "node_id": "c_rival_react",
           "speaker": "Nahuel",
-          "portrait": "nahuel_smug",
+          "portrait": "rival",
           "text": "¡Qué gran elección! Pero sabes bien cómo soy... ¡Para impulsarte al límite, elegiré al compañero que ponga a prueba tus reflejos desde el primer segundo!",
           "next_node": "c_mega_ring"
         },
         {
           "node_id": "c_mega_ring",
           "speaker": "Profesor Ceibo",
-          "portrait": "ceibo_wise",
+          "portrait": "professor",
           "text": "Tomen también la Pokédex Regional de Andara y estos Mega-Aros forjados con mineral telúrico. Les recordarán que el verdadero poder nace de la armonía entre humanos y Pokémon.",
-          "set_flag": { "has_pokedex": true, "has_mega_ring": true },
-          "next_node": "c_first_battle_prompt"
+          "set_flag": { "has_pokedex": true, "has_mega_ring": true, "starter_received": true },
+          "next_node": "c_open_starter"
         },
         {
-          "node_id": "c_first_battle_prompt",
-          "speaker": "Nahuel",
-          "portrait": "nahuel_challenging",
-          "text": "¡El muelle está despejado y la marea está alta! ¡Es el escenario perfecto para nuestro primer combate de la infancia! ¿Listo?",
-          "choices": [
-            {
-              "text": "¡Siempre listo, Nahuel! ¡Muéstrame lo que tienes!",
-              "choice_key": "ready_confident",
-              "next_node": "c_battle_start"
-            },
-            {
-              "text": "Tranquilo, apenas estoy conociendo a mi compañero...",
-              "choice_key": "ready_cautious",
-              "next_node": "c_battle_start"
-            }
-          ]
-        },
-        {
-          "node_id": "c_battle_start",
-          "speaker": "Nahuel",
-          "portrait": "nahuel_excited",
-          "text": "¡Adelante! ¡Que comience el viaje de nuestras vidas!",
-          "trigger_event": "start_first_battle",
+          "node_id": "c_open_starter",
+          "speaker": "Profesor Ceibo",
+          "portrait": "professor",
+          "text": "Acércate a la mesa tecnológica y elige a tu compañero inicial.",
+          "trigger_event": "open_starter_select",
           "next_node": null
         }
       ]
     },
+
+    "mom_first_talk": {
+      "id": "mom_first_talk",
+      "scene_title": "Despedida de Mamá",
+      "nodes": [
+        {
+          "node_id": "m1",
+          "speaker": "Mamá",
+          "portrait": "purple_girl",
+          "text": "¡Hijo! Te veo radiante. El Profesor Ceibo me avisó que ya tienes a tu primer Pokémon.",
+          "next_node": "m2"
+        },
+        {
+          "node_id": "m2",
+          "speaker": "Mamá",
+          "portrait": "purple_girl",
+          "text": "Toma estas Zapatillas Deportivas. Con ellas podrás correr manteniendo presionada la tecla Shift o Espacio.",
+          "set_flag": { "has_running_shoes": true },
+          "next_node": "m3"
+        },
+        {
+          "node_id": "m3",
+          "speaker": "Mamá",
+          "portrait": "purple_girl",
+          "text": "Recuerda que si tu equipo se cansa, siempre puedes volver a casa a descansar. ¡Cuídate mucho en el camino!",
+          "next_node": null
+        }
+      ]
+    },
+
+    "route_1_rival_ambush": {
+      "id": "route_1_rival_ambush",
+      "scene_title": "Primer Desafío en la Salida de Tranquimar",
+      "nodes": [
+        {
+          "node_id": "r1",
+          "speaker": "Nahuel",
+          "portrait": "rival",
+          "text": "¡Alto ahí! ¿Pensabas salir hacia Pueblo Altiplano sin probar la fuerza de nuestros compañeros?",
+          "next_node": "r2"
+        },
+        {
+          "node_id": "r2",
+          "speaker": "Nahuel",
+          "portrait": "rival",
+          "text": "He entrenado en la playa y mi Pokémon ya conoce sus primeros movimientos. ¡Prepárate para nuestro primer combate oficial!",
+          "choices": [
+            {
+              "text": "¡Adelante, Nahuel! ¡Veamos de qué eres capaz!",
+              "choice_key": "ready_fight",
+              "next_node": "r_battle"
+            },
+            {
+              "text": "Apenas estamos empezando, pero no me contendré...",
+              "choice_key": "ready_calm",
+              "next_node": "r_battle"
+            }
+          ]
+        },
+        {
+          "node_id": "r_battle",
+          "speaker": "Nahuel",
+          "portrait": "rival",
+          "text": "¡A luchar! ¡Demostremos la energía de Villa Tranquimar!",
+          "trigger_battle": {
+            "trainer_id": "rival_battle_1"
+          },
+          "set_flag": { "first_rival_battle_done": true },
+          "next_node": null
+        }
+      ]
+    },
+
+    "gym_1_rocio_battle": {
+      "id": "gym_1_rocio_battle",
+      "scene_title": "Desafío de la Medalla Sedimento",
+      "nodes": [
+        {
+          "node_id": "g1",
+          "speaker": "Líder Rocío",
+          "portrait": "gym_leader_rocio",
+          "text": "Bienvenido al Gimnasio de Altiplano, joven retador. La tierra y las rocas no solo resisten las tormentas; guardan la memoria del mundo.",
+          "next_node": "g2"
+        },
+        {
+          "node_id": "g2",
+          "speaker": "Líder Rocío",
+          "portrait": "gym_leader_rocio",
+          "text": "Si pretendes conquistar la Liga de Andara, primero debes demostrar que la base de tu equipo es inquebrantable.",
+          "choices": [
+            {
+              "text": "¡Tengo la fuerza y la estrategia para ganar la Medalla Sedimento!",
+              "choice_key": "fight",
+              "next_node": "g_battle"
+            },
+            {
+              "text": "Mis Pokémon y yo daremos lo mejor.",
+              "choice_key": "calm",
+              "next_node": "g_battle"
+            }
+          ]
+        },
+        {
+          "node_id": "g_battle",
+          "speaker": "Líder Rocío",
+          "portrait": "gym_leader_rocio",
+          "text": "¡Que el peso de la cordillera guíe nuestro combate!",
+          "trigger_battle": {
+            "trainer_id": "gym_1_rocio"
+          },
+          "next_node": "g_victory"
+        },
+        {
+          "node_id": "g_victory",
+          "speaker": "Líder Rocío",
+          "portrait": "gym_leader_rocio",
+          "text": "Impresionante fluidez... Tienes la firmeza de la montaña y la adaptabilidad del río. Te hago entrega oficial de la Medalla Sedimento.",
+          "set_flag": { "badge_sedimento": true },
+          "next_node": null
+        }
+      ]
+    },
+
     "solsticio_growlithe_adoption": {
       "id": "solsticio_growlithe_adoption",
       "scene_title": "El Refugio de Solsticio y el Lazo con Growlithe",
       "nodes": [
         {
-          "node_id": "g1",
+          "node_id": "sg1",
           "speaker": "Nahuel",
-          "portrait": "nahuel_curious",
+          "portrait": "rival",
           "text": "¡Mira este lugar! El Centro de Adopción de Metrópolis Solsticio rescata Pokémon heridos por cazadores y obras industriales...",
-          "next_node": "g2"
+          "next_node": "sg2"
         },
         {
-          "node_id": "g2",
+          "node_id": "sg2",
           "speaker": "Encargada del Refugio",
-          "portrait": "refuge_worker",
+          "portrait": "purple_girl",
           "text": "Bienvenidos, jóvenes. Aquel pequeño Growlithe en la esquina fue rescatado en la cordillera... Tiene miedo al contacto y desconfía de la gente.",
-          "next_node": "g3"
+          "next_node": "sg3"
         },
         {
-          "node_id": "g3",
+          "node_id": "sg3",
           "speaker": "Nahuel",
-          "portrait": "nahuel_gentle",
-          "text": "*(Nahuel se arrodilla lentamente a su altura, extiende su mano con calma y le sonríe sin prisa)*",
-          "next_node": "g4"
-        },
-        {
-          "node_id": "g4",
-          "speaker": "Nahuel",
-          "portrait": "nahuel_gentle",
+          "portrait": "rival",
           "text": "Oye, pequeño... Sé lo que se siente temer al cambio y a un mundo que parece demasiado grande. Pero ya no estás solo.",
-          "next_node": "g5"
+          "next_node": "sg4"
         },
         {
-          "node_id": "g5",
+          "node_id": "sg4",
           "speaker": "Growlithe",
-          "portrait": "growlithe_happy",
+          "portrait": "young_guy",
           "text": "¡Grof! ¡Groooff! *(Growlithe olfatea la mano de Nahuel y apoya su cabeza en su pecho, moviendo la cola alegremente)*",
-          "next_node": "g6"
+          "next_node": "sg5"
         },
         {
-          "node_id": "g6",
+          "node_id": "sg5",
           "speaker": "Nahuel",
-          "portrait": "nahuel_determined",
+          "portrait": "rival",
           "text": "Te prometo que mientras esté contigo, nadie volverá a lastimarte. Seremos los compañeros más leales de toda Andara.",
           "set_flag": { "rival_growlithe_adopted": true },
-          "next_node": "g7"
-        },
-        {
-          "node_id": "g7",
-          "speaker": "Nahuel",
-          "portrait": "nahuel_excited",
-          "text": "¡Amigo, míralo! ¡Ahora somos un verdadero equipo! ¡La Liga de Andara nos espera a todos!",
           "next_node": null
         }
       ]
     },
+
     "renata_mountain_encounter": {
       "id": "renata_mountain_encounter",
       "scene_title": "El Encuentro en la Cumbre con la Campeona Renata",
@@ -185,34 +277,35 @@
         {
           "node_id": "r1",
           "speaker": "Campeona Renata",
-          "portrait": "renata_serene",
+          "portrait": "champion_renata",
           "text": "El viento en las cumbres de Andara no solo trae frío; trae ecos de una fuerza telúrica muy antigua...",
           "next_node": "r2"
         },
         {
           "node_id": "r2",
           "speaker": "Campeona Renata",
-          "portrait": "renata_imposing",
+          "portrait": "champion_renata",
           "text": "He observado su progreso desde las tierras bajas. Poseen miradas limpias, pero deben tener cuidado.",
           "next_node": "r3"
         },
         {
           "node_id": "r3",
           "speaker": "Campeona Renata",
-          "portrait": "renata_serious",
+          "portrait": "champion_renata",
           "text": "El Proyecto Aurora se está fracturando. Alister pretende forzar el despertar de la energía ancestral para purificar la región a la fuerza.",
           "next_node": "r4"
         },
         {
           "node_id": "r4",
           "speaker": "Campeona Renata",
-          "portrait": "renata_wise",
+          "portrait": "champion_renata",
           "text": "Mi Garchomp y yo protegeremos la cordillera con nuestras vidas si es necesario. Pero Andara necesitará nuevos guardianes. Sigan entrenando con honor.",
           "set_flag": { "met_champion_renata": true },
           "next_node": null
         }
       ]
     },
+
     "aurora_fracture_scene": {
       "id": "aurora_fracture_scene",
       "scene_title": "La Ruptura Ideológica en el Cráter Resonante",
@@ -220,22 +313,22 @@
         {
           "node_id": "a1",
           "speaker": "Dra. Clara (Proyecto Aurora)",
-          "portrait": "clara_alarmed",
-          "text": "¡Alister, detén esto! ¡Fundamos Proyecto Aurora para sanar los ecosistemas, no para provocar un cataclismo con la energía de Eternatus!",
+          "portrait": "purple_girl",
+          "text": "¡Alister, detén esto! ¡Fundamos Proyecto Aurora para sanar los ecosistemas, no para provocar un cataclismo!",
           "next_node": "a2"
         },
         {
           "node_id": "a2",
           "speaker": "Alister (Aurora Cero)",
-          "portrait": "alister_cold",
+          "portrait": "young_guy",
           "text": "Tu compasión es tibia, Clara. La humanidad nunca aprenderá con discursos amables. Solo un reinicio total devolverá el equilibrio a la tierra.",
           "next_node": "a3"
         },
         {
           "node_id": "a3",
           "speaker": "Alister (Aurora Cero)",
-          "portrait": "alister_fanatic",
-          "text": "¡La energía de la Noche Negra purificará este continente! Y nadie, ni los líderes ni la Campeona, podrán impedirlo.",
+          "portrait": "young_guy",
+          "text": "¡La energía ancestral purificará este continente! Y nadie, ni los líderes ni la Campeona, podrán impedirlo.",
           "set_flag": { "aurora_zero_revealed": true },
           "next_node": null
         }

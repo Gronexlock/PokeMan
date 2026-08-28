@@ -6,7 +6,7 @@
       "width": 20,
       "height": 15,
       "biome": "coastal_town",
-      "encounter_zone": null,
+      "encounter_zone": "villa_tranquimar_coast",
       "collision_matrix": [
         [1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1],
         [1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1],
@@ -14,27 +14,118 @@
         [1,0,1,5,1,0,0,0,0,0,0,0,0,0,0,1,5,1,0,1],
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,1],
-        [1,0,0,0,1,1,5,1,0,0,0,0,1,1,1,1,0,0,0,1],
+        [1,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,1],
+        [1,0,1,5,1,1,0,0,0,0,0,0,1,5,1,1,0,0,0,1],
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,1,1,5,1,0,0,0,0,0,0,0,0,0,0,0,1],
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
         [3,3,3,3,3,3,3,3,3,0,0,3,3,3,3,3,3,3,3,3],
         [3,3,3,3,3,3,3,3,3,0,0,3,3,3,3,3,3,3,3,3],
         [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3]
       ],
       "warps": [
-        { "x": 3, "y": 3, "target_map": "player_house", "target_x": 3, "target_y": 6 },
+        { "x": 3, "y": 3, "target_map": "player_house_f1", "target_x": 3, "target_y": 6 },
         { "x": 16, "y": 3, "target_map": "rival_house", "target_x": 3, "target_y": 6 },
-        { "x": 6, "y": 7, "target_map": "ceibo_lab", "target_x": 5, "target_y": 8 },
+        { "x": 3, "y": 7, "target_map": "pokemon_center_tranquimar", "target_x": 5, "target_y": 7 },
+        { "x": 13, "y": 7, "target_map": "poke_mart_tranquimar", "target_x": 3, "target_y": 6 },
+        { "x": 6, "y": 10, "target_map": "ceibo_lab", "target_x": 4, "target_y": 8 },
         { "x": 9, "y": 0, "target_map": "route_1", "target_x": 9, "target_y": 23 },
         { "x": 10, "y": 0, "target_map": "route_1", "target_x": 10, "target_y": 23 }
+      ],
+      "npcs": [
+        {
+          "id": "npc_fisherman_tranquimar",
+          "name": "Pescador Bernardo",
+          "x": 9,
+          "y": 12,
+          "facing": "DOWN",
+          "sprite": "npc_fisherman",
+          "dialogue_text": "El mar de Tranquimar está lleno de vida. ¡Dicen que con una buena Caña puedes pescar Magikarp y Poliwag!"
+        },
+        {
+          "id": "npc_girl_tranquimar",
+          "name": "Lucía",
+          "x": 14,
+          "y": 4,
+          "facing": "LEFT",
+          "sprite": "young_girl",
+          "dialogue_text": "El Profesor Ceibo te está esperando en su Laboratorio al sur del pueblo. ¡Tiene nuevos iniciales!"
+        }
+      ],
+      "item_balls": [
+        { "id": "item_potion_dock", "x": 10, "y": 13, "item_id": "potion", "item_name": "Poción", "quantity": 1 }
+      ],
+      "signposts": [
+        { "x": 8, "y": 2, "title": "Villa Tranquimar", "text": "Villa Tranquimar — Donde las olas susurran el inicio del viaje." },
+        { "x": 4, "y": 9, "title": "Laboratorio Pokémon", "text": "Laboratorio de Investigación del Prof. Ceibo." },
+        { "x": 1, "y": 3, "title": "Casa del Protagonista", "text": "Casa de tu familia." }
       ]
     },
-    "player_house": {
-      "id": "player_house",
-      "display_name": "Casa del Protagonista",
+
+    "player_house_f1": {
+      "id": "player_house_f1",
+      "display_name": "Casa del Protagonista (PB)",
+      "width": 8,
+      "height": 8,
+      "biome": "indoor",
+      "encounter_zone": null,
+      "collision_matrix": [
+        [1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,1],
+        [1,0,1,1,0,0,0,1],
+        [1,0,1,1,0,0,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,1,1,5,1,1,1,1]
+      ],
+      "warps": [
+        { "x": 3, "y": 7, "target_map": "villa_tranquimar", "target_x": 3, "target_y": 4 },
+        { "x": 6, "y": 1, "target_map": "player_house_f2", "target_x": 6, "target_y": 1 }
+      ],
+      "npcs": [
+        {
+          "id": "npc_mom",
+          "name": "Mamá",
+          "x": 4,
+          "y": 3,
+          "facing": "LEFT",
+          "sprite": "purple_girl",
+          "dialogue_text": "¡Hola, cariño! El Prof. Ceibo te llamó por teléfono. Pasa por su laboratorio cuando estés listo."
+        }
+      ]
+    },
+
+    "player_house_f2": {
+      "id": "player_house_f2",
+      "display_name": "Tu Habitación",
+      "width": 8,
+      "height": 8,
+      "biome": "indoor",
+      "encounter_zone": null,
+      "collision_matrix": [
+        [1,1,1,1,1,1,1,1],
+        [1,1,0,0,0,0,0,1],
+        [1,1,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,0,1,1,0,0,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,1]
+      ],
+      "warps": [
+        { "x": 6, "y": 1, "target_map": "player_house_f1", "target_x": 6, "target_y": 2 }
+      ],
+      "signposts": [
+        { "x": 1, "y": 1, "title": "PC Personal", "text": "Tu PC de almacenamiento Pokémon está conectada a la red de Andara." },
+        { "x": 2, "y": 4, "title": "Consola de Videojuegos", "text": "Una consola portátil conectada a la pantalla." }
+      ]
+    },
+
+    "rival_house": {
+      "id": "rival_house",
+      "display_name": "Casa del Rival Nahuel",
       "width": 8,
       "height": 8,
       "biome": "indoor",
@@ -50,9 +141,21 @@
         [1,1,1,5,1,1,1,1]
       ],
       "warps": [
-        { "x": 3, "y": 7, "target_map": "villa_tranquimar", "target_x": 3, "target_y": 4 }
+        { "x": 3, "y": 7, "target_map": "villa_tranquimar", "target_x": 16, "target_y": 4 }
+      ],
+      "npcs": [
+        {
+          "id": "npc_rival_sister",
+          "name": "Hermana de Nahuel",
+          "x": 3,
+          "y": 3,
+          "facing": "DOWN",
+          "sprite": "hat_girl",
+          "dialogue_text": "¡Nahuel salió corriendo al laboratorio hace un momento! Decía que iba a ser el mejor entrenador de Andara."
+        }
       ]
     },
+
     "ceibo_lab": {
       "id": "ceibo_lab",
       "display_name": "Laboratorio del Profesor Ceibo",
@@ -73,9 +176,101 @@
         [1,1,1,1,5,1,1,1,1,1]
       ],
       "warps": [
-        { "x": 4, "y": 9, "target_map": "villa_tranquimar", "target_x": 6, "target_y": 8 }
+        { "x": 4, "y": 9, "target_map": "villa_tranquimar", "target_x": 6, "target_y": 11 }
+      ],
+      "npcs": [
+        {
+          "id": "npc_prof_ceibo",
+          "name": "Profesor Ceibo",
+          "x": 4,
+          "y": 2,
+          "facing": "DOWN",
+          "sprite": "professor",
+          "dialogue_text": "¡Bienvenido al Laboratorio de Andara! He investigado Pokémon de todas las regiones. ¡Elige con sabiduría a tu primer compañero!"
+        },
+        {
+          "id": "npc_lab_aide",
+          "name": "Científico Tomás",
+          "x": 7,
+          "y": 4,
+          "facing": "LEFT",
+          "sprite": "young_guy",
+          "dialogue_text": "Registrar datos en la Pokédex es crucial para entender el ecosistema de nuestra región."
+        }
+      ],
+      "signposts": [
+        { "x": 4, "y": 1, "title": "Mesa de Iniciales", "text": "Tres Poké Balls descansan sobre la plataforma tecnológica." }
       ]
     },
+
+    "pokemon_center_tranquimar": {
+      "id": "pokemon_center_tranquimar",
+      "display_name": "Centro Pokémon de Tranquimar",
+      "width": 10,
+      "height": 9,
+      "biome": "indoor",
+      "encounter_zone": null,
+      "collision_matrix": [
+        [1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,1,1,0,0,0,1],
+        [1,0,0,0,1,1,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,1],
+        [1,0,1,0,0,0,0,1,0,1],
+        [1,0,1,0,0,0,0,1,0,1],
+        [1,0,0,0,0,0,0,0,0,1],
+        [1,1,1,1,5,5,1,1,1,1]
+      ],
+      "warps": [
+        { "x": 4, "y": 8, "target_map": "villa_tranquimar", "target_x": 3, "target_y": 8 },
+        { "x": 5, "y": 8, "target_map": "villa_tranquimar", "target_x": 3, "target_y": 8 }
+      ],
+      "npcs": [
+        {
+          "id": "npc_joy_tranquimar",
+          "name": "Enfermera Joy",
+          "x": 4,
+          "y": 2,
+          "facing": "DOWN",
+          "sprite": "purple_girl",
+          "dialogue_text": "¡Hola! Bienvenidos al Centro Pokémon. Dejamos a tus Pokémon completamente recuperados en un instante."
+        }
+      ]
+    },
+
+    "poke_mart_tranquimar": {
+      "id": "poke_mart_tranquimar",
+      "display_name": "Tienda Pokémon de Tranquimar",
+      "width": 8,
+      "height": 8,
+      "biome": "indoor",
+      "encounter_zone": null,
+      "collision_matrix": [
+        [1,1,1,1,1,1,1,1],
+        [1,0,0,1,1,0,0,1],
+        [1,0,0,1,1,0,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,0,1,1,0,1,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,1,1,5,1,1,1,1]
+      ],
+      "warps": [
+        { "x": 3, "y": 7, "target_map": "villa_tranquimar", "target_x": 13, "target_y": 8 }
+      ],
+      "npcs": [
+        {
+          "id": "npc_clerk_tranquimar",
+          "name": "Tendero",
+          "x": 3,
+          "y": 2,
+          "facing": "DOWN",
+          "sprite": "young_guy",
+          "dialogue_text": "¡Buenos días! Tenemos Poké Balls, Pociones y Antídotos listos para tu aventura."
+        }
+      ]
+    },
+
     "route_1": {
       "id": "route_1",
       "display_name": "Ruta 1 (Sendero Costero)",
@@ -113,10 +308,215 @@
       "warps": [
         { "x": 9, "y": 24, "target_map": "villa_tranquimar", "target_x": 9, "target_y": 1 },
         { "x": 10, "y": 24, "target_map": "villa_tranquimar", "target_x": 10, "target_y": 1 },
-        { "x": 9, "y": 0, "target_map": "metropolis_solsticio_south", "target_x": 9, "target_y": 19 },
-        { "x": 10, "y": 0, "target_map": "metropolis_solsticio_south", "target_x": 10, "target_y": 19 }
+        { "x": 9, "y": 0, "target_map": "pueblo_altiplano", "target_x": 9, "target_y": 18 },
+        { "x": 10, "y": 0, "target_map": "pueblo_altiplano", "target_x": 10, "target_y": 18 }
+      ],
+      "npcs": [
+        {
+          "id": "npc_youngster_mateo",
+          "name": "Joven Mateo",
+          "x": 6,
+          "y": 15,
+          "facing": "RIGHT",
+          "sprite": "young_guy",
+          "trainer_id": "youngster_mateo",
+          "is_trainer": true,
+          "dialogue_text": "¡Nuestros ojos se han cruzado! ¡Eso significa combate Pokémon!"
+        },
+        {
+          "id": "npc_bugcatcher_lucas",
+          "name": "Cazabichos Lucas",
+          "x": 14,
+          "y": 8,
+          "facing": "LEFT",
+          "sprite": "npc_bugcatcher",
+          "trainer_id": "bugcatcher_lucas",
+          "is_trainer": true,
+          "dialogue_text": "¡Mis Pokémon tipo Bicho entrenaron duro en la hierba alta!"
+        }
+      ],
+      "item_balls": [
+        { "id": "item_ball_route1_1", "x": 3, "y": 18, "item_id": "pokeball", "item_name": "Poké Ball", "quantity": 3 },
+        { "id": "item_potion_route1_2", "x": 17, "y": 6, "item_id": "potion", "item_name": "Poción", "quantity": 1 }
+      ],
+      "signposts": [
+        { "x": 11, "y": 21, "title": "Ruta 1", "text": "Ruta 1 ➔ Norte hacia Pueblo Altiplano • Sur hacia Villa Tranquimar" }
       ]
     },
+
+    "pueblo_altiplano": {
+      "id": "pueblo_altiplano",
+      "display_name": "Pueblo Altiplano",
+      "width": 22,
+      "height": 20,
+      "biome": "mountain",
+      "encounter_zone": null,
+      "collision_matrix": [
+        [1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1],
+        [1,0,1,5,1,1,0,0,0,0,0,0,0,1,5,1,1,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,1,1,5,5,1,1,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,1],
+        [1,0,1,5,1,0,0,0,0,0,0,0,0,0,0,1,5,1,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1]
+      ],
+      "warps": [
+        { "x": 9, "y": 19, "target_map": "route_1", "target_x": 9, "target_y": 1 },
+        { "x": 10, "y": 19, "target_map": "route_1", "target_x": 10, "target_y": 1 },
+        { "x": 3, "y": 3, "target_map": "pokemon_center_altiplano", "target_x": 5, "target_y": 7 },
+        { "x": 15, "y": 3, "target_map": "poke_mart_altiplano", "target_x": 3, "target_y": 6 },
+        { "x": 8, "y": 7, "target_map": "gym_1_altiplano", "target_x": 7, "target_y": 13 },
+        { "x": 9, "y": 7, "target_map": "gym_1_altiplano", "target_x": 7, "target_y": 13 }
+      ],
+      "npcs": [
+        {
+          "id": "npc_hiker_altiplano",
+          "name": "Montañero Sergio",
+          "x": 13,
+          "y": 9,
+          "facing": "LEFT",
+          "sprite": "npc_hiker",
+          "dialogue_text": "¡Las rocas de Altiplano son duras como el diamante! La Líder Rocío usa Pokémon de tipo Tierra y Roca."
+        }
+      ],
+      "signposts": [
+        { "x": 11, "y": 14, "title": "Pueblo Altiplano", "text": "Pueblo Altiplano — Firme como los cimientos de la cordillera." },
+        { "x": 6, "y": 7, "title": "Gimnasio Altiplano", "text": "Gimnasio Pokémon de Altiplano — Líder: Rocío (Medalla Sedimento)" }
+      ]
+    },
+
+    "gym_1_altiplano": {
+      "id": "gym_1_altiplano",
+      "display_name": "Gimnasio de Altiplano (Líder Rocío)",
+      "width": 15,
+      "height": 15,
+      "biome": "indoor",
+      "encounter_zone": null,
+      "collision_matrix": [
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
+        [1,0,1,1,0,0,0,0,0,0,0,1,1,0,1],
+        [1,0,1,1,0,0,0,0,0,0,0,1,1,0,1],
+        [1,0,0,0,0,1,1,0,1,1,0,0,0,0,1],
+        [1,0,0,0,0,1,1,0,1,1,0,0,0,0,1],
+        [1,0,1,0,0,0,0,0,0,0,0,0,1,0,1],
+        [1,0,1,0,0,0,0,0,0,0,0,0,1,0,1],
+        [1,0,0,0,1,1,0,0,0,1,1,0,0,0,1],
+        [1,0,0,0,1,1,0,0,0,1,1,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,5,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+      ],
+      "warps": [
+        { "x": 7, "y": 13, "target_map": "pueblo_altiplano", "target_x": 8, "target_y": 8 }
+      ],
+      "npcs": [
+        {
+          "id": "npc_leader_rocio",
+          "name": "Líder Rocío",
+          "x": 7,
+          "y": 2,
+          "facing": "DOWN",
+          "sprite": "gym_leader_rocio",
+          "trainer_id": "gym_1_rocio",
+          "is_trainer": true,
+          "dialogue_text": "¡Bienvenido, retador! Aquí aprenderás la solidez de la tierra. ¡Demuéstrame si puedes romper mis defensas!"
+        },
+        {
+          "id": "npc_gym_guide",
+          "name": "Guía del Gimnasio",
+          "x": 6,
+          "y": 12,
+          "facing": "RIGHT",
+          "sprite": "young_guy",
+          "dialogue_text": "¡Futuro campeón! Los tipos Planta y Agua son súper eficaces contra los Pokémon de Rocío. ¡Cuidado con su Gible!"
+        }
+      ]
+    },
+
+    "pokemon_center_altiplano": {
+      "id": "pokemon_center_altiplano",
+      "display_name": "Centro Pokémon de Altiplano",
+      "width": 10,
+      "height": 9,
+      "biome": "indoor",
+      "encounter_zone": null,
+      "collision_matrix": [
+        [1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,1,1,0,0,0,1],
+        [1,0,0,0,1,1,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,1],
+        [1,0,1,0,0,0,0,1,0,1],
+        [1,0,1,0,0,0,0,1,0,1],
+        [1,0,0,0,0,0,0,0,0,1],
+        [1,1,1,1,5,5,1,1,1,1]
+      ],
+      "warps": [
+        { "x": 4, "y": 8, "target_map": "pueblo_altiplano", "target_x": 3, "target_y": 4 },
+        { "x": 5, "y": 8, "target_map": "pueblo_altiplano", "target_x": 3, "target_y": 4 }
+      ],
+      "npcs": [
+        {
+          "id": "npc_joy_altiplano",
+          "name": "Enfermera Joy",
+          "x": 4,
+          "y": 2,
+          "facing": "DOWN",
+          "sprite": "purple_girl",
+          "dialogue_text": "¡Hola! Bienvenidos al Centro Pokémon de Altiplano. Cuidamos de tus compañeros."
+        }
+      ]
+    },
+
+    "poke_mart_altiplano": {
+      "id": "poke_mart_altiplano",
+      "display_name": "Tienda Pokémon de Altiplano",
+      "width": 8,
+      "height": 8,
+      "biome": "indoor",
+      "encounter_zone": null,
+      "collision_matrix": [
+        [1,1,1,1,1,1,1,1],
+        [1,0,0,1,1,0,0,1],
+        [1,0,0,1,1,0,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,0,1,1,0,1,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,1],
+        [1,1,1,5,1,1,1,1]
+      ],
+      "warps": [
+        { "x": 3, "y": 7, "target_map": "pueblo_altiplano", "target_x": 15, "target_y": 4 }
+      ],
+      "npcs": [
+        {
+          "id": "npc_clerk_altiplano",
+          "name": "Tendero",
+          "x": 3,
+          "y": 2,
+          "facing": "DOWN",
+          "sprite": "young_guy",
+          "dialogue_text": "¡Tenemos Super Balls y Superpociones en oferta para retar al Gimnasio!"
+        }
+      ]
+    },
+
     "safari_zone_entrance": {
       "id": "safari_zone_entrance",
       "display_name": "Reserva Ecológica de Andara (Puerta Principal)",

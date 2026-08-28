@@ -14,6 +14,12 @@ export class BattleRenderer {
   public selectedMainMenuIndex: number = 0; // 0: Luchar, 1: Mochila, 2: Pokémon, 3: Huir
   public selectedPartyIndex: number = 0;
 
+  // Caché interna de sprites asíncronos para batalla fluida a 60 FPS
+  private oppSpriteCache: Map<string, HTMLImageElement> = new Map();
+  private playerSpriteCache: Map<string, HTMLImageElement> = new Map();
+  private iconCache: Map<string, HTMLImageElement> = new Map();
+  private trainerAvatarCache: Map<string, HTMLImageElement> = new Map();
+
   // Animaciones de combate
   private playerAnimBounce: number = 0;
   private opponentAnimBounce: number = 0;
@@ -78,6 +84,45 @@ export class BattleRenderer {
     }
   }
 
+  /**
+   * Precarga de forma asíncrona todos los sprites de la batalla actual (Showdown / PokeAPI CDN)
+   */
+  public preloadBattleSprites(battle: BattleEngine): void {
+    if (battle.opponent_active) {
+      const opp = battle.opponent_active;
+      const isShiny = !!(opp as any).is_shiny;
+      const key = `${opp.species_id}_${isShiny ? 'shiny' : 'norm'}`;
+      if (!this.oppSpriteCache.has(key)) {
+        this.loader.getPokemonSpriteFront(opp.species_id, isShiny).then(img => {
+          this.oppSpriteCache.set(key, img);
+        }).catch(() => {});
+      }
+    }
+
+    if (battle.player_active) {
+      const pl = battle.player_active;
+      const isShiny = !!(pl as any).is_shiny;
+      const key = `${pl.species_id}_${isShiny ? 'shiny' : 'norm'}`;
+      if (!this.playerSpriteCache.has(key)) {
+        this.loader.getPokemonSpriteBack(pl.species_id, isShiny).then(img => {
+          this.playerSpriteCache.set(key, img);
+        }).catch(() => {});
+      }
+    }
+
+    // Precargar íconos de toda la party
+    if (battle.player_party) {
+      for (const p of battle.player_party) {
+        const iconKey = `icon_${p.species_id}`;
+        if (!this.iconCache.has(iconKey)) {
+          this.loader.getPokemonIcon(p.species_id).then(img => {
+            this.iconCache.set(iconKey, img);
+          }).catch(() => {});
+        }
+      }
+    }
+  }
+
   public render(
     ctx: CanvasRenderingContext2D,
     battle: BattleEngine,
@@ -86,6 +131,9 @@ export class BattleRenderer {
     height: number
   ): void {
     ctx.save();
+
+    // Asegurar precarga continua sin bloquear
+    this.preloadBattleSprites(battle);
 
     // Aplicar Screen Shake
     const shake = this.particleSystem.getShakeOffset();
@@ -97,7 +145,7 @@ export class BattleRenderer {
     // 2. Plataformas de combate
     this.renderBattlePlatforms(ctx, width, height);
 
-    // 3. Sprites de Pokémon (GIFs animados)
+    // 3. Sprites de Pokémon (GIFs animados desde Showdown / PokeAPI CDN)
     this.renderPokemonSprites(ctx, battle, width, height);
 
     // 4. Partículas y Efectos de Ataque
@@ -196,70 +244,104 @@ export class BattleRenderer {
     const opp = battle.opponent_active;
     const player = battle.player_active;
 
-    // Sprite Rival (Frente Animado)
+    // ─────────────────────────────────────────────────────────────
+    // 1. SPRITE RIVAL (Frente Animado vía Showdown / PokeAPI CDN)
+    // ─────────────────────────────────────────────────────────────
     if (opp && opp.current_hp > 0) {
-      const frontUrl = this.loader.getPokemonGifUrl(opp.species_id);
-      let oppImg = this.loader.getImage(frontUrl);
+      const isShiny = !!(opp as any).is_shiny;
+      const key = `${opp.species_id}_${isShiny ? 'shiny' : 'norm'}`;
+      let oppImg = this.oppSpriteCache.get(key);
+
+      // Si aún no está en caché, cargarlo asíncronamente
       if (!oppImg) {
-        this.loader.loadImage(frontUrl);
-        oppImg = this.loader.getImage(this.loader.getPokemonArtworkUrl(opp.species_id));
-        if (!oppImg) this.loader.loadImage(this.loader.getPokemonArtworkUrl(opp.species_id));
+        this.loader.getPokemonSpriteFront(opp.species_id, isShiny).then(img => {
+          this.oppSpriteCache.set(key, img);
+        }).catch(() => {});
+        // Fallback síncrono mientras descarga
+        oppImg = this.loader.getImage(this.loader.getPokemonGifUrl(opp.species_id)) ||
+                 this.loader.getImage(this.loader.getPokemonArtworkUrl(opp.species_id));
       }
 
-      const oppX = width * 0.72 - 70;
-      const oppY = height * 0.40 - 100 + this.opponentAnimBounce;
+      const oppX = width * 0.72 - 75;
+      const oppY = height * 0.40 - 105 + this.opponentAnimBounce;
 
       if (opp.is_mega) {
-        // Aura dorada de Mega Evolución
-        ctx.fillStyle = 'rgba(251, 191, 36, 0.45)';
+        // Aura dorada y brillante de Mega Evolución
+        ctx.save();
+        ctx.fillStyle = 'rgba(251, 191, 36, 0.35)';
         ctx.beginPath();
-        ctx.arc(oppX + 70, oppY + 70, 85, 0, Math.PI * 2);
+        ctx.arc(oppX + 75, oppY + 75, 85, 0, Math.PI * 2);
         ctx.fill();
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([6, 6]);
+        ctx.beginPath();
+        ctx.arc(oppX + 75, oppY + 75, 92, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
       }
 
       if (oppImg && oppImg.complete && oppImg.naturalWidth > 0) {
-        ctx.drawImage(oppImg, oppX, oppY, 140, 140);
+        // Mantener proporción nativa del GIF animado
+        const ratio = oppImg.naturalWidth / oppImg.naturalHeight;
+        const drawH = 150;
+        const drawW = drawH * ratio;
+        ctx.drawImage(oppImg, oppX + (150 - drawW) / 2, oppY, drawW, drawH);
       } else {
-        // Silueta elegante de carga
-        ctx.fillStyle = 'rgba(239, 68, 68, 0.5)';
+        // Sombra de carga estilizada
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.4)';
         ctx.beginPath();
-        ctx.ellipse(oppX + 70, oppY + 70, 45, 45, 0, 0, Math.PI * 2);
+        ctx.ellipse(oppX + 75, oppY + 75, 45, 45, 0, 0, Math.PI * 2);
         ctx.fill();
       }
     }
 
-    // Sprite Jugador (Espalda Animada)
+    // ─────────────────────────────────────────────────────────────
+    // 2. SPRITE JUGADOR (Espalda Animada vía Showdown / PokeAPI CDN)
+    // ─────────────────────────────────────────────────────────────
     if (player && player.current_hp > 0) {
-      const backUrl = this.loader.getPokemonBackGifUrl(player.species_id);
-      let plImg = this.loader.getImage(backUrl);
+      const isShiny = !!(player as any).is_shiny;
+      const key = `${player.species_id}_${isShiny ? 'shiny' : 'norm'}`;
+      let plImg = this.playerSpriteCache.get(key);
+
+      // Si aún no está en caché, cargarlo asíncronamente
       if (!plImg) {
-        this.loader.loadImage(backUrl);
-        plImg = this.loader.getImage(this.loader.getPokemonGifUrl(player.species_id)) ||
-                this.loader.getImage(this.loader.getPokemonArtworkUrl(player.species_id));
+        this.loader.getPokemonSpriteBack(player.species_id, isShiny).then(img => {
+          this.playerSpriteCache.set(key, img);
+        }).catch(() => {});
+        // Fallback síncrono mientras descarga
+        plImg = this.loader.getImage(this.loader.getPokemonBackGifUrl(player.species_id)) ||
+                this.loader.getImage(this.loader.getPokemonGifUrl(player.species_id));
       }
 
-      const plX = width * 0.26 - 90;
-      const plY = height * 0.66 - 140 + this.playerAnimBounce;
+      const plX = width * 0.26 - 95;
+      const plY = height * 0.66 - 145 + this.playerAnimBounce;
 
       if (player.is_mega) {
         // Aura azul/dorada de Mega Evolución
-        ctx.fillStyle = 'rgba(56, 189, 248, 0.45)';
+        ctx.save();
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.35)';
         ctx.beginPath();
-        ctx.arc(plX + 90, plY + 80, 105, 0, Math.PI * 2);
+        ctx.arc(plX + 95, plY + 85, 105, 0, Math.PI * 2);
         ctx.fill();
-
         ctx.strokeStyle = '#fbbf24';
         ctx.lineWidth = 3;
         ctx.beginPath();
-        ctx.arc(plX + 90, plY + 80, 115, 0, Math.PI * 2);
+        ctx.arc(plX + 95, plY + 85, 115, 0, Math.PI * 2);
         ctx.stroke();
+        ctx.restore();
       }
 
-      if (plImg && plImg.complete) {
-        ctx.drawImage(plImg, plX, plY, 180, 180);
+      if (plImg && plImg.complete && plImg.naturalWidth > 0) {
+        const ratio = plImg.naturalWidth / plImg.naturalHeight;
+        const drawH = 190;
+        const drawW = drawH * ratio;
+        ctx.drawImage(plImg, plX + (190 - drawW) / 2, plY, drawW, drawH);
       } else {
-        ctx.fillStyle = '#3b82f6';
-        ctx.fillRect(plX + 30, plY + 30, 100, 100);
+        ctx.fillStyle = 'rgba(59, 130, 246, 0.4)';
+        ctx.beginPath();
+        ctx.ellipse(plX + 95, plY + 85, 55, 55, 0, 0, Math.PI * 2);
+        ctx.fill();
       }
     }
   }
@@ -298,8 +380,8 @@ export class BattleRenderer {
     showNumbers: boolean
   ): void {
     ctx.save();
-    // Fondo de tarjeta con gradiente oscuro
-    ctx.fillStyle = 'rgba(15, 23, 42, 0.90)';
+    // Fondo de tarjeta con gradiente oscuro y bordes redondeados
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
     ctx.strokeStyle = poke.is_mega ? '#fbbf24' : 'rgba(255, 255, 255, 0.18)';
     ctx.lineWidth = poke.is_mega ? 2 : 1;
     ctx.fillRect(x, y, w, h);
@@ -520,7 +602,7 @@ export class BattleRenderer {
       });
     }
 
-    // 5. Menú de Relevo Pokémon (PARTY)
+    // 5. Menú de Relevo Pokémon (PARTY con Íconos de PokéSprite)
     else if (this.menuMode === 'PARTY') {
       ctx.fillStyle = '#ffffff';
       ctx.font = 'bold 15px "PokemonGBA", "Outfit", sans-serif';
@@ -544,16 +626,25 @@ export class BattleRenderer {
         ctx.fillRect(cx, cy, cardW, cardH);
         ctx.strokeRect(cx, cy, cardW, cardH);
 
+        // Ícono de PokéSprite
+        const iconKey = `icon_${p.species_id}`;
+        const iconImg = this.iconCache.get(iconKey) || this.loader.getImage(this.loader.getPokemonIconUrl(p.species_id));
+        let textOffset = 8;
+        if (iconImg && iconImg.complete && iconImg.naturalWidth > 0) {
+          ctx.drawImage(iconImg, cx + 4, cy + 4, 32, 32);
+          textOffset = 40;
+        }
+
         // Nombre y Nivel
         ctx.fillStyle = isSel ? '#0f172a' : '#ffffff';
         ctx.font = isSel ? 'bold 12px "PokemonGBA", "Outfit", sans-serif' : '12px "PokemonGBA", "Outfit", sans-serif';
         const pName = p.nickname || p.species_name;
-        ctx.fillText(`${pName} Nv.${p.level}`, cx + 8, cy + 16);
+        ctx.fillText(`${pName} Nv.${p.level}`, cx + textOffset, cy + 16);
 
         // Barra mini de PS
-        const miniBarW = 90;
+        const miniBarW = cardW - textOffset - 60;
         const miniBarH = 5;
-        const miniBarX = cx + 8;
+        const miniBarX = cx + textOffset;
         const miniBarY = cy + 24;
         ctx.fillStyle = '#1e293b';
         ctx.fillRect(miniBarX, miniBarY, miniBarW, miniBarH);

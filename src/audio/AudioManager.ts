@@ -1,6 +1,7 @@
 import { PokemonType, MoveCategory } from '../core/types';
 
 export type BgmTrackKey =
+  | 'intro'
   | 'villa_tranquimar'
   | 'pueblo_altiplano'
   | 'ruta_1'
@@ -233,6 +234,7 @@ export class AudioManager {
     let tempoMs = 250;
 
     switch (track) {
+      case 'intro':
       case 'villa_tranquimar':
       case 'lab_ceibo':
         // C major relajante y marítimo

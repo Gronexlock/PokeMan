@@ -24,6 +24,7 @@ export class SurfManager {
 
   // Estado de Surf
   private isSurfing: boolean = false;
+  public isPlayerSurfing(): boolean { return this.isSurfing; }
   private hasSurfUnlocked: boolean = true; // Por defecto true para testing (o condicionado a medalla)
   private isTransitioningSurf: boolean = false;
 

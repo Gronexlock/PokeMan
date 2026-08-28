@@ -143,6 +143,33 @@ export class OverworldScene extends Phaser.Scene {
     this.load.spritesheet('npc_medium', '/assets/sprites/gba/characters/npc_medium.png', { frameWidth: 128, frameHeight: 128 });
     this.load.spritesheet('npc_lass', '/assets/sprites/gba/characters/npc_lass.png', { frameWidth: 128, frameHeight: 128 });
 
+    // 2.5 Retratos y Sprites Auténticos de Entrenadores (Showdown)
+    this.load.image('trainer_professor', '/assets/sprites/gba/trainers/trainer_professor.png');
+    this.load.image('trainer_player_boy', '/assets/sprites/gba/trainers/trainer_player_boy.png');
+    this.load.image('trainer_player_girl', '/assets/sprites/gba/trainers/trainer_player_girl.png');
+    this.load.image('trainer_rival', '/assets/sprites/gba/trainers/trainer_rival.png');
+    this.load.image('trainer_gym_rocio', '/assets/sprites/gba/trainers/trainer_gym_rocio.png');
+    this.load.image('trainer_gym_thiago', '/assets/sprites/gba/trainers/trainer_gym_thiago.png');
+    this.load.image('trainer_champion_renata', '/assets/sprites/gba/trainers/trainer_champion_renata.png');
+    this.load.image('trainer_elite_inti', '/assets/sprites/gba/trainers/trainer_elite_inti.png');
+    this.load.image('trainer_elite_marina', '/assets/sprites/gba/trainers/trainer_elite_marina.png');
+    this.load.image('trainer_bugcatcher', '/assets/sprites/gba/trainers/trainer_bugcatcher.png');
+    this.load.image('trainer_youngster', '/assets/sprites/gba/trainers/trainer_youngster.png');
+    this.load.image('trainer_lass', '/assets/sprites/gba/trainers/trainer_lass.png');
+    this.load.image('trainer_hiker', '/assets/sprites/gba/trainers/trainer_hiker.png');
+    this.load.image('trainer_swimmer', '/assets/sprites/gba/trainers/trainer_swimmer.png');
+    this.load.image('trainer_fisherman', '/assets/sprites/gba/trainers/trainer_fisherman.png');
+    this.load.image('trainer_medium', '/assets/sprites/gba/trainers/trainer_medium.png');
+    this.load.image('trainer_nurse', '/assets/sprites/gba/trainers/trainer_nurse.png');
+    this.load.image('trainer_clerk', '/assets/sprites/gba/trainers/trainer_clerk.png');
+
+    // 2.6 Retratos HD Oficiales estilo Ken Sugimori
+    this.load.image('prof_ceibo_hd', '/assets/sprites/characters/hd/prof_ceibo.jpg');
+    this.load.image('player_boy_hd', '/assets/sprites/characters/hd/player_boy.jpg');
+    this.load.image('player_girl_hd', '/assets/sprites/characters/hd/player_girl.jpg');
+    this.load.image('rival_nahuel_hd', '/assets/sprites/characters/hd/rival_nahuel.jpg');
+    this.load.image('gym_rocio_hd', '/assets/sprites/characters/hd/gym_rocio.jpg');
+
     // 3. Estructuras, Árboles y Objetos GBA
     this.load.image('house_small', '/assets/sprites/gba/objects/house_small.png');
     this.load.image('house_small_alt', '/assets/sprites/gba/objects/house_small_alt.png');
@@ -167,13 +194,18 @@ export class OverworldScene extends Phaser.Scene {
    * 2. CREATE: Inicialización del Mundo, Capas, NPCs, Diálogo, Colisiones, Cámara y Controles.
    */
   public playerName: string = 'Alex';
+  public gender: 'boy' | 'girl' | 'male' | 'female' = 'boy';
   public playerGender: string = 'boy';
   public playerSpriteKey: string = 'player';
+  public map!: Phaser.Tilemaps.Tilemap;
 
   init(data?: { mapKey?: string; spawnX?: number; spawnY?: number; facing?: string; playerName?: string; gender?: string; spriteKey?: string }): void {
     this._initData = data || {};
     if (data?.playerName) this.playerName = data.playerName;
-    if (data?.gender) this.playerGender = data.gender;
+    if (data?.gender) {
+      this.playerGender = data.gender;
+      this.gender = data.gender as any;
+    }
     if (data?.spriteKey) this.playerSpriteKey = data.spriteKey;
   }
   private _initData: { mapKey?: string; spawnX?: number; spawnY?: number; facing?: string; playerName?: string; gender?: string; spriteKey?: string } = {};
@@ -231,8 +263,10 @@ export class OverworldScene extends Phaser.Scene {
     this.player = this.physics.add.sprite(spawnX, spawnY, activeSpriteKey, 0);
     this.player.setDisplaySize(36, 36);
     this.player.setCollideWorldBounds(true);
-    this.player.body.setSize(60, 60);
-    this.player.body.setOffset(34, 60);
+    if (this.player.body) {
+      this.player.body.setSize(60, 60);
+      this.player.body.setOffset(34, 60);
+    }
     this.player.setDepth(10);
 
     if (this.obstaclesGroup) {
@@ -770,7 +804,7 @@ export class OverworldScene extends Phaser.Scene {
     // B. Resolución de Acción (prioridad descendente)
     if (actionPressed) {
       // B.0: Comprobar Surf frente a agua (Fase 5)
-      if (this.groundLayer && this.surfManager) {
+      if (this.groundLayer && this.surfManager && this.map) {
         const surfStarted = this.surfManager.tryStartSurf(
           this.player, this.map, this.groundLayer, this.currentFacing
         );
@@ -822,7 +856,7 @@ export class OverworldScene extends Phaser.Scene {
     if (!this.trainerManager?.hasActiveBattle && !this.isJumping) {
       this.trainerManager?.update(
         this.player.x, this.player.y,
-        this.map?.tileWidth ?? 32,
+        32,
         (trainerDef) => {
           // El entrenador llegó al jugador: iniciar diálogo de desafío
           this.isEncounterTriggered = true;
@@ -914,7 +948,7 @@ export class OverworldScene extends Phaser.Scene {
       return;
     }
     if (npc.id.includes('mart') || npc.name.toLowerCase().includes('tienda') || npc.name.toLowerCase().includes('tendero')) {
-      this.pokeMart.open(this.playerWallet, this.currentCityKey);
+      this.pokeMart.open(this.currentCityKey, this.playerWallet);
       return;
     }
 
@@ -948,24 +982,20 @@ export class OverworldScene extends Phaser.Scene {
   /**
    * Gestiona el movimiento en 4 direcciones y comprueba desniveles de salto (Ledge).
    */
-  private handlePlayerMovement(): void {
-    // Bloquear movimiento durante el salto
-    if (this.isJumping) {
-      this.player.setVelocity(0, 0);
-      return;
-    }
+  private handlePlayerMovement(dt?: number): void {
+    if (this.isJumping || this.isEncounterTriggered) return;
 
-    const isSurfing = this.surfManager?.surfing ?? false;
-    const isRunning = (this.cursors?.shift.isDown || this.wasdKeys?.SHIFT.isDown) && !isSurfing;
-    const speed = isSurfing ? this.surfManager.SURF_SPEED : (isRunning ? this.RUN_SPEED : this.WALK_SPEED);
+    const isRunning = this.wasdKeys?.SHIFT.isDown || this.cursors?.shift.isDown;
+    const isSurfing = this.surfManager?.isPlayerSurfing() ?? false;
+    const speed = isSurfing ? this.surfManager.SURF_SPEED : isRunning ? this.RUN_SPEED : this.WALK_SPEED;
 
     let vx = 0;
     let vy = 0;
 
-    const isLeft  = this.cursors?.left.isDown  || this.wasdKeys?.A.isDown;
+    const isLeft = this.cursors?.left.isDown || this.wasdKeys?.A.isDown;
     const isRight = this.cursors?.right.isDown || this.wasdKeys?.D.isDown;
-    const isUp    = this.cursors?.up.isDown    || this.wasdKeys?.W.isDown;
-    const isDown  = this.cursors?.down.isDown  || this.wasdKeys?.S.isDown;
+    const isUp = this.cursors?.up.isDown || this.wasdKeys?.W.isDown;
+    const isDown = this.cursors?.down.isDown || this.wasdKeys?.S.isDown;
 
     if (isLeft)       { vx = -speed; this.currentFacing = 'LEFT';  }
     else if (isRight) { vx =  speed; this.currentFacing = 'RIGHT'; }
@@ -975,13 +1005,8 @@ export class OverworldScene extends Phaser.Scene {
     if (vx !== 0 && vy !== 0) { vx *= 0.7071; vy *= 0.7071; }
 
     // --- Comprobación de Desembarque de Surf ---
-    if (isSurfing && (vx !== 0 || vy !== 0)) {
-      const targetTileX = Math.floor((this.player.x + (vx > 0 ? 20 : vx < 0 ? -20 : 0)) / 32);
-      const targetTileY = Math.floor((this.player.y + (vy > 0 ? 20 : vy < 0 ? -20 : 0)) / 32);
-      if (this.currentCollisionMatrix && this.currentCollisionMatrix[targetTileY]?.[targetTileX] === 0) {
-        this.surfManager.dismount(this.player);
-        return;
-      }
+    if (isSurfing && (vx !== 0 || vy !== 0) && this.groundLayer && this.map) {
+      this.surfManager.tryDismount(this.player, this.map, this.groundLayer, this.currentFacing);
     }
 
     // --- Comprobación de Ledge antes de aplicar velocidad ---
@@ -994,29 +1019,28 @@ export class OverworldScene extends Phaser.Scene {
 
       const ledge = this.mapManager.getLedgeAt(tileX, tileY);
       if (ledge && ledge.jumpDirection === this.currentFacing) {
-        this.performLedgeJump(ledge.jumpDirection);
+        this.performLedgeJump(this.currentFacing);
         return;
       }
     }
 
+    // Aplicar velocidad al cuerpo físico
     this.player.setVelocity(vx, vy);
 
-    if (vx < 0)      { this.player.anims.play('walk_left',  true); }
-    else if (vx > 0) { this.player.anims.play('walk_right', true); }
-    else if (vy < 0) { this.player.anims.play('walk_up',    true); }
-    else if (vy > 0) { this.player.anims.play('walk_down',  true); }
-    else {
+    // Animaciones
+    const prefix = this.playerSpriteKey === 'player_female' ? 'girl' : 'boy';
+    if (vx !== 0 || vy !== 0) {
+      const animKey = `${prefix}_walk_${this.currentFacing.toLowerCase()}`;
+      if (this.anims.exists(animKey)) {
+        this.player.anims.play(animKey, true);
+      }
+    } else {
       this.player.anims.stop();
-      if (this.currentFacing === 'DOWN') this.player.setFrame(0);
-      else if (this.currentFacing === 'LEFT') this.player.setFrame(4);
-      else if (this.currentFacing === 'RIGHT') this.player.setFrame(8);
-      else if (this.currentFacing === 'UP') this.player.setFrame(12);
     }
   }
 
   /**
-   * Ejecuta el salto parabólico de desnivel (Ledge Jump).
-   * El jugador salta 2 casillas hacia adelante con un arco visual usando dos Tweens encadenados.
+   * Ejecuta el salto parabólico de 2 casillas al atravesar un desnivel (Ledge).
    * La colisión se desactiva durante el salto para que pueda atravesar el borde.
    */
   private performLedgeJump(direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT'): void {
@@ -1026,7 +1050,7 @@ export class OverworldScene extends Phaser.Scene {
     // 7.3 — SFX salto de desnivel
     AudioManager.getInstance().playSfx('ledge_jump');
 
-    const tileSize = this.map?.tileWidth ?? 32;
+    const tileSize = 32;
     const jumpTiles = 2;
 
     // Calcular el destino final del salto (2 casillas en la dirección del ledge)
@@ -1180,10 +1204,12 @@ export class OverworldScene extends Phaser.Scene {
     this.player.setVelocity(0, 0);
     this.player.anims.stop();
 
+    const normalizedGender: 'male' | 'female' = (this.gender === 'girl' || this.gender === 'female') ? 'female' : 'male';
+
     this.trainerCard.open({
       playerName: this.playerName,
       trainerId: this.trainerId,
-      gender: this.gender,
+      gender: normalizedGender,
       money: this.playerWallet.money,
       playTimeSeconds: Math.floor(this.playTimeSeconds),
       pokedexSeen: 34,
@@ -1234,10 +1260,12 @@ export class OverworldScene extends Phaser.Scene {
       inventoryRecord[id] = qty;
     });
 
+    const normalizedGender: 'male' | 'female' = (this.gender === 'girl' || this.gender === 'female') ? 'female' : 'male';
+
     return {
       slot: slotName,
       player_name: this.playerName,
-      gender: this.gender,
+      gender: normalizedGender,
       badges: [...this.badges],
       money: this.playerWallet.money,
       current_map: this._initData.mapKey || 'route1_map',

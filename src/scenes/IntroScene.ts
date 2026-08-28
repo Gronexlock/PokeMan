@@ -37,19 +37,10 @@ export class IntroScene extends Phaser.Scene {
   }
 
   preload(): void {
-    // Spritesheets con dimensiones reales de 512x512 (4x4 frames de 128x128)
-    this.load.spritesheet('prof_ceibo', '/assets/sprites/gba/characters/professor.png', {
-      frameWidth: 128,
-      frameHeight: 128
-    });
-    this.load.spritesheet('player_boy', '/assets/sprites/gba/characters/player.png', {
-      frameWidth: 128,
-      frameHeight: 128
-    });
-    this.load.spritesheet('player_girl', '/assets/sprites/gba/characters/hat_girl.png', {
-      frameWidth: 128,
-      frameHeight: 128
-    });
+    // Ilustraciones HD Oficiales estilo Ken Sugimori
+    this.load.image('prof_ceibo_hd', '/assets/sprites/characters/hd/prof_ceibo.jpg');
+    this.load.image('player_boy_hd', '/assets/sprites/characters/hd/player_boy.jpg');
+    this.load.image('player_girl_hd', '/assets/sprites/characters/hd/player_girl.jpg');
   }
 
   create(): void {
@@ -112,29 +103,40 @@ export class IntroScene extends Phaser.Scene {
   }
 
   /**
-   * Genera el foco de luz y la presentación del Profesor Ceibo.
+   * Genera el foco de luz y la presentación del Profesor Ceibo con arte HD.
    */
   private createProfessorPresentation(w: number, h: number): void {
     this.spotlightGraphics = this.add.graphics();
     // Halo exterior suave cian / azul noche
     this.spotlightGraphics.fillStyle(0x0284c7, 0.35);
-    this.spotlightGraphics.fillEllipse(w / 2, 280, 260, 75);
+    this.spotlightGraphics.fillEllipse(w / 2, 290, 280, 80);
     // Luz cian intermedia
     this.spotlightGraphics.fillStyle(0x38bdf8, 0.45);
-    this.spotlightGraphics.fillEllipse(w / 2, 280, 170, 48);
-    // Sombra de contacto oscura bajo los pies para contrastar la bata blanca
-    this.spotlightGraphics.fillStyle(0x020617, 0.65);
-    this.spotlightGraphics.fillEllipse(w / 2, 255, 110, 22);
+    this.spotlightGraphics.fillEllipse(w / 2, 290, 190, 50);
 
-    // Sprite del Profesor Ceibo (128x128 frame 0 escalado a 1.25x)
-    this.professorSprite = this.add.sprite(w / 2, 175, 'prof_ceibo', 0);
-    this.professorSprite.setScale(1.25);
+    // Marco circular de cristal para la ilustración HD del Profesor
+    const frameGraphics = this.add.graphics();
+    frameGraphics.fillStyle(0x0f172a, 0.85);
+    frameGraphics.fillCircle(w / 2, 165, 105);
+    frameGraphics.lineStyle(4, 0x38bdf8, 0.95);
+    frameGraphics.strokeCircle(w / 2, 165, 105);
+
+    // Ilustración HD del Profesor Ceibo
+    this.professorSprite = this.add.sprite(w / 2, 165, 'prof_ceibo_hd');
+    this.professorSprite.setDisplaySize(200, 200);
+
+    // Máscara circular para el arte
+    const maskShape = this.make.graphics({});
+    maskShape.fillStyle(0xffffff);
+    maskShape.fillCircle(w / 2, 165, 100);
+    const mask = maskShape.createGeometryMask();
+    this.professorSprite.setMask(mask);
 
     // Animación suave de respiración / flotación del profesor
     this.tweens.add({
-      targets: this.professorSprite,
-      y: 168,
-      duration: 1600,
+      targets: [this.professorSprite, frameGraphics],
+      y: '-=8',
+      duration: 1800,
       yoyo: true,
       repeat: -1,
       ease: 'Sine.easeInOut'
@@ -159,31 +161,39 @@ export class IntroScene extends Phaser.Scene {
   }
 
   /**
-   * Secuencia 2: Creación de las tarjetas interactivas de Chico / Chica.
+   * Secuencia 2: Creación de las tarjetas interactivas de Chico / Chica en HD.
    */
   private createGenderSelectionUI(w: number, h: number): void {
     this.genderContainer = this.add.container(0, 0);
     this.genderContainer.setVisible(false);
 
-    const cardY = 200;
-    const boyX = w / 2 - 130;
-    const girlX = w / 2 + 130;
+    const cardY = 195;
+    const boyX = w / 2 - 140;
+    const girlX = w / 2 + 140;
 
     // --- Tarjeta Chico ---
     this.boyCard = this.add.container(boyX, cardY);
     this.boyHighlight = this.add.graphics();
     this.drawCardBackground(this.boyHighlight, 0x0284c7, true);
 
-    const boySprite = this.add.sprite(0, -15, 'player_boy', 0).setScale(1.15);
-    const boyLabel = this.add.text(0, 75, 'CHICO', {
+    const boySprite = this.add.image(0, -20, 'player_boy_hd');
+    boySprite.setDisplaySize(155, 155);
+
+    // Máscara redondeada para la ilustración
+    const boyMaskGraphics = this.make.graphics({});
+    boyMaskGraphics.fillStyle(0xffffff);
+    boyMaskGraphics.fillRoundedRect(boyX - 75, cardY - 95, 150, 150, 12);
+    boySprite.setMask(boyMaskGraphics.createGeometryMask());
+
+    const boyLabel = this.add.text(0, 75, 'ALEX (CHICO)', {
       fontFamily: 'Arial, sans-serif',
-      fontSize: '18px',
+      fontSize: '17px',
       color: '#38bdf8',
       fontStyle: 'bold'
     }).setOrigin(0.5);
 
     this.boyCard.add([this.boyHighlight, boySprite, boyLabel]);
-    this.boyCard.setSize(180, 220);
+    this.boyCard.setSize(180, 230);
     this.boyCard.setInteractive({ useHandCursor: true });
     this.boyCard.on('pointerdown', () => {
       this.setGender('boy');
@@ -196,16 +206,24 @@ export class IntroScene extends Phaser.Scene {
     this.girlHighlight = this.add.graphics();
     this.drawCardBackground(this.girlHighlight, 0xdb2777, false);
 
-    const girlSprite = this.add.sprite(0, -15, 'player_girl', 0).setScale(1.15);
-    const girlLabel = this.add.text(0, 75, 'CHICA', {
+    const girlSprite = this.add.image(0, -20, 'player_girl_hd');
+    girlSprite.setDisplaySize(155, 155);
+
+    // Máscara redondeada para la ilustración
+    const girlMaskGraphics = this.make.graphics({});
+    girlMaskGraphics.fillStyle(0xffffff);
+    girlMaskGraphics.fillRoundedRect(girlX - 75, cardY - 95, 150, 150, 12);
+    girlSprite.setMask(girlMaskGraphics.createGeometryMask());
+
+    const girlLabel = this.add.text(0, 75, 'VALERIA (CHICA)', {
       fontFamily: 'Arial, sans-serif',
-      fontSize: '18px',
+      fontSize: '17px',
       color: '#f472b6',
       fontStyle: 'bold'
     }).setOrigin(0.5);
 
     this.girlCard.add([this.girlHighlight, girlSprite, girlLabel]);
-    this.girlCard.setSize(180, 220);
+    this.girlCard.setSize(180, 230);
     this.girlCard.setInteractive({ useHandCursor: true });
     this.girlCard.on('pointerdown', () => {
       this.setGender('girl');

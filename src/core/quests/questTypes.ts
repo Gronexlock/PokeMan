@@ -37,8 +37,8 @@ export interface QuestNPC {
   // Diálogos mapeados según el estado del NPC / Misión
   dialogues: {
     no_hablado: string[];
-    mision_activa: string[];
-    mision_completada: string[];
+    mision_activa?: string[];
+    mision_completada?: string[];
   };
   // Callback opcional al completar la interacción
   onStateChange?: (newState: NPCQuestState) => void;

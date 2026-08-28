@@ -174,6 +174,69 @@
     }
   },
 
+  "rival_battles": {
+    "rival_battle_1": {
+      "name": "Rival Nahuel",
+      "title": "Entrenador Rival",
+      "reward_money": 500,
+      "sprite_key": "rival",
+      "team": [
+        { "species_id": 4, "name": "Charmander", "level": 5, "moves": ["scratch", "growl"] }
+      ]
+    },
+    "rival_battle_2": {
+      "name": "Rival Nahuel",
+      "title": "Entrenador Rival",
+      "reward_money": 1200,
+      "sprite_key": "rival",
+      "team": [
+        { "species_id": 821, "name": "Rookidee", "level": 11, "moves": ["peck", "leer"] },
+        { "species_id": 5, "name": "Charmeleon", "level": 14, "moves": ["ember", "scratch", "smokescreen"] }
+      ]
+    }
+  },
+
+  "route_trainers": {
+    "youngster_mateo": {
+      "name": "Joven Mateo",
+      "title": "Joven",
+      "reward_money": 240,
+      "sprite_key": "young_guy",
+      "team": [
+        { "species_id": 831, "name": "Wooloo", "level": 3, "moves": ["tackle", "growl"] },
+        { "species_id": 16, "name": "Pidgey", "level": 4, "moves": ["tackle", "sand_attack"] }
+      ]
+    },
+    "bugcatcher_lucas": {
+      "name": "Cazabichos Lucas",
+      "title": "Cazabichos",
+      "reward_money": 180,
+      "sprite_key": "npc_bugcatcher",
+      "team": [
+        { "species_id": 10, "name": "Caterpie", "level": 4, "moves": ["tackle", "string_shot"] },
+        { "species_id": 11, "name": "Metapod", "level": 4, "moves": ["harden"] }
+      ]
+    },
+    "lass_camila": {
+      "name": "Chica Camila",
+      "title": "Chica",
+      "reward_money": 280,
+      "sprite_key": "npc_lass",
+      "team": [
+        { "species_id": 179, "name": "Mareep", "level": 4, "moves": ["tackle", "growl", "thunder_shock"] }
+      ]
+    },
+    "hiker_esteban": {
+      "name": "Montañero Esteban",
+      "title": "Montañero",
+      "reward_money": 640,
+      "sprite_key": "npc_hiker",
+      "team": [
+        { "species_id": 74, "name": "Geodude", "level": 10, "moves": ["rock_throw", "tackle", "defense_curl"] }
+      ]
+    }
+  },
+
   "route_capture_pools": {
     "early_routes": [16, 10, 43, 69, 25],
     "mid_routes": [54, 60, 74, 179, 133],

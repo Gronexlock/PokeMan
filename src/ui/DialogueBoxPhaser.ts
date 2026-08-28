@@ -42,6 +42,11 @@ export class DialogueBoxPhaser {
   private isOpen: boolean = false;
   private onCompleteCallback?: () => void;
 
+  // Elementos de Retrato / Avatar
+  private portraitContainer!: Phaser.GameObjects.Container;
+  private portraitBg!: Phaser.GameObjects.Graphics;
+  private portraitSprite!: Phaser.GameObjects.Image | Phaser.GameObjects.Sprite;
+
   constructor(config: DialogueBoxConfig) {
     this.scene = config.scene;
     this.charDelayMs = config.charDelayMs ?? 25;
@@ -67,6 +72,22 @@ export class DialogueBoxPhaser {
       config.borderColor ?? 0xecf0f1
     );
     this.container.add(this.bgGraphics);
+
+    // 1.5 Contenedor del Retrato / Avatar
+    this.portraitContainer = this.scene.add.container(20, 16);
+    this.portraitBg = this.scene.add.graphics();
+    this.portraitBg.fillStyle(0x0f172a, 0.9);
+    this.portraitBg.fillRoundedRect(0, 0, 96, 108, 8);
+    this.portraitBg.lineStyle(2, 0x38bdf8, 0.8);
+    this.portraitBg.strokeRoundedRect(0, 0, 96, 108, 8);
+    this.portraitContainer.add(this.portraitBg);
+
+    // Sprite vacío inicial
+    this.portraitSprite = this.scene.add.image(48, 54, '__DEFAULT');
+    this.portraitSprite.setDisplaySize(80, 80);
+    this.portraitContainer.add(this.portraitSprite);
+    this.portraitContainer.setVisible(false);
+    this.container.add(this.portraitContainer);
 
     // 2. Etiqueta del Hablante (Speaker Name Tag)
     this.speakerText = this.scene.add.text(25, 12, '', {
@@ -121,15 +142,78 @@ export class DialogueBoxPhaser {
   }
 
   /**
-   * Inicia la visualización de un array de diálogos para un hablante.
+   * Obtiene la clave de textura de avatar según el nombre del hablante (priorizando HD).
    */
-  public startDialogue(speaker: string, sentences: string[], onComplete?: () => void): void {
+  private resolvePortraitKey(speaker: string): string | null {
+    if (!speaker) return null;
+    const s = speaker.toLowerCase();
+    if (s.includes('ceibo') || s.includes('profesor') || s.includes('prof.')) {
+      return this.scene.textures.exists('prof_ceibo_hd') ? 'prof_ceibo_hd' : 'trainer_professor';
+    }
+    if (s.includes('nahuel') || s.includes('rival')) {
+      return this.scene.textures.exists('rival_nahuel_hd') ? 'rival_nahuel_hd' : 'trainer_rival';
+    }
+    if (s.includes('rocío') || s.includes('rocio')) {
+      return this.scene.textures.exists('gym_rocio_hd') ? 'gym_rocio_hd' : 'trainer_gym_rocio';
+    }
+    if (s.includes('thiago')) return 'trainer_gym_thiago';
+    if (s.includes('renata') || s.includes('campeona')) return 'trainer_champion_renata';
+    if (s.includes('inti')) return 'trainer_elite_inti';
+    if (s.includes('marina')) return 'trainer_elite_marina';
+    if (s.includes('joy') || s.includes('enfermera')) return 'trainer_nurse';
+    if (s.includes('mart') || s.includes('tienda') || s.includes('tendero')) return 'trainer_clerk';
+    if (s.includes('lucas') || s.includes('cazabichos')) return 'trainer_bugcatcher';
+    if (s.includes('mateo') || s.includes('joven')) return 'trainer_youngster';
+    if (s.includes('camila') || s.includes('mimi') || s.includes('chica') || s.includes('niña')) return 'trainer_lass';
+    if (s.includes('bruno') || s.includes('montañero') || s.includes('hiker')) return 'trainer_hiker';
+    if (s.includes('clara') || s.includes('nadadora')) return 'trainer_swimmer';
+    if (s.includes('pescador') || s.includes('fisherman')) return 'trainer_fisherman';
+    if (s.includes('valeria') || s.includes('médium') || s.includes('medium')) return 'trainer_medium';
+    if (s.includes('mamá') || s.includes('mama')) {
+      return this.scene.textures.exists('player_girl_hd') ? 'player_girl_hd' : 'trainer_player_girl';
+    }
+    if (s.includes('chico') || s.includes('alex')) {
+      return this.scene.textures.exists('player_boy_hd') ? 'player_boy_hd' : 'trainer_player_boy';
+    }
+    if (s.includes('chica')) {
+      return this.scene.textures.exists('player_girl_hd') ? 'player_girl_hd' : 'trainer_player_girl';
+    }
+    return null;
+  }
+
+  /**
+   * Inicia la visualización de un array de diálogos para un hablante con retrato opcional.
+   */
+  public startDialogue(speaker: string, sentences: string[], onComplete?: () => void, explicitPortraitKey?: string): void {
     if (!sentences || sentences.length === 0) return;
 
     this.isOpen = true;
     this.dialogueQueue = [...sentences];
     this.currentSentenceIndex = 0;
     this.onCompleteCallback = onComplete;
+
+    const portraitKey = explicitPortraitKey || this.resolvePortraitKey(speaker);
+    const hasPortrait = !!portraitKey && this.scene.textures.exists(portraitKey);
+
+    if (hasPortrait && portraitKey) {
+      this.portraitSprite.setTexture(portraitKey);
+      this.portraitSprite.setDisplaySize(80, 80);
+      this.portraitContainer.setVisible(true);
+
+      // Indentar texto a la derecha del retrato
+      this.speakerText.setX(130);
+      this.speakerText.setY(12);
+      this.contentText.setX(130);
+      this.contentText.setY(38);
+      this.contentText.setWordWrapWidth(this.boxWidth - 150);
+    } else {
+      this.portraitContainer.setVisible(false);
+      this.speakerText.setX(25);
+      this.speakerText.setY(12);
+      this.contentText.setX(25);
+      this.contentText.setY(38);
+      this.contentText.setWordWrapWidth(this.boxWidth - 50);
+    }
 
     this.speakerText.setText(speaker ? `[ ${speaker} ]` : '');
     this.container.setVisible(true);
